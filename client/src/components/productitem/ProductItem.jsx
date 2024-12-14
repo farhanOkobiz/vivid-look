@@ -15,7 +15,6 @@ const ProductItem = ({
   discount,
   subtitle,
   title,
-  brandName,
   categoryName,
   offerprice,
   regularprice,
@@ -48,7 +47,6 @@ const ProductItem = ({
     0
   );
 
-  // console.log("Hello", achieveSizes);
   // console.log("Regular price", id, regularprice, priceAfterDiscount);
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -63,10 +61,6 @@ const ProductItem = ({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [modalRef]);
-
-  // const handleFetchOptionData = async (item) => {
-
-  // New Add By Riyad
 
   const handleFetchOptionData = async (item) => {
     setLoading(true);
@@ -181,17 +175,6 @@ const ProductItem = ({
     setShowModalCart(false);
   };
 
-  const titlee = product?.title || "";
-  // console.log("Product Title:", title);
-
-  const slg = titlee
-    .toLowerCase()
-    .trim()
-    .replace(/[^\u0980-\u09FF0-9a-zA-Z\s-]/g, "") // Allow Bangla, numbers, and letters
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .replace(/-+/g, "-") // Replace multiple hyphens with a single one
-    .replace(/^-|-$/g, ""); // Remove leading and trailing hyphens
-
   return (
     <>
       <motion.div className="max-w-xs border border-gray-300 rounded overflow-hidden shadow-lg mx-1 ">
@@ -203,7 +186,6 @@ const ProductItem = ({
                 src={image[0]}
                 alt="product"
               />
-
               {discount > 0 && discountType === "amount" ? (
                 <div className="absolute right-0 top-3 px-3 py-2 shadow-lg text-xs bg-red-500 text-white flex items-center gap-x-0.5">
                   ৳ {discount}
@@ -218,7 +200,6 @@ const ProductItem = ({
               )}
               {freeShipping && (
                 <div className="absolute left-0 top-4 py-1 px-2 bg-[#10B1DF] text-sm text-white gap-x-0.5">
-                  {/* <img src={freeshippingImg} alt="" className="w-20" /> */}
                   Free Shipping
                 </div>
               )}
@@ -236,6 +217,14 @@ const ProductItem = ({
           </div>
         )}
         <div className="lg:px-4 pb-4 text-center">
+          <h3>
+            <Link
+              to={`/shop/brand/${brandId}`}
+              className="uppercase block text-xs  md:text-lg text-customRed my-2 "
+            >
+              {subtitle}
+            </Link>
+          </h3>
           <h2 className="font-semibold h-8">
             <Link
               to={`/productdetail/${product?.slug}/${id}`}

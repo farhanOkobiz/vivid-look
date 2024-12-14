@@ -6,6 +6,7 @@ const Email = require("../utils/Email");
 const AppError = require("../utils/AppError");
 const catchAsync = require("../utils/catchAsync");
 const { getAll, getOne, deleteOne } = require("../utils/handleFactory");
+const { populate } = require("../models/userModel");
 
 exports.createOrderController = catchAsync(async (req, res, next) => {
   // Aggregate the product prices
@@ -215,6 +216,7 @@ exports.getAllOrdersController = getAll(Order, {
   populate: {
     path: "category subCategory brand product variant",
     select: "title name colorName colorCode",
+   
   },
 });
 
@@ -222,8 +224,11 @@ exports.getOrderController = getOne(Order, {
   path: "products.option",
   select: "-__v",
   populate: {
-    path: "category subCategory brand product variant",
-    select: "title name colorName colorCode",
+    path: "category subCategory brand product variant product.option",
+    select: "title name colorName colorCode price",
+    // populate : {
+    //   path: 'product.option''
+    // }
   },
 });
 

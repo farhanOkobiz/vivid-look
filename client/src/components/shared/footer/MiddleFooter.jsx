@@ -89,10 +89,10 @@ const MiddleFooter = () => {
                   className="flex w-full sm:w-1/2 lg:w-[24%]  gap-x-5 items-center"
                 >
                   <h3>
-                    <Icon className="lg:text-3xl xl:text-3xl text-primary" />
+                    <Icon className="lg:text-3xl xl:text-3xl text-white" />
                   </h3>
                   <div>
-                    <h3 className="text-sm text-white font-medium">
+                    <h3 className="text-md text-gray-200 font-semibold">
                       {item.title}
                     </h3>
                     <p className="text-xs text-gray-400 font-normal mt-1">
@@ -109,7 +109,7 @@ const MiddleFooter = () => {
               <li className="">
                 <Link
                   to={"/"}
-                  className=" text-lg font-medium text-primary uppercase"
+                  className=" text-lg font-medium text-gray-200 uppercase"
                 >
                   Vivid Look
                 </Link>
@@ -118,7 +118,7 @@ const MiddleFooter = () => {
                     <li key={index}>
                       <Link
                         to={item.link}
-                        className="text-sm text-gray-400 hover:text-primary transition-all ease-linear duration-200"
+                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
                       >
                         {item.name}
                       </Link>
@@ -127,14 +127,14 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-primary uppercase">
+                <div className="text-lg font-medium text-gray-200 uppercase">
                   Pages
                 </div>
                 <div className="flex flex-col gap-x-5 gap-y-2 mt-5">
                   {menusList.map((item, index) => (
                     <li key={index}>
                       <Link
-                        className="text-sm text-gray-400 hover:text-primary transition-all ease-linear duration-200"
+                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
                         to={item?.link}
                       >
                         {item?.name}
@@ -144,7 +144,7 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-primary uppercase">
+                <div className="text-lg font-medium text-gray-200 uppercase">
                   Shipping Info
                 </div>
                 <div className="flex flex-col gap-x-5 gap-y-2 mt-5">
@@ -152,7 +152,7 @@ const MiddleFooter = () => {
                     <li key={index}>
                       <Link
                         to={item?.link}
-                        className="text-sm text-gray-400 hover:text-primary transition-all ease-linear duration-200"
+                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
                       >
                         {item?.name}
                       </Link>
@@ -161,16 +161,16 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-primary uppercase">
+                <div className="text-lg font-medium text-gray-200 uppercase">
                   Stay Connected
                 </div>
                 <div className="mt-5 flex flex-col gap-x-5 gap-y-2">
-                  <div className="text-sm text-gray-400 hover:text-primary transition-all ease-linear duration-200">
+                  <div className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200">
                     Mirpur-10,Senpara,Dhaka-1216
                   </div>
                   <a
                     href="mailto:tuhincrpkhan@gmail.com"
-                    className="text-sm text-gray-400 hover:text-primary transition-all ease-linear duration-200 uppercase"
+                    className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200 uppercase"
                   >
                     tuhincrpkhan@gmail.com
                   </a>

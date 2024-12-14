@@ -146,12 +146,12 @@ const UploadProduct = () => {
       return;
     }
 
+    const formData = new FormData();
+    formData.append("name", values.name);
     if (values.videoUrl) {
       formData.append("videoUrl", values.videoUrl);
     }
 
-    const formData = new FormData();
-    formData.append("name", values.name);
 
     formData.append("category", values.category);
     formData.append("subCategory", values.subCategory);

@@ -45,7 +45,7 @@ export default {
         'inter': ['Inter', 'sans-serif'],
       },
       colors: {
-        primary: '#FC8D0B',
+        primary: '#000000',
         danger: '#6d9157',
         bancolor:'#FEF7F7',
         textgray:'#7C6D65',
@@ -55,7 +55,7 @@ export default {
         border:'#eae8e4',
         inputbg:'#F6F5F3',
         bestdealbg:'#fff6f6',
-        customRed: '#6d9157',
+        customRed: 'black',
         ...blackA,
         ...violet,
       },

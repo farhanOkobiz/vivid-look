@@ -62,76 +62,6 @@ const NewProductItem = ({
     };
   }, [modalRef]);
 
-  // const handleFetchOptionData = async (item) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await axios.get(
-  //       `${baseApi}/product/${item?.product?._id}/options`
-  //     );
-
-  //     setOptions(response.data.data?.options);
-  //     setShowModal(true);
-  //   } catch (err) {
-  //     setError("Failed to fetch options. Please try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-  // const handleFetchOptionDataCart = async (item) => {
-  //   setLoading(true);
-  //   setError(null);
-  //   try {
-  //     const response = await axios.get(
-  //       `${baseApi}/product/${item?.product?._id}/options`
-  //     );
-
-  //     setOptions(response.data.data?.options);
-  //     setShowModalCart(true);
-  //   } catch (err) {
-  //     setError("Failed to fetch options. Please try again.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
-  // const handleAddToCart = () => {
-  //   const selectedOption = options.find(
-  //     (option) => option.size === selectedSize
-  //   );
-  //   if (!selectedOption) return;
-
-  //   const item = {
-  //     ...product?.product,
-  //     id: product?.product?._id,
-  //     slug: product?.product?.slug,
-  //     quantity: 1,
-  //     photos: product?.product?.photos,
-  //     name: product?.product?.name,
-  //     colorOptionId: selectedOption?._id,
-  //     // _id:product?._id,
-  //     selectedOption: {
-  //       _id: selectedOption?._id,
-  //       sku: selectedOption?.sku,
-  //       size: selectedOption?.size,
-  //       price: selectedOption?.price,
-  //       salePrice: selectedOption?.salePrice,
-  //       stock: selectedOption?.stock,
-  //       discountType: selectedOption?.discountType,
-  //       discountValue: selectedOption?.discountValue,
-  //       visitCount: selectedOption?.visitCount,
-  //       saleNumber: selectedOption?.saleNumber,
-  //       freeShipping: selectedOption?.freeShipping,
-  //     },
-  //     selectedColor: selectedOption?.variant,
-  //   };
-
-  //   dispatch(addToCart(item));
-  //   setShowModal(false); // Close the modal after adding to cart
-  // };
-
-  // Add By riyad
-
   const handleFetchOptionData = async (item) => {
     setLoading(true);
     setError(null);
@@ -233,6 +163,7 @@ const NewProductItem = ({
     dispatch(addToCart(item));
     setShowModal(false);
   };
+
   const handleSizeClick = (size) => {
     setSelectedSize(size);
   };
@@ -244,16 +175,14 @@ const NewProductItem = ({
     setShowModalCart(false);
   };
 
-  // mb-0 lg:mb-7
-  // console.log(product.slug, ">>>>>>>>>>");
   return (
     <>
-      <motion.div className="max-w-xs border flex flex-col justify-between border-gray-200 rounded-lg overflow-hidden shadow-lg mx-1">
+      <motion.div className="border flex flex-col justify-between border-gray-200 rounded-lg overflow-hidden shadow-lg mx-1 min-h-[400px] min-w-96">
         {stock > 0 ? (
-          <Link to={`/productdetail/${product?.product?.slug}/${id}`}>
-            <div className="overflow-hidden group relative">
+          <Link to={`/productdetail/${product?.product?.slug}/${id}`} className="h-full">
+            <div className="overflow-hidden group relative h-full">
               <img
-                className="w-full object-cover mx-auto transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover mx-auto transition-transform duration-300 group-hover:scale-105"
                 src={image[0]}
                 alt="product"
               />
@@ -270,9 +199,8 @@ const NewProductItem = ({
                 )
               )}
               {freeShipping && (
-                <div className="absolute left-0 justify-center right-0 bottom-0 px-2 py-1 shadow-lg text-xs bg-[#ffd83a] text-white flex items-center gap-x-0.5">
-                  {/* <img src={freeshippingImg} alt="" className="w-20" /> */}
-                  free shipping
+                <div className="absolute left-0 top-4 py-1 px-2 bg-[#10B1DF] text-sm text-white gap-x-0.5">
+                  Free Shipping
                 </div>
               )}
             </div>
@@ -288,18 +216,17 @@ const NewProductItem = ({
             </div>
           </div>
         )}
-
-        <div className="flex flex-col justify-between ">
-          <div className="lg:px-4 pb-4 text-center">
-            <h3>
+        <div className="flex flex-col justify-between">
+          <div className="text-center">
+            {/* <h3>
               <Link
                 to={`/shop/brand/${brandId}`}
                 className="uppercase block text-xs  md:text-lg text-customRed my-2 "
               >
                 {subtitle}
               </Link>
-            </h3>
-            <h2 className="font-semibold h-8">
+            </h3> */}
+            <h2 className="font-semibold">
               <Link
                 to={`/productdetail/${product?.product?.slug}/${id}`}
                 className="text-sm leading-5 inline-block font-medium text-gray-900 mt-1 text-ellipsis overflow-hidden break-words"
@@ -333,8 +260,7 @@ const NewProductItem = ({
               </span>
             </div>
           </div>
-          <div className="flex justify-around  border-t border-gray-200 relative">
-            {/* Eye Icon with Tooltip */}
+          <div className="flex justify-around border-t border-gray-200 relative">
             <div
               onClick={stock > 0 ? () => handleFetchOptionData(product) : null}
               className={`relative group duration-200 ${
@@ -357,10 +283,9 @@ const NewProductItem = ({
               )}
             </div>
 
-            {/* Eye Icon with Tooltip */}
             {stock > 0 ? (
               <Link
-              to={`/productdetail/${product?.product?.slug}/${id}`}
+                to={`/productdetail/${product?.product?.slug}/${id}`}
                 className="border-r border-l relative group duration-200 cursor-pointer hover:bg-customRed text-gray-500 hover:text-white w-1/2 flex justify-center py-3"
               >
                 <button className="flex items-center justify-center">
@@ -383,7 +308,6 @@ const NewProductItem = ({
               </div>
             )}
 
-            {/* Shopping Cart Icon with Tooltip */}
             <div
               onClick={
                 stock > 0 ? () => handleFetchOptionDataCart(product) : null
@@ -408,7 +332,6 @@ const NewProductItem = ({
               )}
             </div>
 
-            {/* Buy now model */}
             {showModal && (
               <div className="absolute inset-0 z-30 bg-black bg-opacity-50 flex justify-center items-center">
                 <div
@@ -434,11 +357,6 @@ const NewProductItem = ({
                         >
                           <div className="flex flex-col items-center">
                             <span>{option.size}</span>
-                            {/* <span className="text-xs text-gray-500">
-                            {option?.stock > 0
-                              ? `Stock: ${option?.stock}`
-                              : "Out of Stock"}
-                          </span> */}
                           </div>
                         </li>
                       ))}
@@ -470,7 +388,7 @@ const NewProductItem = ({
                 </div>
               </div>
             )}
-            {/* add to cart model */}
+
             {showModalCart && (
               <div className="absolute inset-0 z-30 bg-opacity-30 flex justify-center items-center">
                 <div
@@ -502,11 +420,6 @@ const NewProductItem = ({
                         >
                           <div className="flex flex-col items-center">
                             <span>{option.size}</span>
-                            {/* <span className="text-xs text-gray-500">
-                            {option?.stock > 0
-                              ? `Stock: ${option?.stock}`
-                              : "Out of Stock"}
-                          </span> */}
                           </div>
                         </li>
                       ))}

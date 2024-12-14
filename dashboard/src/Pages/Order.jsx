@@ -253,7 +253,7 @@ const Order = () => {
                         <td>${product?.option?.variant?.colorName || "N/A"}</td>
                         <td>${product?.option?.size || "N/A"}</td>
                         <td>${product?.quantity || "N/A"}</td>
-                        <td>${anOrder.totalCost || "N/A"}</td>
+                        <td>${product?.option?.price || "N/A"}</td>
                       </tr>
                     `
                     )

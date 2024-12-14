@@ -124,7 +124,7 @@ const Shop = () => {
 
   return (
     <div>
-      <div className="grid grid-cols-2 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
         {loading ? (
           <SkeletonLoader />
         ) : error ? (

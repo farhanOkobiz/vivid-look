@@ -57,7 +57,7 @@ const NewRelease = () => {
             };
           });
 
-          setCurrentList(productsWithSizes.reverse().slice(0, 8));
+          setCurrentList(productsWithSizes.reverse().slice(0, 6));
           // console.log("currentList", currentList);
         }
       } catch (err) {
@@ -162,11 +162,11 @@ const NewRelease = () => {
               <div className="flex gap-5 mt-10 w-full">
                 <div className="w-[30%] hidden lg:block">
                   {banners && (
-                    <div className="border border-border">
-                      <div className="sticky top-5">
-                        <Link to="/shop">
+                    <div className="border border-border h-full">
+                      <div className="sticky top-5 h-full">
+                        <Link to="/shop h-full">
                           <img
-                            className="w-full h-[800px] object-cover"
+                            className="w-full h-full min-h-[800px] object-cover"
                             src={banners.photo}
                             alt="New Release"
                           />
@@ -177,7 +177,7 @@ const NewRelease = () => {
                 </div>
                 {/* className="grid grid-cols-2 gap-y-2 lg:col-span-3 xl:grid-cols-4
                 sm:grid-cols-2 h-auto" */}
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 gap-y-2 md:gap-y-0 md:grid-cols-3 gap-2">
                   {currentList.slice(0, productsToShow)?.map((item) => (
                     <NewProductItem
                       key={item?._id}

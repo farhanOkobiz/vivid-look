@@ -458,21 +458,21 @@ const Navbar = () => {
       </Drawer>
       <nav className="mx-auto font-inter shadow-sm bg-[#F7F7F7]">
         {/* Main Navigation */}
-        <div className="border-b p-5">
+        <div className="border-b p-3">
           <Containar>
             <div className="mx-auto">
               <div className="flex flex-wrap justify-between items-center">
                 {/* Logo */}
                 <div
                   onClick={toggleDrawer}
-                  className="group flex items-center gap-x-2 bg-red-900 text-white px-2 lg:px-5 py-2 rounded cursor-pointer"
+                  className="group flex items-center gap-x-2 bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer"
                 >
                   <HiOutlineMenuAlt1 className="text-xl lg:text-3xl group-hover:scale-110 duration-200" />
                   <span className="text-sm lg:text-base">Categories</span>
                 </div>
                 <div className="text-3xl font-bold text-gray-800">
                   <Link to="/" className="flex items-center">
-                    <img src={mainLogo} alt="" className="w-24 lg:w-24 h-24 object-cover rounded-full" />
+                    <img src={mainLogo} alt="" className="w-24 lg:w-20 h-20 object-cover rounded-full" />
                   </Link>
                 </div>
 
@@ -484,7 +484,7 @@ const Navbar = () => {
                         className={({ isActive }) =>
                           isActive
                             ? "font-bold text-base leading-[90px]"
-                            : "font-medium text-base leading-[85px] hover:text-red-500 duration-200"
+                            : "font-medium text-base leading-[85px] hover:text-gray-600 duration-200"
                         }
                       >
                         {item.name}

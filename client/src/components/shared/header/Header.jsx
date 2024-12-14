@@ -9,7 +9,7 @@ const header = () => {
     <>
       {/* <LogoContainer /> */}
 
-      <UpperHeader />
+      {/* <UpperHeader /> */}
       <Navbar />
       <MobileNavbar />
     </>

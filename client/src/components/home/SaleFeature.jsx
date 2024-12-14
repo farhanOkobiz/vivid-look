@@ -54,7 +54,7 @@ const SaleFeature = () => {
         };
       });
 
-      setCurrentList(productsWithSizes.reverse().slice(0, 12));
+      setCurrentList(productsWithSizes.reverse().slice(0, 6));
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -97,7 +97,7 @@ const SaleFeature = () => {
                   ))}
                 </ul>
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-y-5 mt-12 lg:mt-14">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 lg:mt-14">
                 {currentList.map((item, index) => (
                   <NewProductItem
                     key={item?._id}
