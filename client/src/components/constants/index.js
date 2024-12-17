@@ -36,6 +36,11 @@ export const socialList = [
     logo: FaWhatsapp,
     link: "https://wa.me/01871702222",
   },
+  {
+    name: "youtube",
+    logo: FaYoutube,
+    link: "https://www.youtube.com/@flywithsohel",
+  },
   // {
   //   name: "youtube",
   //   logo: FaYoutube,
