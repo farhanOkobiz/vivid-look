@@ -12,7 +12,7 @@ const Contact = () => {
   return (
     <>
         <BradCumbs title={"Contact Us"}/>
-        <MapConatacts/>
+        {/* <MapConatacts/> */}
         <ContactInfo/>
     </>
   )

@@ -204,7 +204,7 @@ const MainLayout = () => {
           {content}
           <h1 className="my-5 " style={{ textAlign: "center" }}>
             Developed by{" "}
-            <Link className="font-bold text-black" to={"https://okobiz.com"}>
+            <Link className="font-bold text-black" target="_blank" to={"https://okobiz.com"}>
               okobiz
             </Link>
           </h1>

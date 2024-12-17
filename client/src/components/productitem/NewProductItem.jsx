@@ -177,7 +177,7 @@ const NewProductItem = ({
 
   return (
     <>
-      <motion.div className="border flex flex-col justify-between border-gray-200 rounded-lg overflow-hidden shadow-lg mx-1 min-h-[400px] min-w-96">
+      <motion.div className="border flex flex-col justify-between border-gray-200 rounded-lg overflow-hidden shadow-lg mx-1 min-h-[400px] lg:min-w-96">
         {stock > 0 ? (
           <Link to={`/productdetail/${product?.product?.slug}/${id}`} className="h-full">
             <div className="overflow-hidden group relative h-full">

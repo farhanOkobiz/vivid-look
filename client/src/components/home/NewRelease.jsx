@@ -177,7 +177,7 @@ const NewRelease = () => {
                 </div>
                 {/* className="grid grid-cols-2 gap-y-2 lg:col-span-3 xl:grid-cols-4
                 sm:grid-cols-2 h-auto" */}
-                <div className="grid grid-cols-1 gap-y-2 md:gap-y-0 md:grid-cols-3 gap-2">
+                <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 gap-2">
                   {currentList.slice(0, productsToShow)?.map((item) => (
                     <NewProductItem
                       key={item?._id}

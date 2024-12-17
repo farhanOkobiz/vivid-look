@@ -145,6 +145,7 @@ const AboutInfo = () => {
                     key={index}
                     to={item.link}
                     className="transition-transform transform hover:scale-110"
+                    target= "_blank"
                   >
                     <Icon className="w-10 h-10 bg-gray-600 p-2 text-white rounded-md" />
                   </Link>

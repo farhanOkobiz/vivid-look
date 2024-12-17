@@ -376,7 +376,7 @@ const UploadProduct = () => {
               <Form.Item
                 label="Select Brand"
                 name="brand"
-                // rules={[{ required: true, message: "Please select a brand!" }]}
+                rules={[{ required: true, message: "Please select a brand!" }]}
               >
                 <Select
                   options={brands.map((brand) => ({

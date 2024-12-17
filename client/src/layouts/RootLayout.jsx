@@ -17,7 +17,7 @@ const RootLayout = () => {
     <div className="font-inter">
       <Theme>
         <a
-          href="https://wa.me/01794042193"
+          href="https://wa.me/01871702222"
           target="_blank"
           className="fixed right-10 bottom-24"
         >

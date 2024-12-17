@@ -21,7 +21,7 @@ const ContactInfo = () => {
             <div className="mt-14 flex gap-x-36 flex-wrap ">
               <div className="mb-5 lg:mb-0">
                 <div>
-                  <p>Mirpur-10, Senpara, Dhaka-1216</p>
+                  <p>BAKALIA, CHATTOGRAM, BANGLADESH</p>
                 </div>
                 <div className="mt-6">
                   <Link
@@ -31,10 +31,10 @@ const ContactInfo = () => {
                     tuhincrpkhan@gmail.com
                   </Link>
                   <Link
-                    to={"tel:01794042193"}
+                    to={"tel:01871702222"}
                     className="text-sm text-texthead hover:text-danger"
                   >
-                    01794042193
+                    01871- 702222
                   </Link>
                 </div>
               </div>

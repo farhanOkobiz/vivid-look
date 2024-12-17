@@ -29,12 +29,12 @@ export const socialList = [
   {
     name: "facebook",
     logo: FaFacebookF,
-    // link: "https://www.facebook.com/people/Pacific-Bath/61570083126309/?mibextid=kFxxJD",
+    link: "https://www.facebook.com/vividlookbd",
   },
   {
     name: "whatsapp",
     logo: FaWhatsapp,
-    link: "https://wa.me/01794042193",
+    link: "https://wa.me/01871702222",
   },
   // {
   //   name: "youtube",
