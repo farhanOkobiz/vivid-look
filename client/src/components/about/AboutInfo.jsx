@@ -9,70 +9,71 @@ const AboutInfo = () => {
     <section>
       <Containar>
         <div className="space-y-10">
-          {/* Sanitary Essentials Section */}
-          <div className="px-5 py-10 lg:px-20 lg:py-20 bg-gradient-to-b from-green-200 to-gray-200 text-center">
+          {/* Welcome Section */}
+          <div className="px-5 py-10 lg:px-20 lg:py-20 bg-gradient-to-b from-purple-200 to-gray-200 text-center">
             <h2 className="text-2xl lg:text-4xl font-bold">
               Welcome to Vivid Look
             </h2>
             <p className="mt-4 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto">
-              Discover a wide range of premium sanitary solutions designed to
-              enhance your home. From elegant basins to durable commodes, we
-              bring you quality products crafted for style and functionality.
+              Discover a stunning collection of stylish and durable bags
+              designed to complement your unique lifestyle. At Vivid Look, we
+              believe in providing quality and fashionable bags for every
+              occasion.
             </p>
             <ul className="mt-8 space-y-4 text-left max-w-3xl mx-auto">
               <li>
-                <strong>Modern Basins:</strong> Stylish and functional basins to
-                elevate your bathroom's elegance.
+                <strong>Handbags:</strong> Elegant and practical designs for
+                daily use.
               </li>
               <li>
-                <strong>Durable Commodes:</strong> Built to last with innovative
-                designs for your comfort.
+                <strong>Backpacks:</strong> Durable and spacious for your
+                travel and work needs.
               </li>
               <li>
-                <strong>Shower Sets:</strong> Experience luxury with our
-                high-quality shower solutions.
+                <strong>Sling Bags:</strong> Compact and stylish options for
+                a casual look.
               </li>
               <li>
-                <strong>Kitchen Sinks:</strong> Sleek and practical sinks for
-                every kitchen style.
+                <strong>Tote Bags:</strong> Versatile and roomy, perfect for
+                shopping or a day out.
               </li>
               <li>
-                <strong>Bathroom Accessories:</strong> Enhance convenience with
-                our thoughtfully designed accessories.
+                <strong>Travel Bags:</strong> Designed to make your journeys
+                comfortable and organized.
               </li>
             </ul>
           </div>
 
-          {/* Premium Quality Section */}
+          {/* Quality Promise Section */}
           <div className="px-5 py-10 lg:px-20 lg:py-20 bg-gradient-to-b from-blue-200 to-gray-200 text-center">
             <h2 className="text-2xl lg:text-4xl font-bold">
-              Premium Sanitary Solutions for Every Home
+              Unmatched Quality and Durability
             </h2>
             <p className="mt-4 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto">
-              Whether you are renovating your space or starting fresh, our
-              products are here to transform your bathrooms and kitchens with
-              reliability and style.
+              Our bags are crafted with premium materials to ensure style,
+              durability, and comfort. Explore our collections designed to cater
+              to all your needs, whether it's work, travel, or leisure.
             </p>
             <ul className="mt-8 space-y-4 text-left max-w-3xl mx-auto">
               <li>
-                <strong>Wall-Hung Toilets:</strong> Minimalistic and
-                space-saving designs for modern homes.
+                <strong>Eco-Friendly Materials:</strong> Sustainable and
+                responsible choices for the environment.
               </li>
               <li>
-                <strong>Floor-Mounted Commodes:</strong> Classic and sturdy,
-                blending tradition with modernity.
+                <strong>Water-Resistant Designs:</strong> Protect your
+                belongings with our innovative bag materials.
               </li>
               <li>
-                <strong>Luxury Taps:</strong> Add a touch of elegance to your
-                basins and sinks.
+                <strong>Ergonomic Straps:</strong> Comfortable designs for
+                long-term use.
               </li>
               <li>
-                <strong>Bath Cabinets:</strong> Organize your essentials with
-                our stylish and spacious options.
+                <strong>Multiple Compartments:</strong> Stay organized with
+                well-thought-out spaces.
               </li>
               <li>
-                <strong>Plumbing Fixtures:</strong> Reliable and durable
-                fixtures to complete your installation.
+                <strong>Trendy Styles:</strong> Stay ahead in fashion with our
+                contemporary bag designs.
               </li>
             </ul>
           </div>
@@ -80,49 +81,49 @@ const AboutInfo = () => {
           {/* Accessories Section */}
           <div className="px-5 py-10 lg:px-20 lg:py-20 bg-gradient-to-b from-pink-200 to-gray-200 text-center">
             <h2 className="text-2xl lg:text-4xl font-bold">
-              Stylish Bathroom Accessories
+              Stylish Accessories for Every Bag
             </h2>
             <p className="mt-4 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto">
-              Complement your sanitary installations with our curated selection
-              of stylish and functional bathroom accessories.
+              Complete your bag with our range of stylish and functional
+              accessories, designed to enhance your experience.
             </p>
             <ul className="mt-8 space-y-4 text-left max-w-3xl mx-auto">
               <li>
-                <strong>Soap Dispensers:</strong> Sleek and hygienic, available
-                in modern designs.
+                <strong>Bag Charms:</strong> Add a touch of personality to
+                your bag.
               </li>
               <li>
-                <strong>Towel Racks:</strong> Space-saving and stylish options
-                for every bathroom.
+                <strong>Organizers:</strong> Keep your belongings neat and
+                accessible.
               </li>
               <li>
-                <strong>Mirrors:</strong> High-quality mirrors with elegant
-                frames for your vanity.
+                <strong>Protective Covers:</strong> Ensure your bags stay in
+                pristine condition.
               </li>
             </ul>
           </div>
 
-          {/* Kitchen Essentials Section */}
+          {/* Travel Collection Section */}
           <div className="px-5 py-10 lg:px-20 lg:py-20 bg-gradient-to-b from-yellow-200 to-blue-200 text-center">
             <h2 className="text-2xl lg:text-4xl font-bold">
-              Complete Kitchen Essentials
+              Explore Our Travel Collection
             </h2>
             <p className="mt-4 text-sm lg:text-base leading-relaxed max-w-3xl mx-auto">
-              Elevate your kitchen with our premium range of sinks, faucets, and
-              other essential installations designed for efficiency and style.
+              Make your journeys memorable with our thoughtfully designed travel
+              bags that combine style, space, and convenience.
             </p>
             <ul className="mt-8 space-y-4 text-left max-w-3xl mx-auto">
               <li>
-                <strong>Stainless Steel Sinks:</strong> Durable and resistant to
-                corrosion for long-term use.
+                <strong>Carry-On Bags:</strong> Compact yet spacious for
+                short trips.
               </li>
               <li>
-                <strong>Water Purifiers:</strong> Ensure clean and safe water
-                for your family.
+                <strong>Duffel Bags:</strong> Flexible and roomy for
+                adventurous travels.
               </li>
               <li>
-                <strong>Kitchen Faucets:</strong> Stylish and efficient designs
-                for everyday use.
+                <strong>Luggage Sets:</strong> Perfectly coordinated sets for
+                your travel needs.
               </li>
             </ul>
           </div>
@@ -145,7 +146,7 @@ const AboutInfo = () => {
                     key={index}
                     to={item.link}
                     className="transition-transform transform hover:scale-110"
-                    target= "_blank"
+                    target="_blank"
                   >
                     <Icon className="w-10 h-10 bg-gray-600 p-2 text-white rounded-md" />
                   </Link>

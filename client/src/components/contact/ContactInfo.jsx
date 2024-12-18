@@ -5,80 +5,63 @@ import { socialList } from "../constants";
 
 const ContactInfo = () => {
   return (
-    <section>
+    <section className="flex items-center justify-center h-screen bg-gray-100">
       <Containar>
-        <div className="flex justify-center mb-36">
-          <div className="w-[970px] lg:h-[400px] px-0 sm:px-20 py-10 sm:py-20 bg-white block relative top-0 sm:-top-28 ">
-            <div>
-              <h3 className="text-2xl md:text-4xl text-texthead font-medium">
+        <div className="flex justify-center">
+          <div className="w-full max-w-4xl px-8 sm:px-12 py-10 sm:py-20 bg-white shadow-lg rounded-lg">
+            {/* Heading */}
+            <div className="text-center">
+              <h3 className="text-3xl md:text-5xl font-bold text-gray-800">
                 Contact Information
               </h3>
-              <p className="text-base italic text-texthead font-normal mt-12">
-                We will answer any questions you may have about our online
-                sales, rights or partnership service right here.
+              <p className="mt-6 text-lg italic text-gray-600">
+                Have questions? Reach out to us for assistance with online sales, rights, or partnership services.
               </p>
             </div>
-            <div className="mt-14 flex gap-x-36 flex-wrap ">
-              <div className="mb-5 lg:mb-0">
-                <div>
-                  <p>BAKALIA, CHATTOGRAM, BANGLADESH</p>
-                </div>
-                <div className="mt-6">
-                  <Link
-                    to={"mailto:sohel204@gmail.com"}
-                    className="text-sm text-texthead mb-1 block hover:text-danger"
-                  >
-                    sohel204@gmail.com
-                  </Link>
-                  <Link
-                    to={"tel:01871702222"}
-                    className="text-sm text-texthead hover:text-danger"
-                  >
-                    01871- 702222
-                  </Link>
-                </div>
+
+            {/* Address & Contact */}
+            <div className="mt-12 flex flex-col sm:flex-row sm:justify-between gap-y-8">
+              <div>
+                <p className="text-lg font-semibold text-gray-800">Address:</p>
+                <p className="mt-2 text-gray-600">
+                  BAKALIA, CHATTOGRAM, BANGLADESH
+                </p>
               </div>
-              {/* <div className="">
-                <div>
-                  <h4 className="text-xl font-medium text-texthead">
-                    New York Office
-                  </h4>
-                  <p className="mt-4 text-texthead text-sm">
-                    1418 River Drive, Suite 35 Cottonhall, CA 9622
-                    <br /> United States
-                  </p>
-                </div>
-                <div className="mt-6">
-                  <Link
-                    to={"mailto:al.adal0021@gmail.com"}
-                    className="text-sm text-texthead mb-1 block transition-all ease-linear duration-100 hover:text-danger"
-                  >
-                    al.adal0021@gmail.com
-                  </Link>
-                  <Link
-                    to={"tel:01712-653211"}
-                    className="text-sm text-texthead transition-all ease-linear duration-100 hover:text-danger"
-                  >
-                    01712-653211
-                  </Link>
-                </div>
-              </div> */}
+              <div>
+                <p className="text-lg font-semibold text-gray-800">Email:</p>
+                <Link
+                  to="mailto:sohel204@gmail.com"
+                  className="mt-2 text-blue-600 hover:underline"
+                >
+                  sohel204@gmail.com
+                </Link>
+                <p className="text-lg font-semibold text-gray-800 mt-4">Phone:</p>
+                <Link
+                  to="tel:01871702222"
+                  className="text-blue-600 hover:underline"
+                >
+                  01871-702222
+                </Link>
+              </div>
             </div>
+
+            {/* Social Media */}
             <div className="mt-16">
-              <h3 className="text-xl text-texthead font-medium ">
-                Social Media
+              <h3 className="text-xl font-bold text-gray-800 mb-6 text-center">
+                Follow Us on Social Media
               </h3>
-              <ul className="pt-5 flex gap-x-7">
+              <ul className="flex justify-center gap-6">
                 {socialList.map((item, index) => {
-                  let Icon = item.logo;
+                  const Icon = item.logo;
                   return (
                     <li key={index}>
                       <Link
                         to={item.link}
-                        className="transition-all ease-linear duration-100 hover:text-danger block"
                         target="_blank"
+                        rel="noopener noreferrer"
+                        className="block text-gray-500 hover:text-blue-500 transition"
                       >
-                        <Icon />
+                        <Icon size={32} />
                       </Link>
                     </li>
                   );
