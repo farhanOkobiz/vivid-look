@@ -169,10 +169,10 @@ const MiddleFooter = () => {
                     BAKALIA, CHATTOGRAM, BANGLADESH
                   </div>
                   <a
-                    href="mailto:tuhincrpkhan@gmail.com"
+                    href="mailto:sohel204@gmail.com"
                     className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200 uppercase"
                   >
-                    tuhincrpkhan@gmail.com
+                    sohel204@gmail.com
                   </a>
                 </div>
               </li>

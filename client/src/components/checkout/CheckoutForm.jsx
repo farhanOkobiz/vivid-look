@@ -211,12 +211,6 @@ const CheckoutForm = () => {
     }
     if (!formData.streetAddress)
       newErrors.streetAddress = "Street Address is required";
-    if (!formData.area || !formData.area.area_id)
-      newErrors.area = "Area is required";
-    if (!formData.district || !formData.district.city_id)
-      newErrors.district = "City is required";
-    if (!formData.zone || !formData.zone.zone_id)
-      newErrors.zone = "Zone is required";
     if (!formData.shipping && !hasFreeShipping)
       newErrors.shipping = "Shipping method is required";
 
@@ -233,18 +227,6 @@ const CheckoutForm = () => {
           name: formData.fullName,
           phone: formData.phoneNumber,
           email: formData.email,
-          city: {
-            cityID: formData.district?.city_id,
-            cityName: formData.district?.city_name,
-          },
-          zone: {
-            zoneID: formData.zone?.zone_id,
-            zoneName: formData.zone?.zone_name,
-          },
-          area: {
-            areaID: formData.area?.area_id,
-            areaName: formData.area?.area_name,
-          },
           streetAddress: formData.streetAddress,
           shippingCost: getShippingCost(),
           products: cartItems.map((item) => ({
@@ -358,11 +340,11 @@ const CheckoutForm = () => {
                         </div>
                       </div>
 
-                      <h2 className="text-texthead text-lg font-medium my-10 uppercase">
+                      <h2 className="text-texthead text-lg font-medium mt-10 uppercase">
                         Billing & Shipping
                       </h2>
 
-                      <div className="w-full flex items-start flex-wrap justify-between">
+                      {/* <div className="w-full flex items-start flex-wrap justify-between">
                         <div className="w-full lg:w-[49%] lg:mt-0 mt-5">
                           <select
                             onChange={handleChange}
@@ -427,9 +409,9 @@ const CheckoutForm = () => {
                             </p>
                           )}
                         </div>
-                      </div>
+                      </div> */}
                       <div className="w-full flex items-start flex-wrap justify-between mt-5">
-                        <div className="w-full lg:w-[49%] mt-5 lg:mt-0">
+                        {/* <div className="w-full lg:w-[49%] mt-5 lg:mt-0">
                           <select
                             onChange={handleChange}
                             className={`w-full py-3  px-3 mt-2 h-12 leading-tight text-texthead transition border rounded-md appearance-none lg:pl-3 focus:shadow focus:placeholder-gray-600 focus:outline-none focus:ring-gray-600 focus:shadow-outline ${
@@ -464,14 +446,13 @@ const CheckoutForm = () => {
                               {errors.area}
                             </p>
                           )}
-                        </div>
-                        <div className="w-full lg:w-[49%] mt-5 lg:mt-0">
-                          <input
-                            type="text"
+                        </div> */}
+                        <div className="w-full mt-5 lg:mt-0">
+                          <textarea
                             name="streetAddress"
                             value={formData.streetAddress}
                             onChange={handleChange}
-                            className={`w-full h-12 px-3 border mt-2 ${
+                            className={`w-full h-32 p-3 border rounded-lg mt-2 ${
                               errors.streetAddress
                                 ? "border-red-500"
                                 : "border-border"

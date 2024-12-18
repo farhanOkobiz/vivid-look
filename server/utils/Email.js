@@ -6,7 +6,7 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.name.split(" ")[0];
     this.url = url;
-    this.from = `nexlinbd  <${process.env.EMAIL_FROM}>`;
+    this.from = `vividLook  <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
@@ -36,12 +36,12 @@ module.exports = class Email {
 
   async sendWelcome() {
     const html = `
-      <h1>Welcome to the nexlinbd  Family, ${this.firstName}!</h1>
+      <h1>Welcome to the Vivid Look  Family, ${this.firstName}!</h1>
       <p>We are excited to have you onboard.</p>
       <p>Click <a href="${this.url}">here</a> to get started.</p>
     `;
 
-    await this.send(html, "Welcome to the nexlinbd  Family!");
+    await this.send(html, "Welcome to the Vivid Look Family!");
   }
 
   async sendPasswordReset() {
@@ -52,7 +52,7 @@ module.exports = class Email {
     <p><a href="${this.url}">Reset your password</a></p>
     <p>If you did not request a password reset, please ignore this email.</p>
     <p>Thanks,</p>
-    <p>The nexlinbd  Team</p>
+    <p>The Vivid Look  Team</p>
   `;
 
     await this.send(

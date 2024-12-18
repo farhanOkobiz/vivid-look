@@ -86,7 +86,7 @@ const PrivacyPolicy = () => {
             contact us at:
           </p>
           <p style={styles.paragraph}>
-            <strong>Email:</strong> tuhincrpkhan@gmail.com
+            <strong>Email:</strong> sohel204@gmail.com
           </p>
           <p style={styles.paragraph}>
             <strong>Address:</strong>{" "}

@@ -123,7 +123,7 @@ const Order = () => {
           invoice,
           recipient_name: name,
           recipient_phone: phone,
-          recipient_address: `${streetAddress}, ${area.areaName}, ${city.cityName}, ${zone.zoneName} `,
+          recipient_address: `${streetAddress}`,
           cod_amount: totalCost,
         };
 
@@ -133,8 +133,8 @@ const Order = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Api-Key": "xmhh6jiis3bym1le6lzkqksahk6nnwha",
-              "Secret-Key": "kmvx9x9w7nuj0pvfual65s43",
+              "Api-Key": "jk3r26u3dvt7lven4uds4oki4uwymmnd ",
+              "Secret-Key": "i9hbumlkxd3wxxkwwciuun3c",
             },
           }
         );
@@ -166,7 +166,7 @@ const Order = () => {
           item_quantity: order.products[0].quantity,
           item_weight: 0.5,
           amount_to_collect: totalCost,
-          recipient_address: `${streetAddress}, ${area.areaName}, ${city.cityName}, ${zone.zoneName} `,
+          recipient_address: `${streetAddress}`,
         };
 
         // Ensure you're sending the correct base URL
@@ -230,9 +230,7 @@ const Order = () => {
                 <p>Phone: ${anOrder.phone}</p>
                 <p>Email: ${anOrder.email}</p>
                 
-                <p>Address:${anOrder.streetAddress}, ${
-        anOrder.area.areaName
-      }, ${anOrder.city.cityName}, ${anOrder.zone.zoneName} </p>
+                <p>Address:${anOrder.streetAddress} </p>
               </div>
               <table class="invoice-products">
                 <thead>
@@ -339,10 +337,10 @@ const Order = () => {
           <p>Name: {record.name}</p>
           <p>Phone: {record.phone}</p>
           <p>Email: {record.email}</p>
-          <p>City: {record.city.cityName}</p>
+          {/* <p>City: {record.city.cityName}</p> */}
           <p>
             Address:{" "}
-            {`${record.streetAddress},${record.zone.zoneName}, ${record.area.areaName}`}
+            {`${record.streetAddress}`}
           </p>
         </div>
       ),
@@ -379,7 +377,6 @@ const Order = () => {
           onChange={(value) => handleCourierChange(record, value)}
           options={[
             { label: "Steadfast", value: "Steadfast" },
-            { label: "pathao", value: "pathao" },
           ]}
         />
       ),

@@ -18,42 +18,6 @@ const orderSchema = new Schema(
       required: [true, "Email is required"],
     },
 
-    city: {
-      cityID: {
-        type: Number,
-        required: [true, "City ID is required"],
-      },
-
-      cityName: {
-        type: String,
-        required: [true, "City name is required"],
-      },
-    },
-
-    zone: {
-      zoneID: {
-        type: Number,
-        required: [true, "Zone ID is required"],
-      },
-
-      zoneName: {
-        type: String,
-        required: [true, "Zone name is required"],
-      },
-    },
-
-    area: {
-      areaID: {
-        type: Number,
-        required: [true, "Area ID is required"],
-      },
-
-      areaName: {
-        type: String,
-        required: [true, "Area name is required"],
-      },
-    },
-
     streetAddress: {
       type: String,
       required: [true, "Street address is required"],

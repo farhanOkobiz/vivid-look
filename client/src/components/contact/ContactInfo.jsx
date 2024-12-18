@@ -25,10 +25,10 @@ const ContactInfo = () => {
                 </div>
                 <div className="mt-6">
                   <Link
-                    to={"mailto:tuhincrpkhan@gmail.com"}
+                    to={"mailto:sohel204@gmail.com"}
                     className="text-sm text-texthead mb-1 block hover:text-danger"
                   >
-                    tuhincrpkhan@gmail.com
+                    sohel204@gmail.com
                   </Link>
                   <Link
                     to={"tel:01871702222"}
