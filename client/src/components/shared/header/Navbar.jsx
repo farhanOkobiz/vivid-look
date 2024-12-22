@@ -103,6 +103,7 @@ const Navbar = () => {
     setCategoryActive(!categoryActive);
     fetchCategoryById(id);
   };
+
   return (
     <>
       <Drawer
@@ -456,60 +457,82 @@ const Navbar = () => {
           </div>
         </div>
       </Drawer>
-      <nav className="mx-auto font-inter shadow-sm bg-[#F7F7F7]">
+      <nav className="mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase">
         {/* Main Navigation */}
-        <div className="border-b p-3">
-          <Containar>
-            <div className="mx-auto">
-              <div className="flex flex-wrap justify-between items-center">
-                {/* Logo */}
+        <div className="border-b px-3">
+          {/* <Containar> */}
+          <div className="mx-auto">
+            <div className="flex flex-wrap justify-between items-center">
+              {/* Logo */}
+
+              {/* <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
+                {menusList.map((item, index) => (
+                  <li key={index}>
+                    <NavLink
+                      to={item.link}
+                      className={({ isActive }) =>
+                        isActive
+                          ? "font-bold text-base leading-[90px]"
+                          : "font-medium text-base leading-[85px] hover:text-gray-600 duration-200"
+                      }
+                    >
+                      {item.name}
+                    </NavLink>
+                  </li>
+                ))}
+              </ul> */}
+
+              <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
+                {categories.map((item, index) => (
+                  <li key={index}>
+                    <Link
+                      to={item.link}
+                      className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
+                    >
+                      {item.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="text-3xl font-bold text-gray-800">
+                <Link to="/" className="flex items-center">
+                  <img
+                    src={mainLogo}
+                    alt=""
+                    className="w-16 lg:w-20 h-16 lg:h-20 object-cover rounded-full"
+                  />
+                </Link>
+              </div>
+
+              <div className="flex items-center space-x-4 text-gray-600">
+                {/* Search Bar for Desktop */}
+                <Search />
+
+                {/* Cart Section */}
+                <Link
+                  to={"/checkout"}
+                  className="flex items-center hover:text-red-500 duration-200 group"
+                >
+                  {/* <span className="mr-1">Cart</span> */}
+                  <div className="relative">
+                    <FiShoppingBag className="text-xl cursor-pointer group-hover:scale-110 duration-200" />
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-[10px] h-4 w-4 flex justify-center">
+                      {totalQuantity}
+                    </span>
+                  </div>
+                </Link>
                 <div
                   onClick={toggleDrawer}
-                  className="group flex items-center gap-x-2 bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer"
+                  className="group bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer block lg:hidden"
                 >
                   <HiOutlineMenuAlt1 className="text-xl lg:text-3xl group-hover:scale-110 duration-200" />
-                  <span className="text-sm lg:text-base">Categories</span>
-                </div>
-                <div className="text-3xl font-bold text-gray-800">
-                  <Link to="/" className="flex items-center">
-                    <img src={mainLogo} alt="" className="w-24 lg:w-20 h-20 object-cover rounded-full" />
-                  </Link>
-                </div>
-
-                <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
-                  {menusList.map((item, index) => (
-                    <li key={index}>
-                      <NavLink
-                        to={item.link}
-                        className={({ isActive }) =>
-                          isActive
-                            ? "font-bold text-base leading-[90px]"
-                            : "font-medium text-base leading-[85px] hover:text-gray-600 duration-200"
-                        }
-                      >
-                        {item.name}
-                      </NavLink>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="flex items-center space-x-4 text-gray-600">
-                  {/* Search Bar for Desktop */}
-                  <Search />
-
-                  {/* Cart Section */}
-                  <Link
-                    to={"/checkout"}
-                    className="flex items-center hover:text-red-500 duration-200 group"
-                  >
-                    <span className="mr-1">Cart</span>
-                    <FiShoppingBag className="text-lg cursor-pointer group-hover:scale-110 duration-200" />
-                    <span className="ml-1">({totalQuantity})</span>
-                  </Link>
+                  {/* <span className="text-sm lg:text-base">Categories</span> */}
                 </div>
               </div>
             </div>
-          </Containar>
+          </div>
+          {/* </Containar> */}
         </div>
       </nav>
     </>

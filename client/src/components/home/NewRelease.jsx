@@ -8,6 +8,7 @@ import axios from "axios";
 import { FaLuggageCart } from "react-icons/fa";
 import NewProductItem from "../productitem/NewProductItem";
 import bgback from "../../assets/banner/deal-shape.png";
+import mainLogo from "../../assets/logos/logo.jpg";
 const NewRelease = () => {
   const baseApi = useContext(ApiContext);
   const [currentList, setCurrentList] = useState([]);
@@ -122,99 +123,52 @@ const NewRelease = () => {
 
   return (
     <>
-      {currentList.length > 0 && (
-        <section
-          ref={ref}
-          className="py-14 lg:pt-20 overflow-hidden bg-[#F6F6F7] bg-no-repeat bg-cover"
-          style={{ background: `url(${bgback})` }}
-        >
-          <Containar>
-            <div className="bg-white py-5">
-              <div className="flex flex-wrap justify-between items-center border-b pb-3">
-                <div className="px-2">
-                  <p className="flex items-center gap-2 text-[#e53e3e] text-sm">
-                    <FaLuggageCart className="bg-[#e53e3e] font-bold text-2xl p-1 rounded-full text-white" />
-                    This Month
-                  </p>
-                  <h3 className="text-[24px] mr-3 lg:text-2xl text-texthead font-bold mt-1 uppercase">
-                    New Releases
-                  </h3>
-                </div>
-
-                <ul className="flex gap-x-5 lg:gap-x-10 mt-2">
-                  {category?.map((item) => (
-                    <li
-                      key={item._id}
-                      onClick={() => handleSelect(item._id)}
-                      className={`${
-                        selectedCategory === item._id
-                          ? 'text-base font-medium text-texthead relative before:content-[""] before:absolute before:-bottom-3 before:left-0 before:w-full before:h-[1px] before:bg-[#6d9157] cursor-pointer'
-                          : 'text-base font-medium text-paracolor relative before:content-[""] before:absolute before:-bottom-3 before:right-0 before:w-0 before:h-[1px] before:bg-texthead cursor-pointer hover:before:left-0 hover:before:w-full before:transition-all before:ease-linear before:duration-200 hover:text-[#6d9157] transition-all ease-linear duration-200'
-                      }`}
-                    >
-                      {item.title}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              {/* className="grid grid-cols-1 gap-x-5 mt-10 xl:grid-cols-4
+      <section
+        className="bg-[#F6F6F7] bg-no-repeat bg-cover lg:h-screen"
+        style={{ background: `url(${bgback})` }}
+      >
+        <div className="bg-white h-full">
+          {/* className="grid grid-cols-1 gap-x-5 mt-10 xl:grid-cols-4
               lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-2" */}
-              <div className="flex gap-5 mt-10 w-full">
-                <div className="w-[30%] hidden lg:block">
-                  {banners && (
-                    <div className="border border-border h-full">
-                      <div className="sticky top-5 h-full">
-                        <Link to="/shop h-full">
-                          <img
-                            className="w-full h-full min-h-[800px] object-cover"
-                            src={banners.photo}
-                            alt="New Release"
-                          />
-                        </Link>
-                      </div>
-                    </div>
-                  )}
+          <div className="flex flex-col lg:flex-row mt-10 h-full w-full">
+            <div className="lg:w-2/3 h-full">
+              {banners && (
+                <div className="border border-border h-full">
+                  <div className="sticky top-5 h-full">
+                    <Link to="/shop h-full">
+                      <img
+                        className="w-full h-full object-cover"
+                        src={banners.photo}
+                        alt="New Release"
+                      />
+                    </Link>
+                  </div>
                 </div>
-                {/* className="grid grid-cols-2 gap-y-2 lg:col-span-3 xl:grid-cols-4
-                sm:grid-cols-2 h-auto" */}
-                <div className="grid grid-cols-1 gap-y-2 md:grid-cols-3 gap-2">
-                  {currentList.slice(0, productsToShow)?.map((item) => (
-                    <NewProductItem
-                      key={item?._id}
-                      product={item}
-                      image={item?.product?.photos}
-                      id={item?.product?._id}
-                      subtitle={item?.brand?.title}
-                      title={item?.product?.name}
-                      categoryId={item?.category?._id}
-                      brandId={item?.brand?._id}
-                      categoryName={item?.category?.title}
-                      discount={item?.discountValue}
-                      discountType={item?.discountType}
-                      discountPercent={item?.discountPercent}
-                      priceAfterDiscount={item?.salePrice}
-                      freeShipping={item?.freeShipping}
-                      regularprice={item?.price}
-                      stock={item?.stock}
-                    />
-                  ))}
-                </div>
-              </div>
-              {/* View More Button */}
+              )}
+            </div>
+            <div className="lg:w-1/3 flex justify-center items-center">
               {productsToShow > currentList.length && (
-                <div className="flex justify-center mt-8">
+                <div className="flex flex-col items-center">
+                  <img
+                    src={mainLogo}
+                    alt=""
+                    className="w-16 lg:w-32 h-16 lg:h-32 object-cover rounded-full"
+                  />
                   <Link
                     to={"/shop"}
-                    className="mt-5 px-10 py-2 cursor-pointer font-medium text-base rounded-md bg-primary hover:bg-white text-white hover:text-primary border-primary border-2 transition-all ease-linear duration-200"
+                    className="mt-5 px-5 lg:px-10 py-1 lg:py-2 cursor-pointer font-medium text-base rounded-md bg-primary hover:bg-white text-white hover:text-primary border-primary border-2 transition-all ease-linear duration-200"
                   >
-                    Show All
+                    Shop Now
                   </Link>
                 </div>
               )}
             </div>
-          </Containar>
-        </section>
-      )}
+            {/* className="grid grid-cols-2 gap-y-2 lg:col-span-3 xl:grid-cols-4
+                sm:grid-cols-2 h-auto" */}
+          </div>
+          {/* View More Button */}
+        </div>
+      </section>
     </>
   );
 };

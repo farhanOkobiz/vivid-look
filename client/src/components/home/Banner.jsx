@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { Autoplay, Navigation, Pagination } from "swiper/modules";
-import "swiper/css/effect-fade";
+import "swiper/css/navigation";
 import axios from "axios";
 import ApiContext from "../baseapi/BaseApi";
 
@@ -42,7 +42,7 @@ const Banner = () => {
     return (
       <div className="mx-auto">
         <div className="relative banner-part animate-pulse">
-          <div className="w-full h-[50vh] md:h-[90vh] bg-[#646263] opacity-20"></div>{" "}
+          <div className="w-full h-[50vh] md:h-[90vh] bg-[#646263] opacity-20"></div>
         </div>
       </div>
     );
@@ -52,17 +52,20 @@ const Banner = () => {
     <>
       <section className="font-inter block">
         <div className="mx-auto">
-          <section className="relative banner-part">
+          <section className="relative banner-part group">
             <Swiper
               modules={[Navigation, Pagination, Autoplay]}
               slidesPerView={1}
-              // effect="fade"
               speed={1000}
               loop={true}
               autoplay={{ delay: 10000 }}
               pagination={{
                 el: ".custom-pagination",
                 clickable: true,
+              }}
+              navigation={{
+                nextEl: ".next-button",
+                prevEl: ".prev-button",
               }}
               onSlideChange={handleSlideChange}
               breakpoints={{
@@ -98,7 +101,14 @@ const Banner = () => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <div className="custom-pagination absolute right-5 bottom-0 md:bottom-0 rotate-90"></div>
+
+            {/* Navigation Arrows */}
+            <div className="absolute top-1/2 left-5 transform -translate-y-1/2 z-10 prev-button cursor-pointer text-white text-lg md:text-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              ❮
+            </div>
+            <div className="absolute top-1/2 right-5 transform -translate-y-1/2 z-10 next-button cursor-pointer text-white text-lg md:text-4xl opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+              ❯
+            </div>
           </section>
         </div>
       </section>

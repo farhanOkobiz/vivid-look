@@ -7,28 +7,28 @@ import { Link } from "react-router-dom";
 import { menusList, socialList } from "../../constants";
 
 const MiddleFooter = () => {
-  const servicelist = [
-    {
-      title: "Fast and free delivery",
-      details: "Free delivery on purchases of 5,000 Taka",
-      icon: BsRocketTakeoff,
-    },
-    {
-      title: "Money back guarantee",
-      details: "We return money within 30 days",
-      icon: MdCurrencyExchange,
-    },
-    {
-      title: "24/7 customer support",
-      details: "Friendly 24/7 customer support",
-      icon: BiSupport,
-    },
-    {
-      title: "Secure online payment",
-      details: "We possess SSL / Secure сertificate",
-      icon: BsCreditCard,
-    },
-  ];
+  // const servicelist = [
+  //   {
+  //     title: "Fast and free delivery",
+  //     details: "Free delivery on purchases of 5,000 Taka",
+  //     icon: BsRocketTakeoff,
+  //   },
+  //   {
+  //     title: "Money back guarantee",
+  //     details: "We return money within 30 days",
+  //     icon: MdCurrencyExchange,
+  //   },
+  //   {
+  //     title: "24/7 customer support",
+  //     details: "Friendly 24/7 customer support",
+  //     icon: BiSupport,
+  //   },
+  //   {
+  //     title: "Secure online payment",
+  //     details: "We possess SSL / Secure сertificate",
+  //     icon: BsCreditCard,
+  //   },
+  // ];
 
   const infolist = [
     {
@@ -77,11 +77,10 @@ const MiddleFooter = () => {
   ];
 
   return (
-    <div className="bg-[#2B3445] px-10">
-      <Containar>
-        <div>
-          <ul className="flex flex-wrap items-center gap-y-8 justify-between py-8 border-b border-b-gray-600">
-            {servicelist.map((item, index) => {
+    <div className="bg-white">
+      <div>
+        <ul className="flex flex-wrap items-center gap-x-8 justify-center py-8 border-b border-b-gray-600 bg-black">
+          {/* {servicelist.map((item, index) => {
               let Icon = item.icon;
               return (
                 <li
@@ -101,15 +100,29 @@ const MiddleFooter = () => {
                   </div>
                 </li>
               );
-            })}
-          </ul>
+            })} */}
+          {socialList.map((item, index) => {
+            const Icon = item.logo;
+            return (
+              <Link
+                key={index}
+                to={item.link}
+                className="group transition-transform transform"
+                target="_blank"
+              >
+                <Icon className="w-8 h-8 bg-white p-2 text-black rounded-md group-hover:scale-110 transition-transform duration-300 ease-in-out" />
+              </Link>
+            );
+          })}
+        </ul>
 
+        <Containar>
           <div>
-            <ul className="flex justify-between space-y-5 flex-wrap py-8">
+            <ul className="flex justify-between flex-wrap py-8">
               <li className="">
                 <Link
                   to={"/"}
-                  className=" text-lg font-medium text-gray-200 uppercase"
+                  className=" text-lg font-medium text-gray-700 uppercase"
                 >
                   Vivid Look
                 </Link>
@@ -118,7 +131,7 @@ const MiddleFooter = () => {
                     <li key={index}>
                       <Link
                         to={item.link}
-                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
+                        className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200"
                       >
                         {item.name}
                       </Link>
@@ -127,14 +140,14 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-gray-200 uppercase">
+                <div className="text-lg font-medium text-gray-700 uppercase">
                   Pages
                 </div>
                 <div className="flex flex-col gap-x-5 gap-y-2 mt-5">
                   {menusList.map((item, index) => (
                     <li key={index}>
                       <Link
-                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
+                        className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200"
                         to={item?.link}
                       >
                         {item?.name}
@@ -144,7 +157,7 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-gray-200 uppercase">
+                <div className="text-lg font-medium text-gray-700 uppercase">
                   Shipping Info
                 </div>
                 <div className="flex flex-col gap-x-5 gap-y-2 mt-5">
@@ -152,7 +165,7 @@ const MiddleFooter = () => {
                     <li key={index}>
                       <Link
                         to={item?.link}
-                        className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200"
+                        className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200"
                       >
                         {item?.name}
                       </Link>
@@ -161,16 +174,16 @@ const MiddleFooter = () => {
                 </div>
               </li>
               <li className="">
-                <div className="text-lg font-medium text-gray-200 uppercase">
+                <div className="text-lg font-medium text-gray-700 uppercase">
                   Stay Connected
                 </div>
                 <div className="mt-5 flex flex-col gap-x-5 gap-y-2">
-                  <div className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200">
+                  <div className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200">
                     BAKALIA, CHATTOGRAM, BANGLADESH
                   </div>
                   <a
                     href="mailto:sohel204@gmail.com"
-                    className="text-sm text-gray-400 hover:text-white transition-all ease-linear duration-200 uppercase"
+                    className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200 uppercase"
                   >
                     sohel204@gmail.com
                   </a>
@@ -178,8 +191,8 @@ const MiddleFooter = () => {
               </li>
             </ul>
           </div>
-        </div>
-      </Containar>
+        </Containar>
+      </div>
     </div>
   );
 };

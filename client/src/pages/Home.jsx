@@ -18,13 +18,13 @@ const Home = () => {
   return (
     <>
       <Banner />
-      <Featuresupdate/>
-      <Feature />
-      <BestSell />
+      {/* <Featuresupdate/> */}
+      {/* <BestSell /> */}
       <SaleFeature />
-      <BestDealWeek />
+      {/* <BestDealWeek /> */}
       <NewRelease />
-      <Brand />
+      <Feature />
+      {/* <Brand /> */}
       {/* <Review /> */}
     </>
   );

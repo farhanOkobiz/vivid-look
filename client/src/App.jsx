@@ -9,6 +9,7 @@ import {
 import ApiContext from "./components/baseapi/BaseApi";
 import RootLayout from "./layouts/RootLayout";
 import CategoryShop from "./components/shop/CategoryShop";
+import SubCategoryPage from "./pages/SubCategoryPage";
 
 // Lazy load components
 const Home = lazy(() => import("./pages/Home"));
@@ -104,6 +105,14 @@ const router = createBrowserRouter(
           element={
             <Suspense fallback={<div></div>}>
               <Subcategory />
+            </Suspense>
+          }
+        />
+        <Route
+          path="subcategory"
+          element={
+            <Suspense fallback={<div></div>}>
+              <SubCategoryPage />
             </Suspense>
           }
         />

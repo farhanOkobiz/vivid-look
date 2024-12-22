@@ -177,12 +177,12 @@ const NewProductItem = ({
 
   return (
     <>
-      <motion.div className="border flex flex-col justify-between border-gray-200 rounded-lg overflow-hidden shadow-lg mx-1 min-h-[400px] lg:min-w-96">
+      <motion.div className="flex flex-col justify-between overflow-hidden mx-1 min-h-[400px] lg:min-w-96">
         {stock > 0 ? (
           <Link to={`/productdetail/${product?.product?.slug}/${id}`} className="h-full">
-            <div className="overflow-hidden group relative h-full">
+            <div className="border overflow-hidden group relative h-full">
               <img
-                className="w-full h-full object-cover mx-auto transition-transform duration-300 group-hover:scale-105"
+                className="w-full min-h-[700px] object-cover mx-auto transition-transform duration-300 group-hover:scale-105"
                 src={image[0]}
                 alt="product"
               />
@@ -217,7 +217,7 @@ const NewProductItem = ({
           </div>
         )}
         <div className="flex flex-col justify-between">
-          <div className="text-center">
+          <div className="">
             {/* <h3>
               <Link
                 to={`/shop/brand/${brandId}`}
@@ -226,10 +226,10 @@ const NewProductItem = ({
                 {subtitle}
               </Link>
             </h3> */}
-            <h2 className="font-semibold">
+            <h2 className="">
               <Link
                 to={`/productdetail/${product?.product?.slug}/${id}`}
-                className="text-sm leading-5 inline-block font-medium text-gray-900 mt-1 text-ellipsis overflow-hidden break-words"
+                className="leading-5 inline-block text-black mt-1 text-ellipsis overflow-hidden break-words"
                 style={{
                   display: "-webkit-box",
                   WebkitBoxOrient: "vertical",
@@ -240,10 +240,10 @@ const NewProductItem = ({
                 {title}
               </Link>
             </h2>
-            <div className="flex flex-col items-center mt-2">
+            <div className="mt-2">
               <div className="flex items-center">
-                <span className="text-lg font-semibold text-gray-900">
-                  <span className="">৳</span>
+                <span className="font-semibold text-gray-900">
+                  <span className="mr-1">TK.</span>
                   {priceAfterDiscount
                     ? Math.ceil(priceAfterDiscount)
                     : regularprice}
@@ -255,12 +255,12 @@ const NewProductItem = ({
                   </span>
                 )}
               </div>
-              <span className="text-sm text-gray-500 mt-1">
+              {/* <span className="text-sm text-gray-500 mt-1">
                 {stock > 0 ? `Available` : "Out of Stock"}
-              </span>
+              </span> */}
             </div>
           </div>
-          <div className="flex justify-around border-t border-gray-200 relative">
+          {/* <div className="flex justify-around border-t border-gray-200 relative">
             <div
               onClick={stock > 0 ? () => handleFetchOptionData(product) : null}
               className={`relative group duration-200 ${
@@ -449,7 +449,7 @@ const NewProductItem = ({
                 </div>
               </div>
             )}
-          </div>
+          </div> */}
         </div>
       </motion.div>
     </>

@@ -11,7 +11,7 @@ const header = () => {
 
       {/* <UpperHeader /> */}
       <Navbar />
-      <MobileNavbar />
+      {/* <MobileNavbar /> */}
     </>
   );
 };

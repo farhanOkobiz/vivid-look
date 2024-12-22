@@ -10,6 +10,7 @@ import ProductItem from "../productitem/ProductItem";
 import { LuChevronRight } from "react-icons/lu";
 import ApiContext from "../baseapi/BaseApi";
 import { FaLuggageCart } from "react-icons/fa";
+import NewProductItem from "../productitem/NewProductItem";
 
 const BestSell = () => {
   const [productList, setProductList] = useState([]);
@@ -55,16 +56,16 @@ const BestSell = () => {
 
   // console.log("list", productList);
   return (
-    <section className="py-14 lg:pt-28 font-inter px-3 2xl:px-0 bg-[#F6F6F7]">
-      <Containar>
+    <section className="py-4 font-inter px-3 2xl:px-0 bg-[#F6F6F7]">
+      {/* <Containar> */}
         <div>
-          <div className="flex flex-wrap justify-between items-center border-b pb-3">
+          <div className="flex flex-wrap justify-between items-center pb-3">
             <div className="px-2">
-              <p className="flex items-center gap-2 text-[#E53E3E] text-sm">
+              {/* <p className="flex items-center gap-2 text-[#E53E3E] text-sm">
                 <FaLuggageCart className="bg-[#E53E3E] font-bold text-2xl p-1 rounded-full text-white" />
                 This Month
-              </p>
-              <h3 className="text-[24px] mr-3 lg:text-2xl text-texthead mt-1 uppercase font-bold">
+              </p> */}
+              <h3 className="text-[24px] mr-3 lg:text-5xl text-texthead mt-1 uppercase">
                 Best Selling
               </h3>
             </div>
@@ -73,7 +74,7 @@ const BestSell = () => {
             initial={{ opacity: 0, y: 100 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 2 }}
-            className="mt-12 w-full relative"
+            className="w-full relative"
           >
             <Swiper
               modules={[Navigation, Autoplay]}
@@ -97,9 +98,9 @@ const BestSell = () => {
             >
               {productList.map((item, index) => (
                 <SwiperSlide key={index}>
-                  <ProductItem
+                  <NewProductItem
                     key={item?._id}
-                    product={item?.product}
+                    product={item}
                     image={item?.product?.photos}
                     id={item?.product?._id}
                     subtitle={item?.brand?.title}
@@ -107,18 +108,14 @@ const BestSell = () => {
                     categoryId={item?.category?._id}
                     brandId={item?.brand?._id}
                     categoryName={item?.category?.title}
-                    discount={item?.options[0]?.discountValue}
-                    discountType={item?.options[0]?.discountType}
+                    discount={item?.discountValue}
+                    discountType={item?.discountType}
                     discountPercent={item?.discountPercent}
-                    priceAfterDiscount={item?.options[0]?.salePrice}
-                    offerprice={
-                      item?.options[0]?.price - item?.options[0]?.discountValue
-                    }
-                    freeShipping={item?.options[0]?.freeShipping}
-                    regularprice={item?.options[0]?.price}
-                    // regularprice={"item?.price"}
-                    classItem="w-full "
-                    achieveSizes={item?.options}
+                    priceAfterDiscount={item?.salePrice}
+                    offerprice={item?.price - item?.discount}
+                    freeShipping={item?.freeShipping}
+                    regularprice={item?.price}
+                    stock={item?.stock}
                   />
                 </SwiperSlide>
               ))}
@@ -139,16 +136,16 @@ const BestSell = () => {
             </motion.div>
           </motion.div>
 
-          <div className="flex justify-center">
+          {/* <div className="flex justify-center">
             <Link
               to={"/shop/mega-sale"}
               className="mt-12 px-10 py-2 cursor-pointer font-medium text-base rounded-md bg-primary hover:bg-white text-white hover:text-primary border-primary border-2 transition-all ease-linear duration-200"
             >
               Show All
             </Link>
-          </div>
+          </div> */}
         </div>
-      </Containar>
+      {/* </Containar> */}
     </section>
   );
 };

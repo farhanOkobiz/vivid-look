@@ -1,36 +1,24 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import Containar from "../../layouts/Containar";
-// import NewProductItem from "../productitem/ProductItem";
-import { Link } from "react-router-dom";
-import ApiContext from "../baseapi/BaseApi";
-import Reveal from "../../animation/Reveal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Navigation } from "swiper/modules";
 import { motion } from "framer-motion";
+import ApiContext from "../baseapi/BaseApi";
 import NewProductItem from "../productitem/NewProductItem";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 
 const SaleFeature = () => {
   const baseApi = useContext(ApiContext); // Use context for base API URL
-  const filterlist = [
-    { name: "Featured", active: true },
-    { name: "On Sale", active: false },
-    { name: "Most Viewed", active: false },
-  ];
 
-  const apiUrls = {
-    Featured: `${baseApi}/option`, // All products
-    "On Sale": `${baseApi}/option?sort=saleNumber`, // Products on sale
-    "Most Viewed": `${baseApi}/option?sort=visitCount`, // Most viewed products
-  };
+  const apiUrl = `${baseApi}/option`; // Fetch all products
 
-  const [select, setSelect] = useState(filterlist);
   const [currentList, setCurrentList] = useState([]);
 
   useEffect(() => {
-    fetchData("Featured");
+    fetchData();
   }, []);
 
-  const fetchData = async (filterName) => {
-    const apiUrl = apiUrls[filterName] || apiUrls["Featured"];
+  const fetchData = async () => {
     try {
       const response = await axios.get(apiUrl);
       const fetchedProducts = response.data.data.doc; // Adjust according to API response structure
@@ -45,94 +33,85 @@ const SaleFeature = () => {
         }
       });
 
-      // Collect all sizes for each product
-      const productsWithSizes = uniqueProducts.map((product) => {
-        const sizes = product.variant?.sizes || [];
-        return {
-          ...product,
-          sizes, // Add sizes to the product object if needed
-        };
-      });
-
-      setCurrentList(productsWithSizes.reverse().slice(0, 6));
+      setCurrentList(uniqueProducts);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
 
-  const handleSelect = (name) => {
-    const updatedList = select.map((item) =>
-      item.name === name
-        ? { ...item, active: true }
-        : { ...item, active: false }
-    );
-    setSelect(updatedList);
-    fetchData(name);
-  };
-  // console.log(".........pppp", currentList);
-
   return (
-    <>
-      {currentList.length > 0 && (
-        <Reveal>
-          <div className="pt-14 lg:pt-20 font-inter">
-            <Containar>
-              <h2 className="text-center text-[24px] lg:text-2xl text-texthead font-bold uppercase">
-                Featured Products
-              </h2>
-              <div className="mt-6 w-full flex justify-center">
-                <ul className="flex gap-x-10 lg:gap-x-20">
-                  {select.map((item, index) => (
-                    <motion.li
-                      key={index}
-                      onClick={() => handleSelect(item?.name)}
-                      className={`${
-                        item.active
-                          ? 'text-base font-medium text-texthead relative before:content-[""] before:absolute before:-bottom-3.5 before:left-0 before:w-full before:h-[1px] before:bg-texthead cursor-pointer '
-                          : 'text-base text-paracolor font-medium hover:text-texthead cursor-pointer relative before:content-[""] before:absolute before:-bottom-3.5 before:right-0 before:w-0 hover:before:left-0 transition-all before:transition-all  before:ease-linear before:duration-200  hover:before:w-full before:h-[1px] before:bg-texthead'
-                      }`}
-                    >
-                      {item?.name}
-                    </motion.li>
-                  ))}
-                </ul>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mt-12 lg:mt-14">
-                {currentList.map((item, index) => (
-                  <NewProductItem
-                    key={item?._id}
-                    product={item}
-                    image={item?.product?.photos}
-                    id={item?.product?._id}
-                    subtitle={item?.brand?.title}
-                    title={item?.product?.name}
-                    categoryId={item?.category?._id}
-                    brandId={item?.brand?._id}
-                    categoryName={item?.category?.title}
-                    discount={item?.discountValue}
-                    discountType={item?.discountType}
-                    discountPercent={item?.discountPercent}
-                    priceAfterDiscount={item?.salePrice}
-                    offerprice={item?.price - item?.discount}
-                    freeShipping={item?.freeShipping}
-                    regularprice={item?.price}
-                    stock={item?.stock}
-                  />
-                ))}
-              </div>
-              <div className="flex justify-center">
-                <Link
-                  to={"/shop"}
-                  className="mt-12 px-10 py-2 cursor-pointer font-medium text-base rounded-md bg-primary hover:bg-white text-white hover:text-primary border-primary border-2 transition-all ease-linear duration-200"
-                >
-                  Show All
-                </Link>
-              </div>
-            </Containar>
+    <section className="py-4 font-inter px-3 2xl:px-0">
+      <div>
+        <div className="flex flex-wrap justify-between items-center pb-3">
+          <div className="px-2">
+            <h3 className="text-[24px] lg:text-5xl text-texthead mt-1 uppercase">
+              New Arrival
+            </h3>
           </div>
-        </Reveal>
-      )}
-    </>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 100 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 2 }}
+          className="w-full relative"
+        >
+          <Swiper
+            modules={[Navigation, Autoplay]}
+            slidesPerView={1}
+            loop={true}
+            speed={1000}
+            autoplay={{ delay: 3000, pauseOnMouseEnter: true }}
+            navigation={{
+              nextEl: ".swiper-button-next2",
+              prevEl: ".swiper-button-prev2",
+            }}
+            breakpoints={{
+              370: { slidesPerView: 2 },
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 3 },
+              1024: { slidesPerView: 3 },
+              1278: { slidesPerView: 4 },
+            }}
+            className="mySwiper w-full group-edit"
+          >
+            {currentList.map((item, index) => (
+              <SwiperSlide key={index}>
+                <NewProductItem
+                  key={item?._id}
+                  product={item}
+                  image={item?.product?.photos}
+                  id={item?.product?._id}
+                  subtitle={item?.brand?.title}
+                  title={item?.product?.name}
+                  categoryId={item?.category?._id}
+                  brandId={item?.brand?._id}
+                  categoryName={item?.category?.title}
+                  discount={item?.discountValue}
+                  discountType={item?.discountType}
+                  discountPercent={item?.discountPercent}
+                  priceAfterDiscount={item?.salePrice}
+                  offerprice={item?.price - item?.discount}
+                  freeShipping={item?.freeShipping}
+                  regularprice={item?.price}
+                  stock={item?.stock}
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+          <motion.div
+            className="swiper-button-next2 z-20 absolute rounded-full right-1 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]"
+          >
+            <FaChevronRight className="text-xs" />
+          </motion.div>
+          <motion.div
+            className="swiper-button-prev2 absolute z-20 rounded-full right-14 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]"
+          >
+            <FaChevronLeft className="text-xs" />
+          </motion.div>
+        </motion.div>
+      </div>
+    </section>
   );
 };
 

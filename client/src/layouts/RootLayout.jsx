@@ -29,7 +29,7 @@ const RootLayout = () => {
           smooth
           color="#f75454"
         />
-        {location.pathname != "/cart" && <FixedCart />}
+        {/* {location.pathname != "/cart" && <FixedCart />} */}
 
         <Header />
         <Outlet />
