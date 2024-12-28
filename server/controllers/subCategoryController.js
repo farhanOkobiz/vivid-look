@@ -12,35 +12,97 @@ const deleteFile = require("../utils/deleteFile");
 const { getAll, getOne, updateOne } = require("../utils/handleFactory");
 
 exports.createSubCategoryController = catchAsync(async (req, res, next) => {
-  console.log(".....................",req.body)
-  let subCategory;
-  try{
+  // let subCategory;
+  // try{
 
-     subCategory = await SubCategory.create(req.body);
+  //    subCategory = await SubCategory.create(req.body);
 
-  }catch(error){
-    console.log("Error..........",error)
+  // }catch(error){
+  //   console.log("Error..........",error)
 
+  // }
+  // // console.log(subCategory,"SubCategory....... Controller")
+
+
+  // const category = await Category.findOneAndUpdate(
+  //   { _id: subCategory.category },
+  //   { $push: { subCategories: subCategory._id } },
+  //   { new: true }
+  // );
+
+
+  // if (!category)
+  //   return next(new AppError("No category found with that ID!", 404));
+
+  // res.status(201).json({
+  //   status: "success",
+  //   data: {
+  //     subCategory,
+  //   },
+  // });
+  console.log(req.body,"Request Body......          3                  33333333333.")
+  const body = { ...req.body };
+
+  if (req.files && req.files.length > 0) {
+    body.photos = req.files.map((file) => {
+
+      return `${req.protocol}://${req.get("host")}/uploads/subCategory/${
+        file.filename
+      }`;
+    });
+  } else {
+    delete body.photos;
   }
-  // console.log(subCategory,"SubCategory....... Controller")
 
 
-  const category = await Category.findOneAndUpdate(
+  try {
+    console.log("==============================", body)
+
+    const subCategory = await SubCategory.create(body);
+     const category = await Category.findOneAndUpdate(
     { _id: subCategory.category },
     { $push: { subCategories: subCategory._id } },
     { new: true }
   );
+    res.status(201).json({
+      status: "success",
+      message: "Sub-Category has been created successfully",
+      data: {
+        subCategory,
+      },
+    });
+  } catch (error) {
+    // console.log(`Error...........`,error)
+    if (error.errors) {
+      const messages = Object?.values(error.errors)
+        .map((item) => item.properties.message)
+        .join(", ");
 
+      return next(new AppError(`Validation failed, ${messages}.`, 400));
+    } else if (error.code === 11000) {
+      const field = Object.keys(error.keyPattern).join(" ");
+      const capitalizeField =
+        field.charAt(0).toUpperCase() + field.slice(1).toLocaleLowerCase();
 
-  if (!category)
-    return next(new AppError("No category found with that ID!", 404));
+      const message = `${capitalizeField} already exist, Please use another ${field}.`;
+      return next(new AppError(message, 409));
+    }
 
-  res.status(201).json({
-    status: "success",
-    data: {
-      subCategory,
-    },
-  });
+    if (req.files && req.files.length > 0) {
+      req.files.forEach((file) => {
+        const filePath = `uploads/subCategory/${file.fileName}`;
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            return next(new AppError(`Error removing file: ${filePath}`, 500));
+          }
+        });
+      });
+    }
+
+    return next(
+      new AppError(`Something went wrong while creating varient`, 400)
+    );
+  }
 });
 
 exports.getAllSubCategoryController = getAll(SubCategory, {
@@ -59,7 +121,52 @@ exports.getSubCategoryController = getOne(SubCategory, [
   },
 ]);
 
-exports.updateSubCategoryController = updateOne(SubCategory);
+// exports.updateSubCategoryController = updateOne(SubCategory);
+
+exports.updateSubCategoryController = catchAsync(async (req, res, next) => {
+  const subCategory = await SubCategory.findById(req.params.id);
+  console.log("THis is subCategory" , subCategory)
+  if (!subCategory) {
+    return next(new AppError("No subCategory was found with that ID!", 404));
+  }
+
+  const body = req.body;
+
+  // Handle photo uploads if present
+  if (req.files && req.files.length > 0) {
+    // Remove old photos from file system
+    if (subCategory.photos && subCategory.photos.length > 0) {
+      for (const photoPath of subCategory.photos) {
+        const photoName = photoPath.split("/").pop();
+        const path = `uploads/subCategory/${photoName}`;
+        try {
+          await deleteFile(path);
+        } catch (err) {
+          console.error(`Failed to delete file: ${err.message}`);
+        }
+      }
+    }
+
+    // Update photos
+    body.photos = req.files.map(
+      (file) =>
+        `${req.protocol}://${req.get("host")}/uploads/subCategory/${file.filename}`
+    );
+  }
+
+  Object.keys(body).forEach((key) => {
+    subCategory[key] = body[key];
+  });
+  await subCategory.save();
+
+  res.status(200).json({
+    status: "success",
+    message: "subCategory has been updated successfully",
+    data: {
+      subCategory,
+    },
+  });
+});
 
 exports.deleteSubCategoryController = catchAsync(async (req, res, next) => {
   // Find the sub-category by ID

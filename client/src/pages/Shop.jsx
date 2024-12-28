@@ -122,6 +122,7 @@ const Shop = () => {
     currentPage * productsPerPage
   );
 
+  console.log("--paginated",paginatedProducts)
   return (
     <div>
       <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">

@@ -83,12 +83,12 @@ exports.createCategoryController = catchAsync(async (req, res, next) => {
 
 exports.getAllCategoryController = getAll(Category, {
   path: "subCategories",
-  select: "slug isActive",
+  select: "title slug isActive photos",
 });
 
 exports.getCategoryController = getOne(Category, {
   path: "subCategories",
-  select: "title slug isActive",
+  select: "title slug isActive photos",
 });
 
 exports.updateCategoryController = catchAsync(async (req, res, next) => {

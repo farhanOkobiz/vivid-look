@@ -183,17 +183,16 @@ const UploadBanner = () => {
                   style={{ width: "100%" }}
                   options={[
                     { label: "Main Banner", value: "Main Banner" },
-                    { label: "Deals of the Week", value: "Deals of the Week" },
-                    { label: "New Release", value: "New Release" },
+                    // { label: "Deals of the Week", value: "Deals of the Week" },
+                    { label: "Shop Banner", value: "Shop Banner" },
                   ]}
                 />
               </Form.Item>
               <Form.Item label="Upload Banner Image">
-                <p className="text-xs text-gray-500  py-2">
+                {/* <p className="text-xs text-gray-500  py-2">
                   {" "}
-                  Main Banner= 690 x 360px, New Release= 468 x 752px, Deals of
-                  the Week= 402 x 706px
-                </p>
+                  Main Banner= 690 x 360px, Shop Banner= 468 x 752px
+                </p> */}
 
                 <Upload {...uploadProps}>
                   <Button icon={<UploadOutlined />}>Upload Banner Image</Button>

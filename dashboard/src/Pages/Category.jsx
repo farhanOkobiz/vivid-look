@@ -26,18 +26,32 @@ const AddCategory = () => {
   const [newSubCategoryTitle, setNewSubCategoryTitle] = useState("");
   const [categorySuggestions, setCategorySuggestions] = useState([]);
   const [categoryExists, setCategoryExists] = useState(false); // new state
+  // category
   const [imagePreviewUrls, setImagePreviewUrls] = useState([]);
-  const [updateImagePreviewUrls, setUpdateImagePreviewUrls] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [variantFileList, setVariantFileList] = useState([]);
+  const [updateImagePreviewUrls, setUpdateImagePreviewUrls] = useState([]);
+  // sub categories
+  const [imageSubCategoryPreviewUrls, setSubCategoryImagePreviewUrls] =
+    useState([]);
+  const [
+    updateSubCategoryImagePreviewUrls,
+    setSubCategoryUpdateImagePreviewUrls,
+  ] = useState([]);
+  const [variantSubCategoryFileList, setSubCategoryVariantFileList] = useState(
+    []
+  );
+
+  const [loading, setLoading] = useState(false);
   const [newCategoryTitle, setNewCategoryTitle] = useState("");
   const [currentCategory, setCurrentCategory] = useState(null);
   const [currentImage, setCurrentImage] = useState(null);
+  const [currentSubCategoryImage, setCurrentSubCategoryImage] = useState(null);
   const [newCategoryImage, setNewCategoryImage] = useState(null);
   const [form] = Form.useForm(); // form instance for better control
 
   const [newImageFile, setNewImageFile] = useState(null);
   const [categoryFileList, setCategoryFileList] = useState([]); // For category image files
+  const [subCategoryFileList, setSubCategoryFileList] = useState([]); // For category image files
   const [imageError, setImageError] = useState(false);
   useEffect(() => {
     fetchData();
@@ -60,6 +74,7 @@ const AddCategory = () => {
           subCategories: subCategories.map((sub) => ({
             key: sub._id,
             title: sub.title,
+            photos: sub.photos,
           })),
           subCategoryCount: subCategories.length,
           date: format(category.updatedAt, "dd-MM-yyyy"),
@@ -73,13 +88,14 @@ const AddCategory = () => {
     }
   };
 
-  const handleDelete = async (key) => {
+  const handleDelete = async (type, key) => {
     try {
-      await axios.delete(`/category/${key}`);
+      await axios.delete(`/${type}/${key}`);
       setDataSource(dataSource.filter((item) => item.key !== key));
+      message.success(`${type} deleted successfully!`);
     } catch (error) {
       fetchData();
-      console.error("Failed to delete category:", error);
+      console.error(`Failed to delete ${type}:`, error);
     }
   };
 
@@ -103,6 +119,26 @@ const AddCategory = () => {
     },
   };
 
+  const subCategoryImageUploadProps = {
+    fileList: subCategoryFileList,
+    multiple: false,
+    onRemove: (file) => {
+      setSubCategoryFileList([]);
+      setSubCategoryUpdateImagePreviewUrls([]); // Clear the preview since only one file is allowed
+    },
+    beforeUpload: (file) => {
+      const isImage = file.type.startsWith("image/"); // Validate file type
+      if (!isImage) {
+        message.error(`${file.name} is not an image file!`);
+        return Upload.LIST_IGNORE;
+      }
+      // Update the file list and generate preview
+      setSubCategoryFileList([file]); // Only one file is allowed, replace the existing
+      previewSubCategoryImage(file); // Generate and set the preview
+      return false; // Prevent automatic upload
+    },
+  };
+
   // update New Priview
   const previewCategoryImage = (file) => {
     const reader = new FileReader();
@@ -114,28 +150,71 @@ const AddCategory = () => {
     reader.readAsDataURL(file); // Read the file as Data URL
   };
 
-  const handleSubCategoryEdit = (subCategory) => {
-    console.log(subCategory);
-    setCurrentSubCategory(subCategory);
-    setNewSubCategoryTitle(subCategory.title);
+  const previewSubCategoryImage = (file) => {
+    const reader = new FileReader();
+    setCurrentSubCategoryImage(file);
+    reader.onload = (e) => {
+      // console.log(e.target.result, "..........result");
+      setSubCategoryUpdateImagePreviewUrls([e.target.result]); // Update preview (single file)
+    };
+    reader.readAsDataURL(file); // Read the file as Data URL
+  };
+
+  const handleSubCategoryEdit = (record) => {
+    console.log(record);
+    setCurrentSubCategory(record);
+    setNewSubCategoryTitle(record.title);
+    setSubCategoryUpdateImagePreviewUrls(record.photos || []);
     setIsSubCategoryModalVisible(true);
   };
 
-  const handleSubCategorySave = async () => {
-    if (currentSubCategory) {
-      try {
-        await axios.patch(`/subCategory/${currentSubCategory.key}`, {
-          title: newSubCategoryTitle,
-        });
-        setIsSubCategoryModalVisible(false);
+  // const handleSubCategorySave = async () => {
+  //   if (currentSubCategory) {
+  //     try {
+  //       await axios.patch(`/subCategory/${currentSubCategory.key}`, {
+  //         title: newSubCategoryTitle,
+  //       });
+  //       setIsSubCategoryModalVisible(false);
 
-        setCurrentSubCategory(null);
-        fetchData();
-        message.success("Subcategory updated successfully");
-      } catch (error) {
-        console.error("Failed to save subcategory changes:", error);
-        message.error("Failed to update subcategory");
+  //       setCurrentSubCategory(null);
+  //       fetchData();
+  //       message.success("Subcategory updated successfully");
+  //     } catch (error) {
+  //       console.error("Failed to save subcategory changes:", error);
+  //       message.error("Failed to update subcategory");
+  //     }
+  //   }
+  // };
+
+  const handleSubCategorySave = async () => {
+    try {
+      const formData = new FormData();
+
+      // Append the sub category title as JSON
+      if (currentSubCategory) {
+        formData.append("title", newSubCategoryTitle);
+        console.log("title changed");
       }
+      if (currentSubCategoryImage?.file) {
+        formData.append("photos", currentSubCategoryImage?.file);
+        console.log("photos changed");
+      }
+      const res = await axios.patch(
+        `/subCategory/${currentSubCategory.key}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      setIsSubCategoryModalVisible(false);
+      message.success("Sub Category updated successfully");
+      fetchData();
+    } catch (error) {
+      console.error("Failed to update sub category:", error);
+      message.error("Failed to update sub category");
     }
   };
 
@@ -213,15 +292,27 @@ const AddCategory = () => {
 
         categoryId = newCategoryRes.data.data.product._id;
       }
-
+      const formDataSubCateory = new FormData();
+      formDataSubCateory.append("title", subCategoryTitle);
+      formDataSubCateory.append("category", categoryId);
+      variantSubCategoryFileList.forEach((file) => {
+        formDataSubCateory.append("photos", file);
+      });
       // Add the subcategory associated with the category
-      await axios.post("/subCategory", {
-        title: subCategoryTitle,
-        category: categoryId,
+      await axios.post("/subCategory", formDataSubCateory, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
 
       fetchData();
       message.success("Category and Subcategory created successfully!");
+
+      form.resetFields();
+      setVariantFileList([]);
+      setSubCategoryVariantFileList([]);
+      setImagePreviewUrls([]);
+      setSubCategoryImagePreviewUrls([]);
     } catch (error) {
       console.error("Failed to add category and subcategory:", error);
       message.error("Failed to add category and subcategory.");
@@ -254,6 +345,7 @@ const AddCategory = () => {
     fileList: variantFileList,
     multiple: true,
     onRemove: (file) => {
+      console.log("variantUploadProps onRemove");
       const index = variantFileList.indexOf(file); // Get the index of the file
       if (index !== -1) {
         // Remove the file from the file list
@@ -272,6 +364,7 @@ const AddCategory = () => {
       }
     },
     beforeUpload: (file) => {
+      console.log("variantUploadProps beforeUpload");
       const isImage = file.type.startsWith("image/");
       if (!isImage) {
         message.error(`${file.name} is not an image file!`);
@@ -284,12 +377,60 @@ const AddCategory = () => {
     },
   };
 
+  const variantSubCategoryUploadProps = {
+    fileList: variantSubCategoryFileList,
+    multiple: true,
+    onRemove: (file) => {
+      console.log("variantSubCategoryUploadProps reomve");
+      const index = variantSubCategoryFileList.indexOf(file); // Get the index of the file
+      if (index !== -1) {
+        // Remove the file from the file list
+        setSubCategoryVariantFileList((prevList) => {
+          const newFileList = [...prevList];
+          newFileList.splice(index, 1);
+          return newFileList;
+        });
+        setImageError(false);
+        // Remove the corresponding preview from imagePreviewUrls
+        setSubCategoryImagePreviewUrls((prevPreviews) => {
+          const newPreviews = [...prevPreviews];
+          newPreviews.splice(index, 1); // Remove the preview at the same index
+          return newPreviews;
+        });
+      }
+    },
+    beforeUpload: (file) => {
+      console.log("variantSubCategoryUploadProps beforeUpload");
+      const isImage = file.type.startsWith("image/");
+      if (!isImage) {
+        message.error(`${file.name} is not an image file!`);
+        return Upload.LIST_IGNORE;
+      }
+      // Add the file to the file list setUpdateImagePreviewUrls
+      setSubCategoryVariantFileList((prevList) => [...prevList, file]);
+      handleSubCategoryImagePreview({ originFileObj: file }); // Call preview handler for image preview
+      return false;
+    },
+  };
+
   const handleImagePreview = (file) => {
     if (file && file.originFileObj) {
       // Check if the file is valid
       const reader = new FileReader();
       reader.onload = (e) => {
         setImagePreviewUrls((prev) => [...prev, e.target.result]);
+      };
+      reader.readAsDataURL(file.originFileObj);
+      setImageError(false);
+    }
+  };
+
+  const handleSubCategoryImagePreview = (file) => {
+    if (file && file.originFileObj) {
+      // Check if the file is valid
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setSubCategoryImagePreviewUrls((prev) => [...prev, e.target.result]);
       };
       reader.readAsDataURL(file.originFileObj);
       setImageError(false);
@@ -327,36 +468,23 @@ const AddCategory = () => {
                 />
               </Form.Item>
 
-              <Form.Item
-                name={["category", "subtitle"]}
-                label="Sub Category"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input subcategory title!",
-                  },
-                ]}
-              >
-                <Input placeholder="Enter subcategory title" />
-              </Form.Item>
-
-              {/* <h1>Product image</h1> */}
-
               {!categoryExists && (
                 <>
                   <Dragger
                     {...variantUploadProps}
                     onChange={handleImagePreview}
                   >
-                    <p className="ant-upload-drag-icon">
-                      <InboxOutlined />
-                    </p>
-                    <p className="ant-upload-text">
-                      Click or drag category Image to this area to upload
-                    </p>
-                    <p className="ant-upload-hint">
-                      Support for a single or bulk upload.
-                    </p>
+                    <div>
+                      <p className="ant-upload-drag-icon">
+                        <InboxOutlined />
+                      </p>
+                      <p className="ant-upload-text">
+                        Click or drag category Image to this area to upload
+                      </p>
+                      <p className="ant-upload-hint">
+                        Support for a single or bulk upload.
+                      </p>
+                    </div>
                   </Dragger>
                   {imageError && (
                     <p className="text-red-500 text-center mt-2">
@@ -376,6 +504,53 @@ const AddCategory = () => {
                   </div>
                 </>
               )}
+
+              <Form.Item
+                name={["category", "subtitle"]}
+                label="Sub Category"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input subcategory title!",
+                  },
+                ]}
+              >
+                <Input placeholder="Enter subcategory title" />
+              </Form.Item>
+
+              <div>
+                <Dragger
+                  {...variantSubCategoryUploadProps}
+                  onChange={handleSubCategoryImagePreview}
+                >
+                  <div>
+                    <p className="ant-upload-drag-icon">
+                      <InboxOutlined />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag subcategory Image to this area to upload
+                    </p>
+                    <p className="ant-upload-hint">
+                      Support for a single or bulk upload.
+                    </p>
+                  </div>
+                </Dragger>
+                {imageError && (
+                  <p className="text-red-500 text-center mt-2">
+                    Image upload is required.
+                  </p>
+                )}
+                <div className="flex gap-x-5 justify-center">
+                  {imageSubCategoryPreviewUrls.map((url, index) => (
+                    <img
+                      key={index}
+                      src={url}
+                      alt="Preview"
+                      className="w-[150px] h-[150px] object-cover rounded-md shadow-lg"
+                    />
+                  ))}
+                </div>
+              </div>
 
               <Button className="mt-4" type="primary" htmlType="submit">
                 Submit
@@ -400,26 +575,100 @@ const AddCategory = () => {
                   dataIndex: "category",
                   width: "20%",
                 },
+                // {
+                //   title: "SubCategory Names",
+                //   dataIndex: "subCategories",
+                //   width: "30%",
+                //   render: (subCategories) =>
+                //     subCategories.length > 0
+                //       ? subCategories.map((sub) => (
+                //           <div key={sub.key}>
+                //             {sub.title}
+                //             <Button
+                //               type="link"
+                //               onClick={() => handleSubCategoryEdit(sub)}
+                //               style={{ marginRight: 8 }}
+                //             >
+                //               Edit
+                //             </Button>
+                //           </div>
+                //         ))
+                //       : "No SubCategory",
+                // },
                 {
                   title: "SubCategory Names",
                   dataIndex: "subCategories",
                   width: "30%",
-                  render: (subCategories) =>
-                    subCategories.length > 0
+                  render: (subCategories) => {
+                    console.log("subCategories ==========", subCategories);
+                    return subCategories && subCategories.length > 0
                       ? subCategories.map((sub) => (
-                          <div key={sub.key}>
-                            {sub.title}
-                            <Button
-                              type="link"
-                              onClick={() => handleSubCategoryEdit(sub)}
-                              style={{ marginRight: 8 }}
-                            >
-                              Edit
-                            </Button>
+                          <div
+                            key={sub._id}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              marginBottom: 8,
+                            }}
+                          >
+                            {/* Display Subcategory Photo */}
+                            {sub.photos && sub.photos.length > 0 ? (
+                              <img
+                                src={sub.photos[0]} // Display the first photo
+                                alt={sub.title || "SubCategory"} // Fallback alt text
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  objectFit: "cover",
+                                  marginRight: 8,
+                                  borderRadius: 4,
+                                }}
+                              />
+                            ) : (
+                              <div
+                                style={{
+                                  width: 50,
+                                  height: 50,
+                                  backgroundColor: "#f0f0f0",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "center",
+                                  marginRight: 8,
+                                  borderRadius: 4,
+                                }}
+                              >
+                                No Image
+                              </div>
+                            )}
+                            {/* Subcategory Details */}
+                            <div>
+                              <div style={{ fontWeight: "bold" }}>
+                                {sub.title}
+                              </div>
+                              <Button
+                                type="link"
+                                onClick={() => handleSubCategoryEdit(sub)}
+                                style={{ marginTop: 4 }}
+                              >
+                                Edit
+                              </Button>
+                              <Popconfirm
+                                title="Sure to delete?"
+                                onConfirm={() =>
+                                  handleDelete(`subcategory`, sub.key)
+                                }
+                              >
+                                <Button type="link" danger>
+                                  Delete
+                                </Button>
+                              </Popconfirm>
+                            </div>
                           </div>
                         ))
-                      : "No SubCategory",
+                      : "No SubCategory";
+                  },
                 },
+
                 {
                   title: "Category Image",
                   dataIndex: "photos",
@@ -466,7 +715,7 @@ const AddCategory = () => {
                         </Button>
                         <Popconfirm
                           title="Sure to delete?"
-                          onConfirm={() => handleDelete(record.key)}
+                          onConfirm={() => handleDelete(`category`, record.key)}
                         >
                           <Button type="link" danger>
                             Delete
@@ -481,7 +730,7 @@ const AddCategory = () => {
         </Col>
       </Row>
 
-      <Modal
+      {/* <Modal
         title="Edit SubCategory"
         visible={isSubCategoryModalVisible}
         onOk={handleSubCategorySave}
@@ -493,16 +742,72 @@ const AddCategory = () => {
           value={newSubCategoryTitle}
           onChange={(e) => setNewSubCategoryTitle(e.target.value)}
         />
+      </Modal> */}
+
+      <Modal
+        title="Edit Sub Category"
+        visible={isSubCategoryModalVisible}
+        onOk={handleSubCategorySave}
+        onCancel={() => setIsSubCategoryModalVisible(false)}
+        okText="Save"
+        cancelText="Cancel"
+      >
+        <Input
+          className="mb-2"
+          value={newSubCategoryTitle}
+          onChange={(e) => setNewSubCategoryTitle(e.target.value)}
+        />
+
+        <>
+          <p>Upload New Sub Category Image:</p>
+          <Dragger
+            {...subCategoryImageUploadProps}
+            onChange={previewSubCategoryImage}
+          >
+            <p className="ant-upload-drag-icon">
+              <InboxOutlined />
+            </p>
+            <p className="ant-upload-text">
+              Click or drag sub category Image to this area to upload
+            </p>
+            <p className="ant-upload-hint">
+              Support for a single or bulk upload.
+            </p>
+          </Dragger>
+
+          {/* <div className="flex gap-x-5 justify-center">
+            {updateSubCategoryImagePreviewUrls.map((url, index) => (
+              <img
+                key={index}
+                src={url}
+                alt="Preview"
+                className="w-[150px] h-[150px] object-cover rounded-md shadow-lg"
+              />
+            ))}
+          </div> */}
+
+          <div className="flex gap-x-5 justify-center">
+            {/* Image preview here */}
+            {updateSubCategoryImagePreviewUrls.map((url, index) => (
+              <img
+                // onChange={setNewCategoryImage(e.target.value)}
+                key={index}
+                src={url}
+                alt="Preview"
+                className="w-[150px] h-[150px] object-cover rounded-md shadow-lg"
+              />
+            ))}
+          </div>
+        </>
       </Modal>
 
       <Modal
-        title="Edit Category "
+        title="Edit Category"
         visible={isModalVisible}
         onOk={handleCategorySave}
         onCancel={() => setIsModalVisible(false)}
       >
         <div>
-          <p>Enter Category : </p>
           <Input
             className="mb-2"
             value={newCategoryTitle}

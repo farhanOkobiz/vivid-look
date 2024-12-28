@@ -9,7 +9,7 @@ import {
 import ApiContext from "./components/baseapi/BaseApi";
 import RootLayout from "./layouts/RootLayout";
 import CategoryShop from "./components/shop/CategoryShop";
-import SubCategoryPage from "./pages/SubCategoryPage";
+// import SubCategoryPage from "./pages/SubCategoryPage";
 
 // Lazy load components
 const Home = lazy(() => import("./pages/Home"));
@@ -28,6 +28,7 @@ const Checkout = lazy(() => import("./pages/Checkout"));
 const ThankYou = lazy(() => import("./pages/ThankYou"));
 const BrandShop = lazy(() => import("./components/shop/BrandShop"));
 const Subcategory = lazy(() => import("./components/shop/Subcategory"));
+const SubCategoryPage = lazy(() => import("./pages/SubCategoryPage"));
 const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
 const ShippingRates = lazy(() => import("./pages/ShippingRates"));
 const DeliveryInfo = lazy(() => import("./pages/DeliveryInfo"));
@@ -38,8 +39,8 @@ const MegaSale = lazy(() => import("./components/shop/MegaSale"));
 const LatestSale = lazy(() => import("./components/shop/LatestSale"));
 const OfferSale = lazy(() => import("./components/shop/OfferSale"));
 
-// const baseApi = "http://localhost:8000/api/v1";
-const baseApi = "https://myserver.vividlookbd.com/api/v1";
+const baseApi = "http://localhost:8000/api/v1";
+// const baseApi = "https://myserver.vividlookbd.com/api/v1";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -109,14 +110,6 @@ const router = createBrowserRouter(
           }
         />
         <Route
-          path="subcategory"
-          element={
-            <Suspense fallback={<div></div>}>
-              <SubCategoryPage />
-            </Suspense>
-          }
-        />
-        <Route
           path="brand/:brandId"
           element={
             <Suspense fallback={<div></div>}>
@@ -125,6 +118,22 @@ const router = createBrowserRouter(
           }
         />
       </Route>
+      {/* <Route
+        path="subcategory"
+        element={
+          <Suspense fallback={<div></div>}>
+            <SubCategoryPage />
+          </Suspense>
+        }
+      /> */}
+      <Route
+        path="category/:categoryId"
+        element={
+          <Suspense fallback={<div></div>}>
+            <SubCategoryPage />
+          </Suspense>
+        }
+      />
       <Route
         path="about"
         element={

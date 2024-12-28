@@ -486,7 +486,7 @@ const Navbar = () => {
                 {categories.map((item, index) => (
                   <li key={index}>
                     <Link
-                      to={item.link}
+                      to={`category/${item?._id}`}
                       className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
                     >
                       {item.title}

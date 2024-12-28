@@ -24,7 +24,7 @@ const RootLayout = () => {
           <img src={whatsAppIcon} alt="" className="w-10" />
         </a>
         <ScrollToTop
-          style={{ backgroundColor: "#fff6f6", border: "1px solid #f74545" }}
+          style={{ border: "1px solid #f74545" }}
           className="bg-red-500 inline-block"
           smooth
           color="#f75454"

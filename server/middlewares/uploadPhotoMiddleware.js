@@ -39,11 +39,12 @@ const resizePhotoMiddleware = (directory) => {
       // Set file name with unique suffix and original extension
       file.filename = `${directory}-${uniqueSuffix()}${originalExtension}`;
 
-      const dimensions = {
-        product: { width: 900, height: 700, quality: 95 },
-        brand: { width: 450, height: 450, quality: 80 },
-        reviews: { width: 400, height: 400, quality: 85 },
-      }[directory] || { width: 500, height: 500, quality: 90 };
+      const dimensions =
+        {
+          product: { width: 1080, height: 1080, quality: 95 },
+          brand: { width: 450, height: 450, quality: 80 },
+          reviews: { width: 400, height: 400, quality: 85 },
+        }[directory] || {};
 
       try {
         const transformer = sharp(file.buffer);

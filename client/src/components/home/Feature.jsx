@@ -40,7 +40,7 @@ const Feature = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <section className="font-inter px-5 2xl:px-0 grid grid-cols-2 lg:grid-cols-4 my-3">
+    <section className="font-inter px-5 2xl:px-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3">
       {/* <Containar> */}
       {/* <TitleHead titile="Shop Categories" subtitle="All Categories" /> */}
       {/* <div className="px-2">
@@ -81,11 +81,16 @@ const Feature = () => {
         > */}
       {categories.map((item, index) => (
         // <SwiperSlide key={index}>
-        <div key={index} className="shadow bg-[#f6f6f6] mx-1 group duration-200 relative h-[400px] lg:h-[600px]">
+        <div
+          key={index}
+          className="shadow bg-[#f6f6f6] mx-1 group duration-200 relative md:h-[400px] lg:h-[600px]"
+        >
           <Link
-            to={`/shop/category/${item?._id}/${encodeURIComponent(
-              item?.title.replace(/\s+/g, "")
-            )}`}
+            // to={`/shop/category/${item?._id}/${encodeURIComponent(
+            //   item?.title.replace(/\s+/g, "")
+            // )}`}
+            // to={`/subcategory`}
+            to={`category/${item?._id}`}
             key={index}
             className="w-full h-full"
           >

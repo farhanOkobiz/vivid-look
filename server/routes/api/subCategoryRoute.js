@@ -9,18 +9,27 @@ const {
   getVariantsBySubCategory,
   getOptionsBySubCategory,
 } = require("../../controllers/subCategoryController");
+const { uploadPhotoMiddleware, resizePhotoMiddleware } = require("../../middlewares/uploadPhotoMiddleware");
 
 const router = express.Router();
 
 router
   .route("/")
-  .post(createSubCategoryController)
+  .post(
+    uploadPhotoMiddleware(true, 4),
+    resizePhotoMiddleware("subCategory"),
+    createSubCategoryController
+  )
   .get(getAllSubCategoryController);
 
 router
   .route("/:id")
   .get(getSubCategoryController)
-  .patch(updateSubCategoryController)
+  .patch(
+    uploadPhotoMiddleware(true, 4),
+    resizePhotoMiddleware("subCategory"),
+    updateSubCategoryController
+  )
   .delete(deleteSubCategoryController);
 
 // Get all (Products, Variants, Options) of a Sub-Category:

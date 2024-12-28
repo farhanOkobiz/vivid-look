@@ -233,9 +233,13 @@ const ShopLayouts = () => {
                           className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                           key={item._id}
                         >
-                          <Link to={`category/${item._id}/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
-                              )}`}>{item?.title}</Link>
+                          <Link
+                            to={`category/${item._id}/${encodeURIComponent(
+                              item?.title?.replace(/\s+/g, "")
+                            )}`}
+                          >
+                            {item?.title}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -271,9 +275,11 @@ const ShopLayouts = () => {
                           className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                           key={index}
                         >
-                          <Link to={`subcategory/${item?._id}/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
-                              )}`}>
+                          <Link
+                            to={`subcategory/${item?._id}/${encodeURIComponent(
+                              item?.title?.replace(/\s+/g, "")
+                            )}`}
+                          >
                             {item?.title}
                           </Link>
                         </li>
@@ -362,10 +368,12 @@ const ShopLayouts = () => {
                             className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                             key={item._id}
                           >
-                            <Link to={`category/${item._id}/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
-                              )}`}>
-                              {item?.title} 
+                            <Link
+                              to={`category/${item._id}/${encodeURIComponent(
+                                item?.title?.replace(/\s+/g, "")
+                              )}`}
+                            >
+                              {item?.title}
                             </Link>
                           </li>
                         ))}
@@ -402,9 +410,13 @@ const ShopLayouts = () => {
                             className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                             key={index}
                           >
-                            <Link to={`subcategory/${item?._id}/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
-                              )}`}>
+                            <Link
+                              to={`subcategory/${
+                                item?._id
+                              }/${encodeURIComponent(
+                                item?.title?.replace(/\s+/g, "")
+                              )}`}
+                            >
                               {item?.title}
                             </Link>
                           </li>
@@ -566,7 +578,7 @@ const ShopLayouts = () => {
                           >
                             <Link
                               to={`category/${item?._id}/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
+                                item?.title?.replace(/\s+/g, "")
                               )}`}
                             >
                               {item?.title}
@@ -609,7 +621,7 @@ const ShopLayouts = () => {
                               to={`subcategory/${
                                 item?._id
                               }/${encodeURIComponent(
-                                item?.title.replace(/\s+/g, "")
+                                item?.title?.replace(/\s+/g, "")
                               )}`}
                             >
                               {item?.title}
@@ -648,11 +660,7 @@ const ShopLayouts = () => {
                             className="py-2 text-sm text-texthead cursor-pointer"
                             key={index}
                           >
-                            <Link
-                              to={`brand/${item?._id}`}
-                            >
-                              {item?.title}
-                            </Link>
+                            <Link to={`brand/${item?._id}`}>{item?.title}</Link>
                           </li>
                         ))}
                       </ul>

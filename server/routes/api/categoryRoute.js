@@ -9,18 +9,30 @@ const {
   getVariantsByCategory,
   getOptionsByCategory,
 } = require("../../controllers/categoryController");
-const { uploadPhotoMiddleware, resizePhotoMiddleware } = require("../../middlewares/uploadPhotoMiddleware");
+const {
+  uploadPhotoMiddleware,
+  resizePhotoMiddleware,
+} = require("../../middlewares/uploadPhotoMiddleware");
 
 const router = express.Router();
 
-router.route("/").post(    uploadPhotoMiddleware(true, 4),
-resizePhotoMiddleware("products"),createCategoryController).get(getAllCategoryController);
+router
+  .route("/")
+  .post(
+    uploadPhotoMiddleware(true, 4),
+    resizePhotoMiddleware("products"),
+    createCategoryController
+  )
+  .get(getAllCategoryController);
 
 router
   .route("/:id")
   .get(getCategoryController)
-  .patch(uploadPhotoMiddleware(true, 4),
-  resizePhotoMiddleware("products"),updateCategoryController)
+  .patch(
+    uploadPhotoMiddleware(true, 4),
+    resizePhotoMiddleware("products"),
+    updateCategoryController
+  )
   .delete(deleteCategoryController);
 
 // Get all (Products, Variants, Options) of a Category:

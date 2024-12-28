@@ -75,7 +75,7 @@ const NewRelease = () => {
       try {
         const { data } = await axios.get(`${baseApi}/banner`);
         const filteredBanners = data.data.doc.filter(
-          (banner) => banner.bannerType === "New Release"
+          (banner) => banner.bannerType === "Shop Banner"
         );
         setBanners(filteredBanners.pop()); // Get the last banner
       } catch (err) {

@@ -28,7 +28,7 @@ const bannerSchema = new Schema(
     bannerType: {
       type: String,
       enum: {
-        values: ["Main Banner", "Deals of the Week", "New Release"],
+        values: ["Main Banner", "Deals of the Week", "Shop Banner"],
         message: "{VALUE} is not supported, Please provide valid banner type",
       },
       required: [true, "Banner type is required"],

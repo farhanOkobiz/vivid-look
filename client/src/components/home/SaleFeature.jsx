@@ -39,6 +39,8 @@ const SaleFeature = () => {
     }
   };
 
+  console.log("======ojj====", currentList);
+
   return (
     <section className="py-4 font-inter px-3 2xl:px-0">
       <div>
@@ -67,15 +69,15 @@ const SaleFeature = () => {
               prevEl: ".swiper-button-prev2",
             }}
             breakpoints={{
-              370: { slidesPerView: 2 },
+              370: { slidesPerView: 1 },
               640: { slidesPerView: 2 },
-              768: { slidesPerView: 3 },
+              768: { slidesPerView: 2 },
               1024: { slidesPerView: 3 },
               1278: { slidesPerView: 4 },
             }}
             className="mySwiper w-full group-edit"
           >
-            {currentList.map((item, index) => (
+            {currentList?.map((item, index) => (
               <SwiperSlide key={index}>
                 <NewProductItem
                   key={item?._id}
@@ -99,14 +101,10 @@ const SaleFeature = () => {
               </SwiperSlide>
             ))}
           </Swiper>
-          <motion.div
-            className="swiper-button-next2 z-20 absolute rounded-full right-1 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]"
-          >
+          <motion.div className="swiper-button-next2 z-20 absolute rounded-full right-1 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]">
             <FaChevronRight className="text-xs" />
           </motion.div>
-          <motion.div
-            className="swiper-button-prev2 absolute z-20 rounded-full right-14 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]"
-          >
+          <motion.div className="swiper-button-prev2 absolute z-20 rounded-full right-14 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]">
             <FaChevronLeft className="text-xs" />
           </motion.div>
         </motion.div>

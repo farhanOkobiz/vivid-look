@@ -18,6 +18,13 @@ const subCategorySchema = new Schema(
       type: String,
     },
 
+    photos: [
+      {
+        type: String,
+        required: [true, "Photo is required"],
+        trim: true,
+      },
+    ],
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",
