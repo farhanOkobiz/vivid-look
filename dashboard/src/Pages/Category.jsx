@@ -55,7 +55,7 @@ const AddCategory = () => {
   const [imageError, setImageError] = useState(false);
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [dataSource]);
 
   const fetchData = async () => {
     try {
@@ -98,6 +98,7 @@ const AddCategory = () => {
       console.error(`Failed to delete ${type}:`, error);
     }
   };
+
 
   const categoryImageUploadProps = {
     fileList: categoryFileList,
