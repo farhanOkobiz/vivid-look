@@ -52,7 +52,7 @@ const RightPartProduct = () => {
         productList.slice(0, 6).map((item) => (
           <Link
             key={item.id}
-            className="flex w-full  gap-x-4  py-5 border-b hover:bg-[#a1ad99]"
+            className="flex w-full  gap-x-4  py-5 border-b hover:bg-black hover:!text-white"
           >
             <Link
               to={`/productdetail/${item?.product?.name
@@ -74,7 +74,7 @@ const RightPartProduct = () => {
                   ?.toLowerCase()
                   .replace(/\s+/g, "-")}/${item?.product?._id}`}
 
-                className="text-sm font-normal inline-block -pt-1 text-texthead "
+                className="text-sm font-normal inline-block -pt-1 "
 
               >
                 {item?.product?.name}
@@ -90,7 +90,7 @@ const RightPartProduct = () => {
                     </div>
                   </div>
                 ) : (
-                  <div className="flex text-sm items-center gap-x-1 text-red-500">
+                  <div className="flex text-sm items-center gap-x-1">
                     ৳ {item.price}
                   </div>
                 )}

@@ -78,6 +78,7 @@ const ApplayCuppon = () => {
   // Handle coupon deletion
   const handleDelete = async (id) => {
     try {
+      // console.log(id, "Cupon Id.......");
       await axios.delete(`/coupon/${id}`);
       setCoupons(coupons.filter((coupon) => coupon._id !== id));
       message.success("Coupon deleted successfully");

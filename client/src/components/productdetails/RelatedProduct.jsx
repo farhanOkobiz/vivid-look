@@ -65,7 +65,7 @@ const RelatedProduct = ({ id }) => {
         <h4 className="text-xl font-medium text-texthead border-b p-5 bg-gray-200">
           Related Products
         </h4>
-        <div className="mt-5">
+        <div className="my-5">
           {error ? (
             <p className="text-red-500">Error: {error}</p>
           ) : productList.length === 0 ? (
@@ -94,7 +94,7 @@ const RelatedProduct = ({ id }) => {
                     slidesPerView: 3,
                   },
                   1024: {
-                    slidesPerView: 4,
+                    slidesPerView: 3,
                   },
                   1280: {
                     slidesPerView: 4,
@@ -108,7 +108,7 @@ const RelatedProduct = ({ id }) => {
                       to={`/product/${item?.product?._id}`}
                       onClick={() => {
                         window.scrollTo(0, 0);
-                        window.location.reload(); // পেজ রিলোড করার জন্য
+                        window.location.reload();
                       }}
                     >
                       <NewProductItem
@@ -128,17 +128,16 @@ const RelatedProduct = ({ id }) => {
                         offerprice={item?.price - item?.discount}
                         freeShipping={item?.freeShipping}
                         regularprice={item?.price}
-                        classItem="w-full"
                         stock={item?.stock}
                       />
                     </Link>
                   </SwiperSlide>
                 ))}
               </Swiper>
-              <div className="swiper-button-next3 absolute z-20 right-1 top-1/2 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]">
+              <div className="swiper-button-next3 absolute z-20 right-1 top-1/2 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-primary transition-all ease-linear hover:text-white cursor-pointer hover:border-primary border-[#b6b5b2] flex justify-center items-center text-[#858380]">
                 <FaChevronRight className="text-xs" />
               </div>
-              <div className="swiper-button-prev3 absolute z-20 left-1 top-1/2 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]">
+              <div className="swiper-button-prev3 absolute z-20 left-1 top-1/2 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-primary transition-all ease-linear hover:text-white cursor-pointer hover:border-primary border-[#b6b5b2] flex justify-center items-center text-[#858380]">
                 <FaChevronLeft className="text-xs" />
               </div>
             </motion.div>

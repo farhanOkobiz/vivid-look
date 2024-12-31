@@ -118,7 +118,7 @@ const MiddleFooter = () => {
 
         <Containar>
           <div>
-            <ul className="flex justify-between flex-wrap py-8">
+            <ul className="flex flex-col md:flex-row space-y-5 md:space-y-0 justify-between flex-wrap py-8 px-4">
               <li className="">
                 <Link
                   to={"/"}

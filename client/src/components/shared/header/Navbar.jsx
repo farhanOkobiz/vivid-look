@@ -505,7 +505,7 @@ const Navbar = () => {
                 </Link>
               </div>
 
-              <div className="flex items-center space-x-4 text-gray-600">
+              <div className="flex items-center space-x-6 text-gray-600">
                 {/* Search Bar for Desktop */}
                 <Search />
 

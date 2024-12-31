@@ -15,11 +15,12 @@ import React, { useState, useEffect } from "react";
 import axios from "../Components/Axios";
 import { UploadOutlined } from "@ant-design/icons";
 
+
 const UploadBanner = () => {
   const [brandForm] = Form.useForm();
   const [banners, setBanners] = useState([]);
   const [fileList, setFileList] = useState([]);
-
+  const [bannerType, setBannerType] = useState("");
   const fetchBanners = async () => {
     try {
       const response = await axios.get("/banner");
@@ -129,6 +130,24 @@ const UploadBanner = () => {
     },
   };
 
+  const handleBannerTypeChange = (value) => {
+    setBannerType(value); // Update the banner type
+  };
+
+  // Function to display size instructions based on selected banner type
+  const getBannerSizeInstructions = (type) => {
+    switch (type) {
+      case "Main Banner":
+        return "Main Banner = 690 x 360px";
+      case "Deals of the Week":
+        return "Deals of the Week = 402 x 706px";
+      case "New Release":
+        return "New Release = 468 x 752px";
+      default:
+        return "";
+    }
+  };
+
   return (
     <>
       <h2 className="text-center font-semibold md:text-2xl text-xl py-10 ">
@@ -172,7 +191,6 @@ const UploadBanner = () => {
                 <Input />
               </Form.Item>
               <Form.Item
-                layout="vertical"
                 label="Banner Type"
                 name="bannerType"
                 rules={[
@@ -183,16 +201,18 @@ const UploadBanner = () => {
                   style={{ width: "100%" }}
                   options={[
                     { label: "Main Banner", value: "Main Banner" },
-                    // { label: "Deals of the Week", value: "Deals of the Week" },
-                    { label: "Shop Banner", value: "Shop Banner" },
+                    { label: "Deals of the Week", value: "Deals of the Week" },
+                    { label: "New Release", value: "New Release" },
                   ]}
+                  onChange={handleBannerTypeChange} // Handle change
                 />
               </Form.Item>
               <Form.Item label="Upload Banner Image">
-                {/* <p className="text-xs text-gray-500  py-2">
-                  {" "}
-                  Main Banner= 690 x 360px, Shop Banner= 468 x 752px
-                </p> */}
+                <p className="text-xs text-gray-500 py-2">
+                  {bannerType
+                    ? getBannerSizeInstructions(bannerType)
+                    : "Please select a banner type first."}
+                </p>
 
                 <Upload {...uploadProps}>
                   <Button icon={<UploadOutlined />}>Upload Banner Image</Button>

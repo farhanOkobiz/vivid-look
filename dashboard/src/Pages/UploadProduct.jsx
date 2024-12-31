@@ -148,10 +148,10 @@ const UploadProduct = () => {
 
     const formData = new FormData();
     formData.append("name", values.name);
+
     if (values.videoUrl) {
       formData.append("videoUrl", values.videoUrl);
     }
-
 
     formData.append("category", values.category);
     formData.append("subCategory", values.subCategory);
@@ -212,16 +212,27 @@ const UploadProduct = () => {
         "Name already exist, Please use another name."
       ) {
         message.error("Name already exist, Please use another name");
-      } else if (
-        error.response.data.message ===
-        "Sku already exist, Please use another sku."
-      ) {
-        message.error("Sku already exist, Please use another sku.");
-        setSkuChecker(true);
-      } else {
-        // console.log(error.message);
-        message.error("Something went wrong, Try again!");
       }
+      if (error.response.data.message === "Too many files were uploaded") {
+        message.error("You can use max 4 Images");
+      } 
+       if (
+         error.response.data.message ===
+         "Validation failed, Color code length must be between 4 and 7 characters if provided."
+       ) {
+         message.error(
+           "Color code must be 6 characters with # (example: #000000) "
+         );
+       } else if (
+         error.response.data.message ===
+         "Sku already exist, Please use another sku."
+       ) {
+         message.error("Sku already exist, Please use another sku.");
+         setSkuChecker(true);
+       } else {
+         // console.log(error.message);
+         message.error("Something went wrong, Try again!");
+       }
     } finally {
       setLoading(false);
     }
@@ -307,7 +318,7 @@ const UploadProduct = () => {
           <Row gutter={16}>
             <Col span={12}>
               <Form.Item
-                label="Title"
+                label="Title (Title has to be unique)"
                 name="name"
                 rules={[
                   {
@@ -376,7 +387,7 @@ const UploadProduct = () => {
               <Form.Item
                 label="Select Brand"
                 name="brand"
-                rules={[{ required: true, message: "Please select a brand!" }]}
+                // rules={[{ required: true, message: "Please select a brand!" }]}
               >
                 <Select
                   options={brands.map((brand) => ({
@@ -424,7 +435,7 @@ const UploadProduct = () => {
                   />
                 </Form.Item>
                 <Form.Item
-                  label="Color Code"
+                  label="Color Code (Give Hex Code of the color)"
                   name={`variant[${variantIndex}].colorCode`}
                   // rules={[
                   //   {
@@ -482,7 +493,7 @@ const UploadProduct = () => {
                         }}
                       />
                       <Form.Item
-                        label="SKU"
+                        label="SKU (Sku has to be unique)"
                         name={`variant[${variantIndex}].options[${optionIndex}].sku`}
                         rules={[
                           {
@@ -503,7 +514,7 @@ const UploadProduct = () => {
                       </Form.Item>
 
                       <Form.Item
-                        label="Size"
+                        label="Size (Text or Number)"
                         name={`variant[${variantIndex}].options[${optionIndex}].size`}
                         // rules={[
                         //   {
@@ -594,7 +605,7 @@ const UploadProduct = () => {
               Click or drag file to this area to upload
             </p>
             <p className="ant-upload-hint">
-              Support for a single or bulk upload.
+              মিনিমাম ১টি ছবি, ম্যাক্সিমাম ৪টি ছবি দিতে পারবেন
             </p>
           </Dragger>
 

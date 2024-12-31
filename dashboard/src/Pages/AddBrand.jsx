@@ -250,7 +250,7 @@ const AddBrand = () => {
             </Upload>
           </Form.Item>
 
-          <Form.Item name="isActive" label="Active" valuePropName="checked">
+          <Form.Item name="isActive" label="Active (enable করুন)" valuePropName="checked">
             <Switch />
           </Form.Item>
         </Form>

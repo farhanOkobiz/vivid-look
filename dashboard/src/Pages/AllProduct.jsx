@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  Space,
   Popconfirm,
   Table,
   Modal,
@@ -27,7 +28,29 @@ const AllProduct = () => {
   const [productOptions, setProductOptions] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [fileList, setFileList] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+
   const [initialVideoUrl, setInitialVideoUrl] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get("/varient");
+  //     const formattedData = response.data.data.doc.map((variant, index) => ({
+  //       ...variant,
+  //       key: variant._id,
+  //       index: index + 1,
+  //       title: variant.title,
+  //       category: variant?.category?.title || "N/A",
+  //       subCategory: variant?.subCategory?.title || "N/A",
+  //       photo: variant.photo,
+  //     }));
+  //     setData(formattedData.reverse());
+  //     setFilteredData(formattedData.reverse());
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
 
   const fetchData = async () => {
     try {
@@ -42,6 +65,7 @@ const AllProduct = () => {
         photo: variant.photo,
       }));
       setData(formattedData.reverse());
+      setFilteredData(formattedData.reverse());
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -96,7 +120,7 @@ const AllProduct = () => {
         subCategory: product.subCategory?._id || null,
         description: product.description,
         videoUrl:
-          product.photos.find((photo) => photo.includes("youtube.com")) || "", // Check for existing video URL
+          product.photos.find((photo) => photo.includes("youtube.com")) || "",
         colorName: variant.colorName,
         colorCode: variant.colorCode,
         details: variant.details,
@@ -105,22 +129,69 @@ const AllProduct = () => {
       setProductProduct(product);
       setProductVariant(variant);
 
-      // Separate images from video links
       const imagePreviews = product.photos.filter(
         (photo) => !photo.includes("youtube.com")
       );
       setImagePreviews(imagePreviews);
       setInitialVideoUrl(
         product.photos.find((photo) => photo.includes("youtube.com")) || ""
-      ); // Set video URL if available
-      setProductOptions(variant.options || []); // Ensure it's an array
+      );
+      setProductOptions(variant.options || []);
       setIsModalVisible(true);
-      setFileList([]); // Reset file list for new uploads
+      setFileList([]);
     } catch (error) {
       console.error("Error fetching data:", error);
       message.error("Failed to fetch variant data.");
     }
   };
+
+  // const handleSearch = () => {
+
+  //   const trimmedSearchTerm = searchTerm.trim();
+
+  //   const filtered = data?.filter((order) => {
+  //     const orderIdMatch = order?._id
+  //       .slice(-6)
+  //       ?.toLowerCase()
+  //       .includes(trimmedSearchTerm?.toLowerCase());
+  //     const phoneMatch = order.phone
+  //       ?.toLowerCase()
+  //       .includes(trimmedSearchTerm.toLowerCase());
+  //     return orderIdMatch || phoneMatch;
+  //   });
+
+  //   setFilteredData(filtered);
+  //   fetchData();
+  // };
+
+  const handleSearch = () => {
+    const trimmedSearchTerm = searchTerm.trim().toLowerCase();
+
+    if (trimmedSearchTerm === "") {
+      setFilteredData(data); // Reset to original data if search term is empty
+      return;
+    }
+
+    const filtered = data.filter((item) => {
+      // console.log(item, "Item.......");
+      const titleMatch = item?.product?.name
+        ?.toLowerCase()
+        .includes(trimmedSearchTerm);
+      const categoryMatch = item.category
+        ?.toLowerCase()
+        .includes(trimmedSearchTerm);
+      const subCategoryMatch = item.subCategory
+        ?.toLowerCase()
+        .includes(trimmedSearchTerm);
+      // const skuMatch = item?.colorName
+      //   ?.toLowerCase()
+      //   .includes(trimmedSearchTerm);
+      return titleMatch || categoryMatch || subCategoryMatch || skuMatch;
+    });
+
+    setFilteredData(filtered);
+  };
+
   const handleDeletePreviewImage = (imageIndex) => {
     setImagePreviews((prevImages) =>
       prevImages.filter((_, index) => index !== imageIndex)
@@ -137,12 +208,10 @@ const AllProduct = () => {
       formData.append("subCategory", values.subCategory);
       formData.append("description", values.description);
 
-      // Append existing images first
       imagePreviews.forEach((image) => {
         formData.append("photos", image);
       });
 
-      // Append new images
       fileList.forEach((file) => {
         formData.append("photos", file.originFileObj);
       });
@@ -156,15 +225,13 @@ const AllProduct = () => {
         details: values.details,
       });
 
-      // Ensure values for price, quantity, sku, and size are arrays and have the same length as productOptions
       const updatedOptions = productOptions.map((option, index) => ({
-        price: values.price?.[index] || option.price, // Default to existing value
+        price: values.price?.[index] || option.price,
         stock: values.quantity?.[index] || option.stock,
         sku: values.sku?.[index] || option.sku,
         size: values.size?.[index] || option.size,
       }));
 
-      // Update each option
       await Promise.all(
         updatedOptions.map((option, index) => {
           return axios.patch(`/option/${productOptions[index]._id}`, option);
@@ -200,7 +267,7 @@ const AllProduct = () => {
                 videoUrl:
                   updatedProduct?.photos.find((photo) =>
                     photo.includes("youtube.com")
-                  ) || "", // Update video URL in table data
+                  ) || "",
               }
             : item
         )
@@ -224,7 +291,43 @@ const AllProduct = () => {
   const handleImageUpload = ({ fileList }) => {
     setFileList(fileList);
   };
+  const renderImagesVideos = (photos) => {
+    return photos?.map((url, index) => {
+      if (url.includes("youtube.com") || url.includes("youtu.be")) {
+        const videoId = url.split("v=")[1]?.split("&")[0];
+        const embedUrl = `https://www.youtube.com/embed/${videoId}`;
 
+        return (
+          <div key={index} style={{ marginBottom: "8px" }}>
+            <iframe
+              width="50"
+              height="50"
+              src={embedUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={`YouTube Video ${index}`}
+            ></iframe>
+          </div>
+        );
+      } else {
+        return (
+          <img
+            key={index}
+            src={url}
+            alt={`Image ${index + 1}`}
+            style={{
+              width: "50px",
+              height: "50px",
+              objectFit: "cover",
+              marginBottom: "8px",
+              cursor: "pointer",
+            }}
+          />
+        );
+      }
+    });
+  };
   const columns = [
     {
       title: "#SL",
@@ -252,6 +355,21 @@ const AllProduct = () => {
       key: "title",
     },
     {
+      title: "SKU",
+      dataIndex: "options",
+      key: "price",
+      render: (options) => (
+        <>
+          {Array.isArray(options) &&
+            options.map((option, index) => (
+              <div key={index}>
+                {`${option.sku}`}
+              </div>
+            ))}
+        </>
+      ),
+    },
+    {
       width: "15%",
       title: "Stock",
       dataIndex: "options",
@@ -271,41 +389,7 @@ const AllProduct = () => {
       title: "Images/Video",
       dataIndex: ["product", "photos"],
       key: "photos",
-      render: (photos) => (
-        <>
-          {photos?.map((url, index) => {
-            if (url.includes("youtube.com") || url.includes("youtu.be")) {
-              return (
-                <div key={index} style={{ marginBottom: "8px" }}>
-                  <iframe
-                    width="50"
-                    height="50"
-                    src={url}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    title={`video-${index}`}
-                  ></iframe>
-                </div>
-              );
-            } else {
-              return (
-                <img
-                  key={index}
-                  src={url}
-                  alt={`Image ${index + 1}`}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "cover",
-                    marginBottom: "8px",
-                  }}
-                />
-              );
-            }
-          })}
-        </>
-      ),
+      render: renderImagesVideos,
     },
     {
       width: "5%",
@@ -324,7 +408,7 @@ const AllProduct = () => {
     },
     {
       width: "5%",
-      title: "Color Name", // New column for color name
+      title: "Color Name",
       dataIndex: "colorName",
       key: "colorName",
       render: (colorName) => <span>{colorName}</span>,
@@ -338,7 +422,7 @@ const AllProduct = () => {
           {Array.isArray(options) &&
             options.map((option, index) => (
               <div key={index}>
-                Price:{`${option.price} TK size: (${option.size})`}
+                Price:{`${option.price} TK Size: (${option.size})`}
               </div>
             ))}
         </>
@@ -360,22 +444,28 @@ const AllProduct = () => {
     },
 
     {
-      title: "Action",
+      title: "Actions",
       key: "action",
       fixed: "right",
       width: "10%",
       render: (_, record) => (
-        <div className="flex gap-x-2">
-          <Button type="primary" onClick={() => handleEdit(record)}>
+        <div className="flex flex-col gap-2">
+          <button
+            type="primary"
+            onClick={() => handleEdit(record)}
+            className="bg-green-500 text-white w-24 py-1"
+          >
             Edit
-          </Button>
+          </button>
           <Popconfirm
             title="Are you sure to delete this variant?"
             onConfirm={() => handleDelete(record._id)}
             okText="Yes"
             cancelText="No"
           >
-            <Button type="danger">Delete</Button>
+            <button type="danger" className="bg-red-500 text-white w-24 py-1">
+              Delete
+            </button>
           </Popconfirm>
         </div>
       ),
@@ -395,7 +485,28 @@ const AllProduct = () => {
 
   return (
     <div>
-      <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} />
+      <Space style={{ marginBottom: 16, marginTop: 10 }}>
+        <Input
+          placeholder="Search by Product Title, Category or SubCategory Name"
+          value={searchTerm}
+          onChange={(e) => {
+            const value = e.target.value;
+            setSearchTerm(value);
+            handleSearch();
+            if (value.trim() === "") {
+              setFilteredData(data);
+            }
+          }}
+          style={{ width: 400 }}
+        />
+
+        <Button  type="primary" onClick={handleSearch}>
+          Search
+        </Button>
+      </Space>
+      {/* <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} /> */}
+      <Table columns={columns} dataSource={filteredData} scroll={{ x: 1300 }} />
+
       <Modal
         title="Edit Product"
         visible={isModalVisible}
@@ -521,7 +632,7 @@ const AllProduct = () => {
               listType="picture"
               fileList={fileList}
               onChange={handleImageUpload}
-              beforeUpload={() => false} // Prevent automatic upload
+              beforeUpload={() => false}
               multiple
             >
               <Button icon={<UploadOutlined />}>Upload</Button>

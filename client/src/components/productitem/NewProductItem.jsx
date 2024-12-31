@@ -61,45 +61,35 @@ const NewProductItem = ({
             className="h-full"
           >
             <div
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
+              onMouseEnter={() => image.length > 1 && setHovered(true)}
+              onMouseLeave={() => image.length > 1 && setHovered(false)}
               className="border overflow-hidden group relative h-full"
             >
-              <div className={`relative w-full ${isHomePage ? "h-[300px] lg:h-[700px]" : "h-full"}`}>
+              <div
+                className={`relative w-full ${
+                  isHomePage ? "h-[300px] lg:h-[700px]" : "h-full"
+                }`}
+              >
                 {/* First Image */}
                 <img
                   className={`w-full h-full mx-auto transition-opacity duration-500 ease-in-out absolute top-0 left-0 ${
-                    hovered ? "opacity-0" : "opacity-100"
+                    hovered && image.length > 1 ? "opacity-0" : "opacity-100"
                   }`}
                   src={image[0]}
                   alt="product"
                 />
-                <img
-                  className={`w-full h-full mx-auto transition-opacity duration-500 ease-in-out absolute top-0 left-0 ${
-                    hovered ? "opacity-100" : "opacity-0"
-                  }`}
-                  src={image[1]}
-                  alt="product"
-                />
-              </div>
 
-              {discount > 0 && discountType === "amount" ? (
-                <div className="absolute right-0 top-3 px-3 py-2 shadow-lg text-xs bg-red-500 text-white flex items-center gap-x-0.5">
-                  ৳ {discount}
-                </div>
-              ) : (
-                discount > 0 &&
-                discountType === "percent" && (
-                  <div className="absolute right-0 top-3 px-3 py-2 shadow-lg text-xs bg-red-500 text-white flex items-center gap-x-0.5">
-                    {discount} %
-                  </div>
-                )
-              )}
-              {freeShipping && (
-                <div className="absolute left-0 top-4 py-1 px-2 bg-[#10B1DF] text-sm text-white gap-x-0.5">
-                  Free Shipping
-                </div>
-              )}
+                {/* Second Image (only if there are multiple images) */}
+                {image.length > 1 && (
+                  <img
+                    className={`w-full h-full mx-auto transition-opacity duration-500 ease-in-out absolute top-0 left-0 ${
+                      hovered ? "opacity-100" : "opacity-0"
+                    }`}
+                    src={image[1]}
+                    alt="product"
+                  />
+                )}
+              </div>
             </div>
           </Link>
         ) : (

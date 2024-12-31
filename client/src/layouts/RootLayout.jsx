@@ -19,15 +19,26 @@ const RootLayout = () => {
         <a
           href="https://wa.me/01871702222"
           target="_blank"
-          className="fixed right-10 bottom-24"
+          className="fixed right-10 bottom-24 z-[10000]"
         >
           <img src={whatsAppIcon} alt="" className="w-10" />
         </a>
         <ScrollToTop
-          style={{ border: "1px solid #f74545" }}
-          className="bg-red-500 inline-block"
+          style={{
+            border: "1px solid",
+            backgroundColor: "black",
+            color: "white",
+            width: "50px",
+            height: "50px",
+            fontWeight: "600",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "50%",
+          }}
+          className="rounded-full"
           smooth
-          color="#f75454"
+          color="white"
         />
         {/* {location.pathname != "/cart" && <FixedCart />} */}
 

@@ -10,6 +10,7 @@ import {
   Select,
 } from "antd";
 import axios from "../Components/Axios";
+import logo from "../assets/logos/logoBlack.jpg";
 
 const Order = () => {
   const [data, setData] = useState([]);
@@ -25,15 +26,21 @@ const Order = () => {
       const orders = response.data.data.doc;
       // console.log("Fetched Orders:", orders);
       setData(orders);
-      setFilteredData(orders); // Default to all orders
+      setFilteredData(orders);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
 
+  // console.log(data, ".......");
   useEffect(() => {
     fetchOrders();
   }, []);
+
+  const calculateDeliveryCharge = (shippingCost, isFreeShipping) => {
+    if (isFreeShipping) return 0;
+    return shippingCost;
+  };
 
   const handleSearch = () => {
     const trimmedSearchTerm = searchTerm.trim();
@@ -115,8 +122,7 @@ const Order = () => {
   const handleCourierChange = async (order, courier) => {
     if (courier === "Steadfast") {
       try {
-        const { name, phone, streetAddress, city, zone, area, totalCost } =
-          order;
+        const { name, phone, streetAddress, totalCost } = order;
         const invoice = `${order._id.slice(-6)}`;
 
         const payload = {
@@ -133,8 +139,8 @@ const Order = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              "Api-Key": "jk3r26u3dvt7lven4uds4oki4uwymmnd ",
-              "Secret-Key": "i9hbumlkxd3wxxkwwciuun3c",
+              "Api-Key": "mstshryvc9q8bkrz3iu431uuvo2c39tv",
+              "Secret-Key": "iksacduggxpserl2x9nh6str",
             },
           }
         );
@@ -150,45 +156,45 @@ const Order = () => {
         console.error("Error placing Steadfast order:", error);
       }
     }
-    if (courier === "pathao") {
-      try {
-        const { name, phone, streetAddress, city, zone, area, totalCost } =
-          order;
+    // if (courier === "pathao") {
+    //   try {
+    //     const { name, phone, streetAddress, city, zone, area, totalCost } =
+    //       order;
 
-        const payload = {
-          merchant_order_id: order._id,
-          recipient_name: name,
-          recipient_phone: phone,
-          recipient_city: city.cityID,
-          recipient_zone: zone.zoneID,
-          delivery_type: 48,
-          item_type: 2,
-          item_quantity: order.products[0].quantity,
-          item_weight: 0.5,
-          amount_to_collect: totalCost,
-          recipient_address: `${streetAddress}`,
-        };
+    //     const payload = {
+    //       merchant_order_id: order._id,
+    //       recipient_name: name,
+    //       recipient_phone: phone,
+    //       recipient_city: city.cityID,
+    //       recipient_zone: zone.zoneID,
+    //       delivery_type: 48,
+    //       item_type: 2,
+    //       item_quantity: order.products[0].quantity,
+    //       item_weight: 0.5,
+    //       amount_to_collect: totalCost,
+    //       recipient_address: `${streetAddress}`,
+    //     };
 
-        // Ensure you're sending the correct base URL
-        const response = await axios.post(
-          "/pathaoLocation/create-order",
-          payload
-        );
+    //     // Ensure you're sending the correct base URL
+    //     const response = await axios.post(
+    //       "/pathaoLocation/create-order",
+    //       payload
+    //     );
 
-        // Update response checks to match the API response structure
-        if (response?.data?.status === "success") {
-          return message.success("Order placed with Pathao successfully"); // Ensure correct success message
-        }
-        if (response?.data?.status === "fail") {
-          return message.error(
-            response?.data?.message || "Failed to place order with Pathao"
-          );
-        }
-      } catch (error) {
-        message.error("Error placing order with Pathao");
-        console.error("Error placing pathao order:", error);
-      }
-    }
+    //     // Update response checks to match the API response structure
+    //     if (response?.data?.status === "success") {
+    //       return message.success("Order placed with Pathao successfully"); // Ensure correct success message
+    //     }
+    //     if (response?.data?.status === "fail") {
+    //       return message.error(
+    //         response?.data?.message || "Failed to place order with Pathao"
+    //       );
+    //     }
+    //   } catch (error) {
+    //     message.error("Error placing order with Pathao");
+    //     console.error("Error placing pathao order:", error);
+    //   }
+    // }
   };
 
   const handlePrintInvoice = async (order) => {
@@ -196,76 +202,211 @@ const Order = () => {
       const response = await axios.get(`/order/${order._id}`);
       const anOrder = response?.data?.data?.doc;
 
+      // console.log(anOrder, ".......AnOrder......");
+
+      const isFreeShipping = anOrder.products.every(
+        (product) => product.option?.freeShipping === true
+      );
+
+      const deliveryCharge = isFreeShipping ? 0 : anOrder.shippingCost;
+
       const invoiceWindow = window.open("", "_blank");
 
       const invoiceHTML = `
-        <html>
-          <head>
-            <title>Invoice</title>
-            <style>
-              body { font-family: Arial, sans-serif; }
-              .invoice-box { max-width: 800px; margin: auto; padding: 30px; border: 1px solid #eee; box-shadow: 0 0 10px rgba(0, 0, 0, 0.15); }
-              .invoice-header { display: flex; justify-content: space-between; margin-bottom: 20px; }
-              .invoice-header h1 { margin: 0; }
-              .invoice-details { margin-bottom: 20px; }
-              .invoice-details p { margin: 0; }
-              .invoice-products { width: 100%; border-collapse: collapse; }
-              .invoice-products th, .invoice-products td { border: 1px solid #eee; padding: 10px; }
-              .invoice-total { margin-top: 20px; text-align: right; font-weight: bold; }
-            </style>
-          </head>
-          <body>
-            <div class="invoice-box">
-              <div class="invoice-header">
-                <h1>Invoice</h1>
-                <div>
-                  <p>Order ID: ${anOrder._id.slice(-6)}</p>
-                  <p>Date: ${new Date(
-                    anOrder.createdAt
-                  ).toLocaleDateString()}</p>
-                </div>
-              </div>
-              <div class="invoice-details">
-                <p>Name: ${anOrder.name}</p>
-                <p>Phone: ${anOrder.phone}</p>
-                <p>Email: ${anOrder.email}</p>
-                
-                <p>Address:${anOrder.streetAddress} </p>
-              </div>
-              <table class="invoice-products">
-                <thead>
-                  <tr>
-                    <th>Product</th>
-                    <th>Color</th>
-                    <th>Size</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  ${anOrder.products
-                    .map(
-                      (product) => `
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    .invoice-box {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+     
+    }
+
+    .header h1 {
+      font-size: 28px;
+      margin: 0;
+      color: #333;
+    }
+
+    .header img{
+     margin-top:20px;
+    }
+
+.header p{
+ margin:0;
+}
+    .header .company-info {
+      font-size: 16px;
+      color: #666;
+      margin-top: 3px;
+      
+    }
+
+    .invoice-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .invoice-details p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .bill-to {
+      margin-bottom: 20px;
+    }
+
+    .bill-to p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    table th {
+      background: #f2f2f2;
+      text-align: left;
+    }
+
+    .total {
+      text-align: right;
+      margin-top: 10px;
+      font-size: 16px;
+      font-weight: bold;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footer p{
+    margin:0;
+    }
+  </style>
+</head>
+<body>
+  <div class="invoice-box">
+    <div class="header">
+      <h1>INVOICE</h1>
+      <img src=${logo} alt="Company Logo" width="120" />
+      <p class="company-info">Address: 136/3 mazar co-paretive market, mirpur-1, Dhaka-1216</p>
+      <p class="company-info">Phone: 01954218918 | Email: tech10mirpur@gmail.com</p>
+    </div>
+
+    <div class="invoice-details">
+      <div>
+        <p><strong>BILL TO:</strong></p>
+        <p>Name: ${anOrder.name}</p>
+        <p>Address: ${anOrder.streetAddress}</p>
+        <p>Phone: ${anOrder.phone}</p>
+        <p>Email: ${anOrder.email}</p>
+      </div>
+      <div>
+        <p><strong>Invoice #:</strong> ${anOrder._id.slice(-6)}</p>
+        <p><strong>Date:</strong>  ${new Date(
+          anOrder.createdAt
+        ).toLocaleDateString()}</p>
+      </div>
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Product</th>
+              <th>Color</th>
+              <th>Size</th>              
+              <th>Quantity</th>
+             <th>Total Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${anOrder.products
+          .map(
+            (product) => `
                       <tr>
                         <td>${product?.option?.product?.name || "N/A"}</td>
                         <td>${product?.option?.variant?.colorName || "N/A"}</td>
                         <td>${product?.option?.size || "N/A"}</td>
                         <td>${product?.quantity || "N/A"}</td>
-                        <td>${product?.option?.price || "N/A"}</td>
+                        <td>
+                          ${
+                            product?.option?.salePrice
+                              ? Math.round(
+                                  product.option.salePrice * product.quantity
+                                ) // salePrice যদি থাকে
+                              : Math.round(
+                                  product.option.price * product.quantity
+                                ) // salePrice না থাকলে price
+                          }
+                        </td>
                       </tr>
                     `
-                    )
-                    .join("")}
-                </tbody>
-              </table>
-              <div class="invoice-total">
-                <p>Total Cost: ${anOrder.totalCost}</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `;
+          )
+          .join("")}
+      </tbody>
 
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="4">Total</td>
+          <td>${Math.round(anOrder.totalCost - deliveryCharge)} Taka</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="4">Delivery Charge</td>
+          <td>${
+            deliveryCharge === 0 ? "Free Shipping" : `${deliveryCharge} Taka`
+          }</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="4"><strong>Grand Total</strong></td>
+          <td><strong> ${Math.round(anOrder.totalCost)}  Taka</strong></td>
+        </tr>
+      </tfoot>
+    </table>
+
+
+    <div class="footer">
+      <p>Thank you for your order!</p>
+      <p>If you have any questions about this invoice, please contact</p>
+      <p>Tech10, Phone: 01954218918, Email: tech10mirpur@gmail.com</p>
+      
+    </div>
+  </div>
+</body>
+</html>
+`;
       invoiceWindow.document.write(invoiceHTML);
       invoiceWindow.document.close();
 
@@ -303,30 +444,137 @@ const Order = () => {
 
     {
       title: "Product Name",
-      dataIndex: ["products", 0, "option", "product", "name"],
+      dataIndex: "products",
       key: "productName",
-      render: (text) => <a>{text || "N/A"}</a>,
-    },
-    {
-      title: "Price",
-      dataIndex: "totalCost",
-      key: "totalCost",
-    },
-    {
-      title: "Quantity",
-      dataIndex: ["products", 0, "quantity"],
-      key: "quantity",
+      render: (products) => (
+        <ul>
+          {products && products.length > 0
+            ? products.map((product, index) => (
+                <li
+                  key={index}
+                  className={`my-2 p-2 ${
+                    index !== products.length - 1 ? "border-b" : ""
+                  }`}
+                >
+                  <a>{product?.option?.product?.name || "N/A"}</a>
+                </li>
+              ))
+            : "N/A"}
+        </ul>
+      ),
     },
 
     {
+      title: "Price",
+      dataIndex: "products",
+      key: "products",
+      render: (text, record) => {
+        return record.products.map((product, index) => {
+          const price = product?.option?.salePrice || product?.option?.price;
+
+          return (
+            <ul key={product._id}>
+              <li
+                key={index}
+                className={`my-2 p-2 ${
+                  index !== record.products.length - 1 ? "border-b" : ""
+                }`}
+              >
+                {Math.round(price)} Taka
+              </li>
+            </ul>
+          );
+        });
+      },
+    },
+    {
+      title: "Total Price",
+      dataIndex: "totalCost",
+      key: "totalCost",
+      render: (text, record) => {
+        const isFreeShipping = record.products.every(
+          (product) => product.option?.freeShipping === true
+        );
+        const shippingCost = calculateDeliveryCharge(
+          record.shippingCost,
+          isFreeShipping
+        );
+
+        const priceAfterShipping = Math.round(record.totalCost - shippingCost);
+
+        return `${priceAfterShipping} Taka`;
+      },
+    },
+    {
+      title: "Delivery Charge",
+      key: "deliveryCharge",
+      render: (text, record) => {
+        const deliveryCharge = calculateDeliveryCharge(
+          record.shippingCost,
+          (record.isFreeShipping = record.products.every(
+            (product) => product.option?.freeShipping === true
+          ))
+        );
+
+        return deliveryCharge === 0
+          ? "Free Shipping"
+          : `${deliveryCharge} Taka`;
+      },
+    },
+
+    {
+      title: "Quantity",
+      dataIndex: "products",
+      key: "quantity",
+      render: (products) => {
+        const totalQuantity = products
+          ? products.reduce((sum, product) => sum + (product?.quantity || 0), 0)
+          : 0;
+
+        return totalQuantity > 0 ? totalQuantity : "N/A";
+      },
+    },
+    {
       title: "Color Name",
-      dataIndex: ["products", 0, "option", "variant", "colorName"],
+      dataIndex: "products",
       key: "colorName",
+      render: (products) => (
+        <div>
+          {products && products.length > 0
+            ? products.map((product, index) => (
+                <div
+                  key={index}
+                  className={`my-2 p-2 ${
+                    index !== products.length - 1 ? "border-b" : ""
+                  }`}
+                >
+                  {product?.option?.variant?.colorName || "N/A"}
+                </div>
+              ))
+            : "N/A"}
+        </div>
+      ),
     },
     {
       title: "Size",
-      dataIndex: ["products", 0, "option", "size"],
+      dataIndex: "products",
       key: "size",
+      render: (products) => (
+        <ul>
+          {products && products.length > 0
+            ? products.map((product, index) => (
+                <li
+                  className={`my-2 p-2 ${
+                    index !== products.length - 1 ? "border-b" : ""
+                  }`}
+                  key={index}
+                >
+                  {product?.option?.size || "N/A"}
+                </li>
+              ))
+            : "N/A"}
+        </ul>
+      ),
     },
     {
       title: "Information",
@@ -338,10 +586,8 @@ const Order = () => {
           <p>Phone: {record.phone}</p>
           <p>Email: {record.email}</p>
           {/* <p>City: {record.city.cityName}</p> */}
-          <p>
-            Address:{" "}
-            {`${record.streetAddress}`}
-          </p>
+          <p>Address: {`${record.streetAddress}`}</p>
+          <p>Note: {`${record?.notes}`}</p>
         </div>
       ),
     },
@@ -358,8 +604,8 @@ const Order = () => {
           options={[
             { label: "Pending", value: "pending" },
             { label: "Approved", value: "approved" },
-            { label: "Delivered", value: "delivered" },
             { label: "Shipped", value: "shipped" },
+            { label: "Delivered", value: "delivered" },
             { label: "Canceled", value: "canceled" },
           ]}
         />
@@ -377,6 +623,7 @@ const Order = () => {
           onChange={(value) => handleCourierChange(record, value)}
           options={[
             { label: "Steadfast", value: "Steadfast" },
+            // { label: "pathao", value: "pathao" },
           ]}
         />
       ),
@@ -385,17 +632,29 @@ const Order = () => {
       title: "Actions",
       key: "actions",
       render: (text, record) => (
-        <Space size="middle">
-          <Button type="primary" onClick={() => handleEdit(record)}>
+        <div className="flex flex-col gap-2">
+          <button
+            className="bg-green-500 text-white w-24 py-1"
+            type="primary"
+            onClick={() => handleEdit(record)}
+          >
             Edit
-          </Button>
-          <Button type="primary" onClick={() => handleDelete(record._id)}>
+          </button>
+          <button
+            className="bg-red-500 text-white w-24 py-1"
+            type="primary"
+            onClick={() => handleDelete(record._id)}
+          >
             Delete
-          </Button>
-          <Button type="primary" onClick={() => handlePrintInvoice(record)}>
+          </button>
+          <button
+            className="bg-blue-900 text-white w-24 py-1"
+            type="primary"
+            onClick={() => handlePrintInvoice(record)}
+          >
             Print Invoice
-          </Button>
-        </Space>
+          </button>
+        </div>
       ),
     },
   ];
@@ -452,15 +711,10 @@ const Order = () => {
           <Form.Item label="Email" name="email">
             <Input />
           </Form.Item>
-          <Form.Item label="City" name="city">
+          <Form.Item label="Address" name="streetAddress">
             <Input />
           </Form.Item>
-          <Form.Item label="District" name="district">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Color Name" name="colorName">
-            <Input />
-          </Form.Item>
+
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Update
