@@ -457,11 +457,11 @@ const Navbar = () => {
           </div>
         </div>
       </Drawer>
-      <nav className="mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase">
+      <nav className="py-2 mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase">
         {/* Main Navigation */}
-        <div className="border-b px-3">
+        {/* <div className=" px-3"> */}
           {/* <Containar> */}
-          <div className="mx-auto">
+          <div className="mx-auto px-2">
             <div className="flex flex-wrap justify-between items-center">
               {/* Logo */}
 
@@ -533,7 +533,7 @@ const Navbar = () => {
             </div>
           </div>
           {/* </Containar> */}
-        </div>
+        {/* </div> */}
       </nav>
     </>
   );

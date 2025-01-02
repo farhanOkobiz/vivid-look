@@ -391,7 +391,7 @@ const CartBox = () => {
 
                   <div className="mt-5">
                     <Link
-                      className="py-5 text-white transition-all ease-linear duration-200 hover:bg-red-500 bg-texthead block w-full text-center text-base font-medium"
+                      className="py-5 text-black transition-all ease-linear duration-200 hover:bg-black bg-white block w-full text-center text-base font-medium hover:text-white"
                       to={"/checkout"}
                     >
                       Proceed to checkout

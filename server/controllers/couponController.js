@@ -48,7 +48,7 @@ exports.updateCouponCodeController = catchAsync(async (req, res, next) => {
 });
 
 exports.deleteCouponCodeController = catchAsync(async (req, res, next) => {
-  const coupon = await Coupon.findOneAndDelete({ coupon: req.params.coupon });
+  const coupon = await Coupon.findOneAndDelete({ _id: req.params.coupon });
 
   if (!coupon) {
     return next(new AppError("No coupon was found with that name!", 404));

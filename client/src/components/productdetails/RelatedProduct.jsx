@@ -97,7 +97,7 @@ const RelatedProduct = ({ id }) => {
                     slidesPerView: 3,
                   },
                   1280: {
-                    slidesPerView: 4,
+                    slidesPerView: 3,
                   },
                 }}
                 className="mySwiper w-full group-edit"

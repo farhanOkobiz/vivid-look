@@ -39,10 +39,11 @@ const SubCategoryPage = () => {
       {error && <p className="text-center text-red-500 mt-4">{error}</p>}
 
       {/* Full-screen banner */}
-      <div
-        className="banner h-screen w-full bg-contain bg-center bg-no-repeat flex justify-center items-center text-white text-2xl font-bold"
+      {/* <div
+        className="h-screen w-full bg-center bg-no-repeat text-white text-2xl font-bold"
         style={{ backgroundImage: `url(${categoriesDetails?.photos})` }}
-      ></div>
+      ></div> */}
+      <img src={categoriesDetails?.photos} alt="" className="w-full h-screen"/>
 
       {/* Subcategories in grid layout */}
       <div className="subcategories-grid p-8">

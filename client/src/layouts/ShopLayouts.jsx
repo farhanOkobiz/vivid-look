@@ -157,7 +157,7 @@ const ShopLayouts = () => {
             {/* Price Filter Part Start */}
             <PriceFilter toggleDrawer={toggleDrawer} />
             {/* Mega Sale Filter Part Start */}
-            <div className="Mega_Deals">
+            {/* <div className="Mega_Deals">
               <div className="border-x border-t border-x-border border-b border-b-border border-t-border">
                 <div
                   onClick={() => setMageSaleActive(!categoryActive)}
@@ -205,7 +205,7 @@ const ShopLayouts = () => {
                   )}
                 </div>
               </div>
-            </div>
+            </div> */}
             {/* Category Filter Part Start */}
             <div className="category">
               <div className="border-x border-t border-x-border border-b border-b-border border-t-border">
@@ -516,7 +516,7 @@ const ShopLayouts = () => {
           <div className="flex flex-wrap justify-between mt-14 mb-14">
             <div className="w-[22%] hidden xl:inline-block">
               {/* Mega Sale Filter Part Start */}
-              <div className="Mega_Deals">
+              {/* <div className="Mega_Deals">
                 <div className="border-x border-t border-x-border border-b border-b-border border-t-border">
                   <div
                     onClick={() => setMageSaleActive(!mageSaleActive)}
@@ -549,7 +549,7 @@ const ShopLayouts = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* Category Filter Part Start */}
               <div className="category">
                 <div className="border-x border-t border-x-border border-b border-b-border border-t-border">

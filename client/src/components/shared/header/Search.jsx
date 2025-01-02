@@ -74,6 +74,7 @@ const Search = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  console.log(products, "slug-----")
 
   return (
     <div ref={searchRef} className="relative lg:inline-block hidden ">
@@ -103,7 +104,7 @@ const Search = () => {
                 >
                   <Link
                     className="flex items-center gap-x-2.5"
-                    to={`/productdetail/${product._id}`}
+                    to={`/productdetail/${product?.category?.title}/${product._id}`}
                   >
                     <div className="w-10 h-10">
                       <img

@@ -63,10 +63,10 @@ const ThankYou = () => {
               </h4>
               <h4 className="text-lg mt-5 text-center flex justify-center text-green-600">
                 <Link
-                  to={"tel:01924853285"}
+                  to={"tel:01871702222"}
                   className="flex items-center gap-x-2"
                 >
-                  <FaPhoneAlt /> 01924853285
+                  <FaPhoneAlt /> 01871-702222
                 </Link>
               </h4>
               <h4 className="text-base mt-5 text-center flex justify-center text-texthead">

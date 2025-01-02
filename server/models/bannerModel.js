@@ -3,16 +3,16 @@ const { Schema, model } = mongoose;
 
 const bannerSchema = new Schema(
   {
-    title: {
-      type: String,
-      required: [true, "Title is required"],
-      unique: true,
-    },
+    // title: {
+    //   type: String,
+    //   required: [true, "Title is required"],
+    //   unique: true,
+    // },
 
-    subTitle: {
-      type: String,
-      required: [true, "Sub-title is required"],
-    },
+    // subTitle: {
+    //   type: String,
+    //   required: [true, "Sub-title is required"],
+    // },
 
     photo: {
       type: String,

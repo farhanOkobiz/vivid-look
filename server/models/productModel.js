@@ -44,7 +44,7 @@ const productSchema = new Schema(
     brand: {
       type: Schema.Types.ObjectId,
       ref: "Brand",
-      required: [true, "Brand is required"],
+      // required: [true, "Brand is required"],
     },
 
     variants: [

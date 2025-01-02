@@ -82,16 +82,16 @@ const UploadBanner = () => {
         <img src={text} alt="banner" style={{ width: 50, height: 50 }} />
       ),
     },
-    {
-      title: "Title",
-      dataIndex: "title",
-      key: "title",
-    },
-    {
-      title: "Sub Title",
-      dataIndex: "subTitle",
-      key: "subTitle",
-    },
+    // {
+    //   title: "Title",
+    //   dataIndex: "title",
+    //   key: "title",
+    // },
+    // {
+    //   title: "Sub Title",
+    //   dataIndex: "subTitle",
+    //   key: "subTitle",
+    // },
     {
       title: "Link",
       dataIndex: "link",
@@ -161,7 +161,7 @@ const UploadBanner = () => {
               onFinish={handleBrandSubmit}
               layout="vertical"
             >
-              <Form.Item
+              {/* <Form.Item
                 label="Banner Title"
                 name="title"
                 rules={[
@@ -169,8 +169,8 @@ const UploadBanner = () => {
                 ]}
               >
                 <Input />
-              </Form.Item>
-              <Form.Item
+              </Form.Item> */}
+              {/* <Form.Item
                 layout="vertical"
                 label="Sub Title"
                 name="subTitle"
@@ -179,7 +179,7 @@ const UploadBanner = () => {
                 ]}
               >
                 <Input />
-              </Form.Item>
+              </Form.Item> */}
               <Form.Item
                 layout="vertical"
                 label="Product Link"
@@ -201,8 +201,8 @@ const UploadBanner = () => {
                   style={{ width: "100%" }}
                   options={[
                     { label: "Main Banner", value: "Main Banner" },
-                    { label: "Deals of the Week", value: "Deals of the Week" },
-                    { label: "New Release", value: "New Release" },
+                    // { label: "Deals of the Week", value: "Deals of the Week" },
+                    { label: "Shop Banner", value: "Shop Banner" },
                   ]}
                   onChange={handleBannerTypeChange} // Handle change
                 />

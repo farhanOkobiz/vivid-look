@@ -39,12 +39,10 @@ const SaleFeature = () => {
     }
   };
 
-  console.log("======ojj====", currentList);
-
   return (
-    <section className="py-4 font-inter px-3 2xl:px-0">
+    <section className="py-6 font-inter px-3 2xl:px-0">
       <div>
-        <div className="flex flex-wrap justify-between items-center pb-3">
+        <div className="flex flex-wrap justify-between items-center pb-6">
           <div className="px-2">
             <h3 className="text-[24px] lg:text-5xl text-texthead mt-1 uppercase">
               New Arrival
