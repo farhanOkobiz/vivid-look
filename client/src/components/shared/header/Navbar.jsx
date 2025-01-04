@@ -56,7 +56,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${baseApi}/category`);
+        const response = await axios.get(`${baseApi}/subcategory`);
         setCategories(response.data.data.doc);
         setLoading(false);
       } catch (err) {
@@ -161,13 +161,15 @@ const Navbar = () => {
                   key={category._id}
                   onClick={() => setHandleClick(category._id)}
                 >
-                  <h4
+                  <Link
                     className="text-base font-medium  text-texthead "
                     // onClick={() => toggleDrawer()}
-                    // to={`/shop/category/${category?._id}`}
+                    to={`/shop/subcategory/${category?._id}/${encodeURIComponent(
+                      category?.title?.replace(/\s+/g, "")
+                    )}`}
                   >
                     {category?.title}
-                  </h4>{" "}
+                  </Link>
                   <h4>
                     <MdKeyboardArrowRight className="text-xl" />
                   </h4>
@@ -203,7 +205,11 @@ const Navbar = () => {
                                 setCategoryActive(false);
                               }}
                               className="py-3.5 px-9 inline-block "
-                              to={`/shop/subcategory/${item?._id}`}
+                              to={`/shop/subcategory/${
+                                item?._id
+                              }/${encodeURIComponent(
+                                item?.title?.replace(/\s+/g, "")
+                              )}`}
                             >
                               {item?.title}
                             </Link>
@@ -460,12 +466,12 @@ const Navbar = () => {
       <nav className="py-2 mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase">
         {/* Main Navigation */}
         {/* <div className=" px-3"> */}
-          {/* <Containar> */}
-          <div className="mx-auto px-2">
-            <div className="flex flex-wrap justify-between items-center">
-              {/* Logo */}
+        {/* <Containar> */}
+        <div className="mx-auto px-2">
+          <div className="flex flex-wrap justify-between items-center">
+            {/* Logo */}
 
-              {/* <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
+            {/* <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
                 {menusList.map((item, index) => (
                   <li key={index}>
                     <NavLink
@@ -482,57 +488,59 @@ const Navbar = () => {
                 ))}
               </ul> */}
 
-              <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
-                {categories.map((item, index) => (
-                  <li key={index}>
-                    <Link
-                      to={`category/${item?._id}`}
-                      className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
-                    >
-                      {item.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
+            <ul className="hidden sm:flex items-center gap-x-7 xl:gap-x-10">
+              {categories.slice(0, 4).map((item, index) => (
+                <li key={index}>
+                  <Link
+                    to={`/shop/subcategory/${item?._id}/${encodeURIComponent(
+                      item?.title?.replace(/\s+/g, "")
+                    )}`}
+                    className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
 
-              <div className="text-3xl font-bold text-gray-800">
-                <Link to="/" className="flex items-center">
-                  <img
-                    src={mainLogo}
-                    alt=""
-                    className="w-16 lg:w-20 h-16 lg:h-20 object-cover rounded-full"
-                  />
-                </Link>
-              </div>
+            <div className="text-3xl font-bold text-gray-800">
+              <Link to="/" className="flex items-center">
+                <img
+                  src={mainLogo}
+                  alt=""
+                  className="w-16 lg:w-20 h-16 lg:h-20 object-cover rounded-full"
+                />
+              </Link>
+            </div>
 
-              <div className="flex items-center space-x-6 text-gray-600">
-                {/* Search Bar for Desktop */}
-                <Search />
+            <div className="flex items-center space-x-6 text-gray-600">
+              {/* Search Bar for Desktop */}
+              <Search />
 
-                {/* Cart Section */}
-                <Link
-                  to={"/checkout"}
-                  className="flex items-center hover:text-red-500 duration-200 group"
-                >
-                  {/* <span className="mr-1">Cart</span> */}
-                  <div className="relative">
-                    <FiShoppingBag className="text-xl cursor-pointer group-hover:scale-110 duration-200" />
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-[10px] h-4 w-4 flex justify-center">
-                      {totalQuantity}
-                    </span>
-                  </div>
-                </Link>
-                <div
-                  onClick={toggleDrawer}
-                  className="group bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer block lg:hidden"
-                >
-                  <HiOutlineMenuAlt1 className="text-xl lg:text-3xl group-hover:scale-110 duration-200" />
-                  {/* <span className="text-sm lg:text-base">Categories</span> */}
+              {/* Cart Section */}
+              <Link
+                to={"/checkout"}
+                className="flex items-center hover:text-red-500 duration-200 group"
+              >
+                {/* <span className="mr-1">Cart</span> */}
+                <div className="relative">
+                  <FiShoppingBag className="text-xl cursor-pointer group-hover:scale-110 duration-200" />
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full text-[10px] h-4 w-4 flex justify-center">
+                    {totalQuantity}
+                  </span>
                 </div>
+              </Link>
+              <div
+                onClick={toggleDrawer}
+                className={`group bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer block lg:${categories.length > 4 ? `block` : `hidden`}`}
+              >
+                <HiOutlineMenuAlt1 className="text-xl lg:text-3xl group-hover:scale-110 duration-200" />
+                {/* <span className="text-sm lg:text-base">Categories</span> */}
               </div>
             </div>
           </div>
-          {/* </Containar> */}
+        </div>
+        {/* </Containar> */}
         {/* </div> */}
       </nav>
     </>

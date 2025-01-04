@@ -19,7 +19,7 @@ const RootLayout = () => {
         <a
           href="https://wa.me/01871702222"
           target="_blank"
-          className="fixed right-10 bottom-24 z-[10000]"
+          className="fixed right-[35px] bottom-24 z-[10000]"
         >
           <img src={whatsAppIcon} alt="" className="w-10" />
         </a>
@@ -35,6 +35,7 @@ const RootLayout = () => {
             justifyContent: "center",
             alignItems: "center",
             borderRadius: "50%",
+            right: "30px"
           }}
           className="rounded-full"
           smooth

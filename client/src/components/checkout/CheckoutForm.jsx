@@ -142,9 +142,9 @@ const CheckoutForm = () => {
     if (hasFreeShipping) return 0;
     switch (formData?.shipping) {
       case "insideDhaka":
-        return 70;
+        return 80;
       case "outsideDhaka":
-        return 140;
+        return 120;
       default:
         return 0;
     }
@@ -501,7 +501,7 @@ const CheckoutForm = () => {
                                 <div>
                                   <h3>Inside of Dhaka</h3>
                                   <h4 className="mt-2 sm:mt-5 flex items-center gap-x-0.5">
-                                    ৳ 70tk
+                                    ৳ 80tk
                                   </h4>
                                 </div>
                               </label>
@@ -520,7 +520,7 @@ const CheckoutForm = () => {
                                 <div>
                                   <h3>Outside of Dhaka</h3>
                                   <h4 className="mt-2 sm:mt-5 flex items-center gap-x-0.5">
-                                    ৳ 140tk
+                                    ৳ 120tk
                                   </h4>
                                 </div>
                               </label>

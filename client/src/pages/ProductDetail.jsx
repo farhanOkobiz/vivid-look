@@ -600,7 +600,7 @@ const ProductDetail = () => {
                     </span>
                   </div>
 
-                  <div className="mt-6 flex gap-4">
+                  <div className="mt-6 flex gap-4 fixed md:static bottom-10 z-10">
                     <button
                       onClick={() => handleAddToCart(data)}
                       className="px-3 py-2 rounded flex items-center gap-2 bg-primary hover:bg-white duration-200 text-white hover:text-black border-2 border-black"
