@@ -11,16 +11,34 @@ const { getAll, getOne } = require("../utils/handleFactory");
 
 exports.createProductController = catchAsync(async (req, res, next) => {
   const body = req.body;
-console.log("1")
+// console.log("1")
+//   if (req.files && req.files.length > 0) {
+//     body.photos = req.files.map((file) => {
+//       return `${req.protocol}://${req.get("host")}/uploads/products/${
+//         file.filename
+//       }`;
+//     });
+//   } else {
+//     delete body.photos;
+//   }
+
+const isLocalhost = req.get("host").includes("localhost");
+  const protocol = isLocalhost ? "http" : "https";
+
+  console.log("Determined Protocol:", protocol); // Log the selected protocol
+
   if (req.files && req.files.length > 0) {
     body.photos = req.files.map((file) => {
-      return `${req.protocol}://${req.get("host")}/uploads/products/${
+      const url = `${protocol}://${req.get("host")}/uploads/products/${
         file.filename
       }`;
+      console.log("File URL:", url);
+      return url;
     });
   } else {
     delete body.photos;
   }
+
 
   console.log("2")
   // Add YouTube video URL to the photos array

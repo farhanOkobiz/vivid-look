@@ -182,10 +182,10 @@ const MiddleFooter = () => {
                     BAKALIA, CHATTOGRAM, BANGLADESH
                   </div>
                   <a
-                    href="mailto:sohel204@gmail.com"
-                    className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200 uppercase"
+                    href="mailto:vividlookbd@gmail.com"
+                    className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200"
                   >
-                    sohel204@gmail.com
+                    vividlookbd@gmail.com
                   </a>
                 </div>
               </li>

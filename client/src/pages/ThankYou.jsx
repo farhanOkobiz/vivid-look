@@ -71,10 +71,10 @@ const ThankYou = () => {
               </h4>
               <h4 className="text-base mt-5 text-center flex justify-center text-texthead">
                 <Link
-                  to={"mailto:sohel204@gmail.com"}
+                  to={"mailto:vividlookbd@gmail.com"}
                   className="flex items-center gap-x-2"
                 >
-                  <MdOutlineMail /> sohel204@gmail.com
+                  <MdOutlineMail /> vividlookbd@gmail.com
                 </Link>
               </h4>
               <p className="text-center mt-5">You can check more products</p>

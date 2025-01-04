@@ -18,7 +18,7 @@ const router = express.Router();
 router
   .route("/")
   .post(
-    uploadPhotoMiddleware(true, 4),
+    uploadPhotoMiddleware(true, 6),
     resizePhotoMiddleware("products"),
     createProductController
   )
@@ -28,7 +28,7 @@ router
   .route("/:id")
   .get(getProductController)
   .patch(
-    uploadPhotoMiddleware(true, 4),
+    uploadPhotoMiddleware(true, 6),
     resizePhotoMiddleware("products"),
     updateProductController
   )

@@ -322,8 +322,9 @@ const Order = () => {
     <div class="header">
       <h1>INVOICE</h1>
       <img src=${logo} alt="Company Logo" width="120" />
-      <p class="company-info">Address: 136/3 mazar co-paretive market, mirpur-1, Dhaka-1216</p>
-      <p class="company-info">Phone: 01954218918 | Email: tech10mirpur@gmail.com</p>
+      <p class="company-info">Address: BAKALIA, CHATTOGRAM, BANGLADESH</p>
+      <p class="company-info">Phone: 01871702222 | Email: vividlookbd@gmail.com
+</p>
     </div>
 
     <div class="invoice-details">
@@ -400,7 +401,7 @@ const Order = () => {
     <div class="footer">
       <p>Thank you for your order!</p>
       <p>If you have any questions about this invoice, please contact</p>
-      <p>Tech10, Phone: 01954218918, Email: tech10mirpur@gmail.com</p>
+      <p>VividLook, Phone: 01871702222, Email: vividlookbd@gmail.com</p>
       
     </div>
   </div>

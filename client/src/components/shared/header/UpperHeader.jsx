@@ -18,9 +18,9 @@ const UpperHeader = () => {
                 <div className="flex gap-2 text-sm">
                   {/* <a
                     className="flex items-center  transition-all ease-linear duration-200 hover:underline "
-                    href="tel:01924853285"
+                    href="tel:01871702222"
                   >
-                   01924853285
+                   01871702222
                   </a> */}
 
                   {/* <span>|</span> */}

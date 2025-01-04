@@ -30,10 +30,10 @@ const ContactInfo = () => {
               <div>
                 <p className="text-lg font-semibold text-gray-800">Email:</p>
                 <Link
-                  to="mailto:sohel204@gmail.com"
+                  to="mailto:vividlookbd@gmail.com"
                   className="mt-2 text-blue-600 hover:underline"
                 >
-                  sohel204@gmail.com
+                  vividlookbd@gmail.com
                 </Link>
                 <p className="text-lg font-semibold text-gray-800 mt-4">Phone:</p>
                 <Link

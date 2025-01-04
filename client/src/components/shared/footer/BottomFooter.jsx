@@ -12,7 +12,7 @@ const BottomFooter = () => {
             ©2024 Vivid Look, All rights reserved. Developed by
             <span className="text-white mx-2">
               <Link target="_blanck" to={"https://www.okobiz.com/"}>
-                OKOBIZ.
+                okobiz.
               </Link>
             </span>
           </p>

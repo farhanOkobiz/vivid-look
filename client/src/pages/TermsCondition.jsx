@@ -130,8 +130,8 @@ const TermsCondition = () => {
             <p className="mb-4">
               If you have any questions or concerns about these Terms &
               Conditions, please contact us at{" "}
-              <a href="mailto:sohel204@gmail.com" className="text-blue-500">
-              sohel204@gmail.com
+              <a href="mailto:vividlookbd@gmail.com" className="text-blue-500">
+              vividlookbd@gmail.com
               </a>
               . We are here to help and ensure you have a great experience with
               Vivid Look .

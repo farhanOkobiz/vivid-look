@@ -86,12 +86,12 @@ const PrivacyPolicy = () => {
             contact us at:
           </p>
           <p style={styles.paragraph}>
-            <strong>Email:</strong> sohel204@gmail.com
+            <strong>Email:</strong> vividlookbd@gmail.com
           </p>
           <p style={styles.paragraph}>
             <strong>Address:</strong>{" "}
             <p className=" text-texthead text-sm">
-              Mirpur-10, Senpara, Dhaka-1216
+              BAKALIA, CHATTOGRAM, BANGLADESH
             </p>
           </p>
         </div>
