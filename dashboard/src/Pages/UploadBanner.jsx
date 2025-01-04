@@ -139,10 +139,10 @@ const UploadBanner = () => {
     switch (type) {
       case "Main Banner":
         return "Main Banner = 690 x 360px";
-      case "Deals of the Week":
-        return "Deals of the Week = 402 x 706px";
-      case "New Release":
-        return "New Release = 468 x 752px";
+      // case "Deals of the Week":
+      //   return "Deals of the Week = 402 x 706px";
+      case "Shop Banner":
+        return "Shop Banner = 468 x 752px";
       default:
         return "";
     }
