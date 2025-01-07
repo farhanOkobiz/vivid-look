@@ -179,7 +179,7 @@ const MiddleFooter = () => {
                 </div>
                 <div className="mt-5 flex flex-col gap-x-5 gap-y-2">
                   <div className="text-sm text-gray-600 hover:text-gray-800 transition-all ease-linear duration-200">
-                    BAKALIA, CHATTOGRAM, BANGLADESH
+                    CHATTOGRAM, BANGLADESH
                   </div>
                   <a
                     href="mailto:vividlookbd@gmail.com"

@@ -154,6 +154,7 @@ const NewRelease = () => {
                     alt=""
                     className="w-16 lg:w-32 h-16 lg:h-32 object-cover rounded-full"
                   />
+                  <div className="text-bold mt-2 font-semibold text-xl">Vivid Look Signature Collection</div>
                   <Link
                     to={"/shop"}
                     className="mt-5 px-5 lg:px-10 py-1 lg:py-2 cursor-pointer font-medium text-base rounded-md bg-primary hover:bg-white text-white hover:text-primary border-primary border-2 transition-all ease-linear duration-200"

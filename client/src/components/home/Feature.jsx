@@ -40,7 +40,7 @@ const Feature = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <section className="font-inter px-5 2xl:px-0 grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3">
+    <section className="font-inter grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3">
       {/* <Containar> */}
       {/* <TitleHead titile="Shop Categories" subtitle="All Categories" /> */}
       {/* <div className="px-2">
@@ -83,7 +83,7 @@ const Feature = () => {
         // <SwiperSlide key={index}>
         <div
           key={index}
-          className="shadow bg-[#f6f6f6] mx-1 group duration-200 relative md:h-[400px] lg:h-[600px]"
+          className="shadow bg-[#f6f6f6] mx-1 group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
         >
           <Link
             // to={`/shop/category/${item?._id}/${encodeURIComponent(
@@ -101,7 +101,7 @@ const Feature = () => {
                 className="h-full w-full"
               />
             </div>
-            <h2 className="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-center lg:text-base xl:text-[60px] font-medium pb-2 z-10 text-white">
+            <h2 className="absolute w-full bottom-5 left-1/2 transform -translate-x-1/2 text-center lg:text-base xl:text-[30px] font-medium pb-2 z-10 text-white drop-shadow-lg">
               <span
                 onClick={() =>
                   navigate(

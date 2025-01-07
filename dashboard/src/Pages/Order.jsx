@@ -284,7 +284,7 @@
 //     <div class="header">
 //       <h1>INVOICE</h1>
 //       <img src=${logo} alt="Company Logo" width="120" />
-//       <p class="company-info">Address: BAKALIA, CHATTOGRAM, BANGLADESH</p>
+//       <p class="company-info">Address: CHATTOGRAM, BANGLADESH</p>
 //       <p class="company-info">Phone: 01871702222 | Email: vividlookbd@gmail.com
 // </p>
 //     </div>
@@ -976,7 +976,7 @@ const Order = () => {
     <div class="header">
       <h1>INVOICE</h1>
       <img src=${logo} alt="Company Logo" width="120" />
-      <p class="company-info">Address: BAKALIA, CHATTOGRAM, BANGLADESH</p>
+      <p class="company-info">Address: CHATTOGRAM, BANGLADESH</p>
       <p class="company-info">Phone: 01871702222 | Email: vividlookbd@gmail.com
 </p>
     </div>

@@ -36,6 +36,8 @@ const RightPartProduct = () => {
 
     fetchProducts();
   }, [baseApi]);
+  
+  console.log("ijoij", productList)
 
   return (
     <ul
@@ -55,9 +57,8 @@ const RightPartProduct = () => {
             className="flex w-full  gap-x-4  py-5 border-b hover:bg-black hover:!text-white"
           >
             <Link
-              to={`/productdetail/${item?.product?.name
-                ?.toLowerCase()
-                .replace(/\s+/g, "-")}/${item?.product?._id}`}
+              to={`/productdetail/${item?.product?.slug}/${item?.product?._id}`}
+                // /productdetail/${product?.slug}/${id}
 
               className="w-[30%]"
 
@@ -70,9 +71,7 @@ const RightPartProduct = () => {
             </Link>
             <div className="w-[70%]">
               <Link
-                to={`/productdetail/${item?.product?.name
-                  ?.toLowerCase()
-                  .replace(/\s+/g, "-")}/${item?.product?._id}`}
+                to={`/productdetail/${item?.product?.slug}/${item?.product?._id}`}
 
                 className="text-sm font-normal inline-block -pt-1 "
 

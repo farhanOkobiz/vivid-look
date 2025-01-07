@@ -556,7 +556,7 @@ const ProductDetail = () => {
                     <p className="text-gray-400 mr-2 text-sm w-[20%]">
                       Quantity:
                     </p>
-                    <div className="h-full border flex border-border">
+                    <div className="h-full border hidden lg:flex border-border">
                       <button
                         onClick={() => {
                           if (quantity > 1) {
@@ -600,7 +600,7 @@ const ProductDetail = () => {
                     </span>
                   </div>
 
-                  <div className="mt-6 flex gap-4 fixed md:static bottom-10 z-10">
+                  <div className="hidden mt-6 lg:flex gap-4 z-10">
                     <button
                       onClick={() => handleAddToCart(data)}
                       className="px-3 py-2 rounded flex items-center gap-2 bg-primary hover:bg-white duration-200 text-white hover:text-black border-2 border-black"
@@ -619,7 +619,7 @@ const ProductDetail = () => {
                     </button>
                   </div>
 
-                  <div className="mt-20 flex gap-4 items-center">
+                  <div className="mt-10 lg:mt-20 flex gap-4 items-center">
                     <p className="text-gray-400 mr-2 text-sm w-[20%]">
                       Social Media:
                     </p>
@@ -656,10 +656,61 @@ const ProductDetail = () => {
                 </div>
               </div>
             )}
+
+            <div className="flex lg:hidden z-10 fixed md:static bottom-0 w-full justify-center items-center gap-x-2">
+              <div className="h-full flex z-[100]">
+                <button
+                  onClick={() => {
+                    if (quantity > 1) {
+                      setQuantity(quantity - 1);
+                      setError("");
+                    }
+                  }}
+                  className="w-[60px] h-full flex items-center cursor-pointer justify-center"
+                  disabled={quantity === 1}
+                >
+                  <span className="w-10 h-10 text-3xl bg-gray-200">-</span>
+                </button>
+                <div className="flex items-center justify-center w-full bg-white">
+                  {quantity}
+                </div>
+                <button
+                  onClick={() => {
+                    if (quantity < totalStock) {
+                      setQuantity(quantity + 1);
+                      setError("");
+                    } else {
+                      setError("Cannot exceed available stock!");
+                    }
+                  }}
+                  className="w-[60px] h-full flex items-center justify-center"
+                >
+                  <span className="w-10 h-10 text-3xl bg-gray-200">+</span>
+                </button>
+              </div>
+              <button
+                onClick={() => {
+                  handleAddToCart(data);
+                  navigate("/checkout");
+                }}
+                style={{
+                  animation: "zoom 1s ease-in-out infinite",
+                }}
+                className="hover:bg-black bg-white hover:text-white text-black p-2 flex items-center gap-2 duration-200 border-2 border-black font-bold text-sm"
+              >
+                <IoCartOutline /> Buy it now
+              </button>
+              <button
+                onClick={() => handleAddToCart(data)}
+                className="p-2 flex items-center gap-2 bg-primary hover:bg-white duration-200 text-white hover:text-black border-2 border-black font-bold text-sm"
+              >
+                <RiShoppingBag2Fill /> Add to cart
+              </button>
+            </div>
           </div>
         </div>
         <Containar>
-          <div className="flex gap-5 my-10 ">
+          <div className="flex gap-5 my-10">
             <div className="w-[25%] mb-10 hidden lg:block">
               {loading ? (
                 <div className="animate-pulse space-y-4">
@@ -706,6 +757,17 @@ const ProductDetail = () => {
                   </div>
                 )}
               </div>
+              <div className="flex flex-col gap-4 items-center">
+                {photos.map((photo, index) => (
+                  <img
+                    key={index}
+                    src={photo}
+                    alt={`Photo ${index + 1}`}
+                    className="w-full lg:w-1/2 object-cover rounded-md shadow-md"
+                  />
+                ))}
+              </div>
+
               <RelatedProduct id={data?.category?._id} />
             </div>
           </div>

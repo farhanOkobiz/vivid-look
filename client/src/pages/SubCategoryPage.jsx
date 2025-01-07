@@ -43,7 +43,7 @@ const SubCategoryPage = () => {
         className="h-screen w-full bg-center bg-no-repeat text-white text-2xl font-bold"
         style={{ backgroundImage: `url(${categoriesDetails?.photos})` }}
       ></div> */}
-      <img src={categoriesDetails?.photos} alt="" className="w-full h-screen"/>
+      <img src={categoriesDetails?.photos} alt="" className="w-full h-[50vh] md:h-[90vh] object-cover md:object-fill"/>
 
       {/* Subcategories in grid layout */}
       <div className="subcategories-grid p-8">

@@ -24,7 +24,7 @@ const ContactInfo = () => {
               <div>
                 <p className="text-lg font-semibold text-gray-800">Address:</p>
                 <p className="mt-2 text-gray-600">
-                  BAKALIA, CHATTOGRAM, BANGLADESH
+                  CHATTOGRAM, BANGLADESH
                 </p>
               </div>
               <div>

@@ -207,3 +207,22 @@ body{
   list-style: inherit;
   margin: 20px;
 }
+
+@keyframes zoom {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1); /* Slightly zoomed in */
+  }
+}
+@keyframes zoom1 {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.9); /* Slightly zoomed in */
+  }
+}

@@ -91,7 +91,7 @@ const PrivacyPolicy = () => {
           <p style={styles.paragraph}>
             <strong>Address:</strong>{" "}
             <p className=" text-texthead text-sm">
-              BAKALIA, CHATTOGRAM, BANGLADESH
+              CHATTOGRAM, BANGLADESH
             </p>
           </p>
         </div>

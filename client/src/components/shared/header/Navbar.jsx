@@ -164,7 +164,9 @@ const Navbar = () => {
                   <Link
                     className="text-base font-medium  text-texthead "
                     // onClick={() => toggleDrawer()}
-                    to={`/shop/subcategory/${category?._id}/${encodeURIComponent(
+                    to={`/shop/subcategory/${
+                      category?._id
+                    }/${encodeURIComponent(
                       category?.title?.replace(/\s+/g, "")
                     )}`}
                   >
@@ -463,7 +465,7 @@ const Navbar = () => {
           </div>
         </div>
       </Drawer>
-      <nav className="py-2 mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase">
+      <nav className="py-2 mx-auto font-inter shadow-sm bg-[#F7F7F7] px-10 border-b-[1px] border-black uppercase relative">
         {/* Main Navigation */}
         {/* <div className=" px-3"> */}
         {/* <Containar> */}
@@ -503,7 +505,7 @@ const Navbar = () => {
               ))}
             </ul>
 
-            <div className="text-3xl font-bold text-gray-800">
+            <div className="text-3xl font-bold text-gray-800 lg:absolute lg:inset-0 lg:flex lg:justify-center lg:items-center">
               <Link to="/" className="flex items-center">
                 <img
                   src={mainLogo}
@@ -532,7 +534,9 @@ const Navbar = () => {
               </Link>
               <div
                 onClick={toggleDrawer}
-                className={`group bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer block lg:${categories.length > 4 ? `block` : `hidden`}`}
+                className={`group bg-black text-white px-2 lg:px-5 py-2 rounded cursor-pointer block lg:${
+                  categories.length > 4 ? `block` : `hidden`
+                }`}
               >
                 <HiOutlineMenuAlt1 className="text-xl lg:text-3xl group-hover:scale-110 duration-200" />
                 {/* <span className="text-sm lg:text-base">Categories</span> */}

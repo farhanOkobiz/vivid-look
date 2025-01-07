@@ -42,7 +42,7 @@ const Banner = () => {
     return (
       <div className="mx-auto">
         <div className="relative banner-part animate-pulse">
-          <div className="w-full h-[50vh] md:h-[90vh] bg-[#646263] opacity-20"></div>
+          <div className="w-full h-[50vh] lg:h-[90vh] bg-[#646263] opacity-20"></div>
         </div>
       </div>
     );
@@ -79,7 +79,7 @@ const Banner = () => {
                 <SwiperSlide key={item?._id}>
                   <div className="overflow-hidden relative">
                     {currentSlide === i && (
-                      <div className="w-full h-[50vh] md:h-[90vh]">
+                      <div className="w-full h-[50vh] lg:h-[90vh]">
                         <motion.img
                           key={i}
                           className="w-full h-full object-cover 2xl:object-fit cursor-pointer"
