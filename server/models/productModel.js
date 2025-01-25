@@ -19,6 +19,10 @@ const productSchema = new Schema(
       },
     ],
 
+    isActive: {
+      type: Boolean,
+    },
+
     description: {
       type: String,
       required: [true, "Product description is required"],

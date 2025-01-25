@@ -10,6 +10,7 @@ import {
   message,
   Upload,
   Checkbox,
+  Switch,
 } from "antd";
 import { CiCirclePlus } from "react-icons/ci";
 import { InboxOutlined, UploadOutlined } from "@ant-design/icons";
@@ -157,6 +158,7 @@ const UploadProduct = () => {
     formData.append("subCategory", values.subCategory);
     formData.append("brand", values.brand);
     formData.append("description", values.description);
+    formData.append("isActive", values.isActive);
     variantFileList.forEach((file) => {
       formData.append("photos", file);
     });
@@ -181,6 +183,7 @@ const UploadProduct = () => {
           category: values.category,
           subCategory: values.subCategory,
           brand: values.brand,
+          isActive: values.isActive
         });
 
         // Create options linked to the correct variant ID
@@ -193,6 +196,7 @@ const UploadProduct = () => {
             subCategory: values.subCategory,
             brand: values.brand || null,
             freeShipping: values.freeShipping,
+            isActive: values.isActive
           });
         }
       }
@@ -215,24 +219,24 @@ const UploadProduct = () => {
       }
       if (error.response.data.message === "Too many files were uploaded") {
         message.error("You can use max 4 Images");
-      } 
-       if (
-         error.response.data.message ===
-         "Validation failed, Color code length must be between 4 and 7 characters if provided."
-       ) {
-         message.error(
-           "Color code must be 6 characters with # (example: #000000) "
-         );
-       } else if (
-         error.response.data.message ===
-         "Sku already exist, Please use another sku."
-       ) {
-         message.error("Sku already exist, Please use another sku.");
-         setSkuChecker(true);
-       } else {
-         // console.log(error.message);
-         message.error("Something went wrong, Try again!");
-       }
+      }
+      if (
+        error.response.data.message ===
+        "Validation failed, Color code length must be between 4 and 7 characters if provided."
+      ) {
+        message.error(
+          "Color code must be 6 characters with # (example: #000000) "
+        );
+      } else if (
+        error.response.data.message ===
+        "Sku already exist, Please use another sku."
+      ) {
+        message.error("Sku already exist, Please use another sku.");
+        setSkuChecker(true);
+      } else {
+        // console.log(error.message);
+        message.error("Something went wrong, Try again!");
+      }
     } finally {
       setLoading(false);
     }
@@ -401,6 +405,14 @@ const UploadProduct = () => {
 
           <Form.Item name="freeShipping" valuePropName="checked">
             <Checkbox>Free Shipping</Checkbox>
+          </Form.Item>
+
+          <Form.Item
+            name="isActive"
+            label="Active (enable করুন)"
+            valuePropName="checked"
+          >
+            <Switch defaultChecked />
           </Form.Item>
 
           {/* Add Variant */}

@@ -725,9 +725,6 @@ const ShopLayouts = () => {
                     >
                       <IoFilter /> <span className="">Filter</span>
                     </div>
-                    <h3 className="text-sm text-texthead mt-5 sm:mt-0">
-                      Showing 20 Results
-                    </h3>
                   </div>
 
                   <SelectOption />

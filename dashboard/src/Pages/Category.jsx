@@ -11,6 +11,7 @@ import {
   AutoComplete,
   Modal,
   message,
+  Switch,
 } from "antd";
 import axios from "../Components/Axios";
 import { format } from "date-fns";
@@ -48,6 +49,7 @@ const AddCategory = () => {
   const [currentSubCategoryImage, setCurrentSubCategoryImage] = useState(null);
   const [newCategoryImage, setNewCategoryImage] = useState(null);
   const [form] = Form.useForm(); // form instance for better control
+  const [newCategoryIndex, setNewCategoryIndex] = useState(1);
 
   const [newImageFile, setNewImageFile] = useState(null);
   const [categoryFileList, setCategoryFileList] = useState([]); // For category image files
@@ -697,8 +699,10 @@ const AddCategory = () => {
                   width: "10%",
                 },
                 {
-                  title: "Date",
-                  dataIndex: "date",
+                  title: "Active Status",
+                  dataIndex: "isActive",
+                  key: "isActive",
+                  render: (isActive) => <Switch checked={isActive} disabled />,
                 },
                 {
                   title: "Operation",
@@ -808,36 +812,64 @@ const AddCategory = () => {
         onOk={handleCategorySave}
         onCancel={() => setIsModalVisible(false)}
       >
+        {/* Edit Category Title */}
         <div>
+          <p>Category Title:</p>
           <Input
             className="mb-2"
             value={newCategoryTitle}
             onChange={(e) => setNewCategoryTitle(e.target.value)}
+            placeholder="Enter category title"
           />
         </div>
 
+        {/* Edit Category Index */}
+        <div>
+          <p>Category Index:</p>
+          <Input
+            type="number"
+            className="mb-2"
+            value={newCategoryIndex}
+            onChange={(e) => setNewCategoryIndex(Number(e.target.value))}
+            min={1}
+            max={dataSource.length}
+            placeholder="Enter category position"
+          />
+        </div>
+
+        <div>
+        <Form.Item name="isActive" label="Active (enable করুন)" valuePropName="checked">
+            <Switch />
+          </Form.Item>
+        </div>
+
+        {/* Image Upload and Preview */}
         <>
           <p>Upload New Category Image:</p>
           <Dragger
             {...categoryImageUploadProps}
-            onChange={previewCategoryImage}
+            onChange={(info) => {
+              if (info.file.status === "done") {
+                const file = info.file.originFileObj;
+                setCurrentImage({ file });
+              }
+            }}
           >
             <p className="ant-upload-drag-icon">
               <InboxOutlined />
             </p>
             <p className="ant-upload-text">
-              Click or drag category Image to this area to upload
+              Click or drag category image to this area to upload
             </p>
             <p className="ant-upload-hint">
-              Support for a single or bulk upload.
+              Support for single or bulk upload.
             </p>
           </Dragger>
 
-          <div className="flex gap-x-5 justify-center">
-            {/* Image preview here */}
+          <div className="flex gap-x-5 justify-center mt-4">
+            {/* Image Preview */}
             {updateImagePreviewUrls.map((url, index) => (
               <img
-                // onChange={setNewCategoryImage(e.target.value)}
                 key={index}
                 src={url}
                 alt="Preview"

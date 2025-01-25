@@ -10,6 +10,7 @@ import {
   Button,
   message,
   Upload,
+  Switch,
 } from "antd";
 import axios from "../Components/Axios";
 import ReactQuill from "react-quill";
@@ -119,11 +120,12 @@ const AllProduct = () => {
         category: product.category._id,
         subCategory: product.subCategory?._id || null,
         description: product.description,
+        isActive: product?.isActive,
         videoUrl:
           product.photos.find((photo) => photo.includes("youtube.com")) || "",
-        colorName: variant.colorName,
-        colorCode: variant.colorCode,
-        details: variant.details,
+        colorName: variant?.colorName,
+        colorCode: variant?.colorCode,
+        details: variant?.details,
       });
 
       setProductProduct(product);
@@ -144,25 +146,6 @@ const AllProduct = () => {
       message.error("Failed to fetch variant data.");
     }
   };
-
-  // const handleSearch = () => {
-
-  //   const trimmedSearchTerm = searchTerm.trim();
-
-  //   const filtered = data?.filter((order) => {
-  //     const orderIdMatch = order?._id
-  //       .slice(-6)
-  //       ?.toLowerCase()
-  //       .includes(trimmedSearchTerm?.toLowerCase());
-  //     const phoneMatch = order.phone
-  //       ?.toLowerCase()
-  //       .includes(trimmedSearchTerm.toLowerCase());
-  //     return orderIdMatch || phoneMatch;
-  //   });
-
-  //   setFilteredData(filtered);
-  //   fetchData();
-  // };
 
   const handleSearch = () => {
     const trimmedSearchTerm = searchTerm.trim().toLowerCase();
@@ -207,6 +190,7 @@ const AllProduct = () => {
       formData.append("category", values.category);
       formData.append("subCategory", values.subCategory);
       formData.append("description", values.description);
+      formData.append("isActive", values.isActive);
 
       imagePreviews.forEach((image) => {
         formData.append("photos", image);
@@ -362,9 +346,7 @@ const AllProduct = () => {
         <>
           {Array.isArray(options) &&
             options.map((option, index) => (
-              <div key={index}>
-                {`${option.sku}`}
-              </div>
+              <div key={index}>{`${option.sku}`}</div>
             ))}
         </>
       ),
@@ -442,7 +424,12 @@ const AllProduct = () => {
         </>
       ),
     },
-
+    {
+      title: "Active Status",
+      dataIndex: ["product", "isActive"],
+      key: "isActive",
+      render: (isActive) => <Switch checked={isActive} disabled />,
+    },
     {
       title: "Actions",
       key: "action",
@@ -500,7 +487,7 @@ const AllProduct = () => {
           style={{ width: 400 }}
         />
 
-        <Button  type="primary" onClick={handleSearch}>
+        <Button type="primary" onClick={handleSearch}>
           Search
         </Button>
       </Space>
@@ -545,6 +532,14 @@ const AllProduct = () => {
                 </Select.Option>
               ))}
             </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="isActive"
+            label="Active (enable করুন)"
+            valuePropName="checked"
+          >
+            <Switch />
           </Form.Item>
 
           <Form.Item label="Description" name="description">

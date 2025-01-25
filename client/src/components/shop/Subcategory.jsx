@@ -141,39 +141,50 @@ const Subcategory = () => {
         {loading ? (
           <SkeletonLoader />
         ) : paginatedProducts.length === 0 ? (
-          <div>No products available.</div>
+          <div>No products found.</div>
         ) : (
-          paginatedProducts.map((item) => (
-            <NewProductItem
-              key={item?._id}
-              product={item}
-              image={item?.product?.photos}
-              id={item?.product?._id}
-              subtitle={item?.brand?.title}
-              title={item?.product?.name}
-              categoryId={item?.category?._id}
-              brandId={item?.brand?._id}
-              categoryName={item?.category?.title}
-              discount={item?.discountValue}
-              discountType={item?.discountType}
-              discountPercent={item?.discountPercent}
-              priceAfterDiscount={item?.salePrice}
-              offerprice={item?.price - item?.discount}
-              freeShipping={item?.freeShipping}
-              regularprice={item?.price}
-              stock={item?.stock}
-            />
-          ))
+          (() => {
+            const filteredProducts = paginatedProducts.filter(
+              (item) => item?.product?.isActive === true
+            );
+            return filteredProducts.length === 0 ? (
+              <div>No products available.</div>
+            ) : (
+              <>
+                {filteredProducts.map((item) => (
+                  <NewProductItem
+                    key={item?._id}
+                    product={item}
+                    image={item?.product?.photos}
+                    id={item?.product?._id}
+                    subtitle={item?.brand?.title}
+                    title={item?.product?.name}
+                    categoryId={item?.category?._id}
+                    brandId={item?.brand?._id}
+                    categoryName={item?.category?.title}
+                    discount={item?.discountValue}
+                    discountType={item?.discountType}
+                    discountPercent={item?.discountPercent}
+                    priceAfterDiscount={item?.salePrice}
+                    offerprice={item?.price - item?.discount}
+                    freeShipping={item?.freeShipping}
+                    regularprice={item?.price}
+                    stock={item?.stock}
+                  />
+                ))}
+                {filteredProducts.length > 0 && (
+                  <PaginationControls
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={handlePageChange}
+                    getPageNumbers={getPageNumbers}
+                  />
+                )}
+              </>
+            );
+          })()
         )}
       </div>
-      {filteredProducts.length > 0 && (
-        <PaginationControls
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-          getPageNumbers={getPageNumbers}
-        />
-      )}
     </div>
   );
 };

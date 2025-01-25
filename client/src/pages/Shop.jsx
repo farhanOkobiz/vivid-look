@@ -122,7 +122,7 @@ const Shop = () => {
     currentPage * productsPerPage
   );
 
-  console.log("--paginated",paginatedProducts)
+  console.log("This is all product", allProduct);
   return (
     <div>
       <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
@@ -133,30 +133,33 @@ const Shop = () => {
         ) : paginatedProducts.length === 0 ? (
           <div>No products available.</div>
         ) : (
-          paginatedProducts.map((item) => (
-            <NewProductItem
-              key={item?.product?._id}
-              product={item}
-              image={item?.product?.photos}
-              id={item?.product?._id}
-              subtitle={item?.brand?.title}
-              title={item?.product?.name}
-              categoryId={item?.category?._id}
-              brandId={item?.brand?._id}
-              categoryName={item?.category?.title}
-              discount={item?.discountValue}
-              discountType={item?.discountType}
-              discountPercent={item?.discountPercent}
-              priceAfterDiscount={item?.salePrice}
-              offerprice={item?.price - item?.discount}
-              freeShipping={item?.freeShipping}
-              regularprice={item?.price}
-              classItem=""
-              stock={item?.stock}
-            />
-          ))
+          paginatedProducts
+            .filter((item) => item?.product?.isActive === true) // Only include active products
+            .map((item) => (
+              <NewProductItem
+                key={item?.product?._id}
+                product={item}
+                image={item?.product?.photos}
+                id={item?.product?._id}
+                subtitle={item?.brand?.title}
+                title={item?.product?.name}
+                categoryId={item?.category?._id}
+                brandId={item?.brand?._id}
+                categoryName={item?.category?.title}
+                discount={item?.discountValue}
+                discountType={item?.discountType}
+                discountPercent={item?.discountPercent}
+                priceAfterDiscount={item?.salePrice}
+                offerprice={item?.price - item?.discount}
+                freeShipping={item?.freeShipping}
+                regularprice={item?.price}
+                classItem=""
+                stock={item?.stock}
+              />
+            ))
         )}
       </div>
+
       {totalPages > 1 && (
         <PaginationControls
           currentPage={currentPage}

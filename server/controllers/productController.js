@@ -11,18 +11,8 @@ const { getAll, getOne } = require("../utils/handleFactory");
 
 exports.createProductController = catchAsync(async (req, res, next) => {
   const body = req.body;
-// console.log("1")
-//   if (req.files && req.files.length > 0) {
-//     body.photos = req.files.map((file) => {
-//       return `${req.protocol}://${req.get("host")}/uploads/products/${
-//         file.filename
-//       }`;
-//     });
-//   } else {
-//     delete body.photos;
-//   }
 
-const isLocalhost = req.get("host").includes("localhost");
+  const isLocalhost = req.get("host").includes("localhost");
   const protocol = isLocalhost ? "http" : "https";
 
   console.log("Determined Protocol:", protocol); // Log the selected protocol
@@ -39,9 +29,7 @@ const isLocalhost = req.get("host").includes("localhost");
     delete body.photos;
   }
 
-
-  console.log("2")
-  // Add YouTube video URL to the photos array
+  // Add YouTube video URL to the photos array if present
   if (body.videoUrl && body.videoUrl) {
     body.photos = body.photos || [];
     body.photos.push(body.videoUrl);
@@ -50,17 +38,19 @@ const isLocalhost = req.get("host").includes("localhost");
       new AppError("Invalid link, Please provide a valid YouTube URL", 400)
     );
   }
-  console.log("3")
+
   try {
-    console.log("31")
-    console.log(body)
-if(body?.brand == "undefined"){
-  delete body.brand
-}
+    console.log(body);
+
+    // If brand is undefined, remove it from the body
+    if (body?.brand == "undefined") {
+      delete body.brand;
+    }
 
     const product = await Product.create(body);
-    console.log("32")
+    console.log("32");
 
+    // Update the Brand collection to associate this product
     const brand = await Brand.findOneAndUpdate(
       { _id: product?.brand },
       {
@@ -68,9 +58,8 @@ if(body?.brand == "undefined"){
       },
       { new: true }
     );
-    console.log("33")
- 
-    console.log("34")
+    console.log("33");
+
     res.status(201).json({
       status: "success",
       message: "Product has been created successfully",
@@ -79,24 +68,22 @@ if(body?.brand == "undefined"){
       },
     });
   } catch (error) {
-    console.log("4", error)
+    console.log("4", error);
+
     if (error.errors) {
-        const messages = Object.values(error.errors)
+      const messages = Object.values(error.errors)
         .map((item) => item.properties.message)
         .join(", ");
-        console.log("6")
       return next(new AppError(`Validation failed, ${messages}.`, 400));
     } else if (error.code === 11000) {
-      console.log("7")
       const field = Object.keys(error.keyPattern).join(" ");
       const capitalizeField =
         field.charAt(0).toUpperCase() + field.slice(1).toLocaleLowerCase();
 
-      const message = `${capitalizeField} already exist, Please use another ${field}.`;
-      console.log("8")
+      const message = `${capitalizeField} already exists, Please use another ${field}.`;
       return next(new AppError(message, 409));
     }
-    console.log("")
+
     if (req.files && req.files.length > 0) {
       req.files.forEach((file) => {
         const filePath = `uploads/products/${file.fileName}`;
@@ -109,7 +96,7 @@ if(body?.brand == "undefined"){
     }
 
     return next(
-      new AppError(`Something went wrong while creating varient`, 400)
+      new AppError(`Something went wrong while creating product`, 400)
     );
   }
 });
@@ -193,7 +180,6 @@ exports.updateProductController = catchAsync(async (req, res, next) => {
       }
     }
   }
-
 
   // Update only the fields that are present in the request body
   Object.keys(body).forEach((key) => {
