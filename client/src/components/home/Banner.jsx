@@ -82,7 +82,7 @@ const Banner = () => {
                       <div className="w-full h-[50vh] lg:h-[90vh]">
                         <motion.img
                           key={i}
-                          className="w-full h-full object-cover 2xl:object-fit cursor-pointer"
+                          className="w-full h-full  cursor-pointer"
                           src={item?.photo}
                           alt="banner"
                           onClick={() => navigate(item?.link)}

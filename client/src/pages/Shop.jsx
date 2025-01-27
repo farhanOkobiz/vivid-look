@@ -85,8 +85,8 @@ const Shop = () => {
         : productsWithSizes;
 
       setAllProduct(filteredProducts);
-      setTotalPages(Math.ceil(filteredProducts.length / productsPerPage)); // Calculate total pages
-      setCurrentPage(1); // Reset to first page when filtering or sorting
+      setTotalPages(Math.ceil(filteredProducts.length / productsPerPage));
+      setCurrentPage(1);
     } catch (err) {
       setError("Failed to load products. Please try again later.");
       console.error("Error fetching products:", err);
@@ -122,7 +122,7 @@ const Shop = () => {
     currentPage * productsPerPage
   );
 
-  console.log("This is all product", allProduct);
+  console.log("This is all product", paginatedProducts);
   return (
     <div>
       <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
@@ -134,7 +134,7 @@ const Shop = () => {
           <div>No products available.</div>
         ) : (
           paginatedProducts
-            .filter((item) => item?.product?.isActive === true) // Only include active products
+            .filter((item) => item?.product?.isActive && item?.category?.isActive && item?.subCategory?.isActive)
             .map((item) => (
               <NewProductItem
                 key={item?.product?._id}

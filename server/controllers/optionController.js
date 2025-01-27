@@ -29,7 +29,7 @@ exports.createOptionController = catchAsync(async (req, res, next) => {
 exports.getAllOptionsController = getAll(Option, [
   {
     path: "category subCategory brand",
-    select: "title",
+    select: "title isActive",
   },
   {
     path: "product",
@@ -47,7 +47,7 @@ exports.getOptionController = catchAsync(async (req, res, next) => {
   const popOptions = [
     {
       path: "category subCategory brand",
-      select: "title",
+      select: "title isActive",
     },
     {
       path: "product",

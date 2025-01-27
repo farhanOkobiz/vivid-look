@@ -55,6 +55,9 @@ const AddCategory = () => {
   const [categoryFileList, setCategoryFileList] = useState([]); // For category image files
   const [subCategoryFileList, setSubCategoryFileList] = useState([]); // For category image files
   const [imageError, setImageError] = useState(false);
+  const [isActive, setIsActive] = useState(false); // Default to false
+  const [isSubCategoryActive, setIsSubCategoryActive] = useState(false); // Default to inactive
+
   useEffect(() => {
     fetchData();
   }, [dataSource]);
@@ -72,10 +75,12 @@ const AddCategory = () => {
         return {
           key: category._id,
           index: index + 1,
+          isActive: category.isActive,
           category: category.title,
           subCategories: subCategories.map((sub) => ({
             key: sub._id,
             title: sub.title,
+            isActive: sub.isActive,
             photos: sub.photos,
           })),
           subCategoryCount: subCategories.length,
@@ -90,6 +95,8 @@ const AddCategory = () => {
     }
   };
 
+  console.log("Full Details", dataSource);
+
   const handleDelete = async (type, key) => {
     try {
       await axios.delete(`/${type}/${key}`);
@@ -100,7 +107,6 @@ const AddCategory = () => {
       console.error(`Failed to delete ${type}:`, error);
     }
   };
-
 
   const categoryImageUploadProps = {
     fileList: categoryFileList,
@@ -166,8 +172,9 @@ const AddCategory = () => {
   const handleSubCategoryEdit = (record) => {
     console.log(record);
     setCurrentSubCategory(record);
-    setNewSubCategoryTitle(record.title);
-    setSubCategoryUpdateImagePreviewUrls(record.photos || []);
+    setNewSubCategoryTitle(record.title || ""); // Set title
+    setIsSubCategoryActive(record.isActive || false); // Set isActive
+    setSubCategoryUpdateImagePreviewUrls(record.photos || []); // Set images
     setIsSubCategoryModalVisible(true);
   };
 
@@ -193,15 +200,21 @@ const AddCategory = () => {
     try {
       const formData = new FormData();
 
-      // Append the sub category title as JSON
+      // Append the subcategory title
       if (currentSubCategory) {
         formData.append("title", newSubCategoryTitle);
-        console.log("title changed");
+        console.log("Title updated");
       }
+
+      // Append the subcategory image
       if (currentSubCategoryImage?.file) {
-        formData.append("photos", currentSubCategoryImage?.file);
-        console.log("photos changed");
+        formData.append("photos", currentSubCategoryImage.file);
+        console.log("Photos updated");
       }
+
+      // Append the isActive state
+      formData.append("isActive", isSubCategoryActive);
+
       const res = await axios.patch(
         `/subCategory/${currentSubCategory.key}`,
         formData,
@@ -213,19 +226,20 @@ const AddCategory = () => {
       );
 
       setIsSubCategoryModalVisible(false);
-      message.success("Sub Category updated successfully");
+      message.success("Subcategory updated successfully");
       fetchData();
     } catch (error) {
-      console.error("Failed to update sub category:", error);
-      message.error("Failed to update sub category");
+      console.error("Failed to update subcategory:", error);
+      message.error("Failed to update subcategory");
     }
   };
 
   const handleCategoryEdit = (record) => {
     setCurrentCategory(record);
     setNewCategoryTitle(record.category || "");
+    setNewCategoryIndex(record.index || 1); // Assuming an index exists
+    setIsActive(record.isActive || false); // Set the initial isActive state
     setUpdateImagePreviewUrls(record.photos || []);
-    // setNewImageFile(null);
     setIsModalVisible(true);
   };
 
@@ -233,13 +247,15 @@ const AddCategory = () => {
     try {
       const formData = new FormData();
 
-      // Append the category title as JSON
       if (currentCategory) {
         formData.append("title", newCategoryTitle);
+        formData.append("index", newCategoryIndex); // Save category index
       }
       if (currentImage?.file) {
         formData.append("photos", currentImage?.file);
       }
+      formData.append("isActive", isActive); // Append isActive state
+
       const res = await axios.patch(
         `/category/${currentCategory.key}`,
         formData,
@@ -438,6 +454,13 @@ const AddCategory = () => {
       reader.readAsDataURL(file.originFileObj);
       setImageError(false);
     }
+  };
+
+  const handleToggleSubCategory = (key, enabled) => {
+    // Handle the toggle logic here (e.g., update the state or make an API call)
+    console.log(
+      `Subcategory with key ${key} is now ${enabled ? "enabled" : "disabled"}`
+    );
   };
 
   return (
@@ -648,6 +671,16 @@ const AddCategory = () => {
                               <div style={{ fontWeight: "bold" }}>
                                 {sub.title}
                               </div>
+
+                              <Switch
+                                checked={sub.isActive}
+                                onChange={(checked) =>
+                                  handleToggleSubCategory(sub.key, checked)
+                                }
+                                style={{ marginTop: 4, marginBottom: 4 }}
+                                disabled
+                              />
+
                               <Button
                                 type="link"
                                 onClick={() => handleSubCategoryEdit(sub)}
@@ -655,6 +688,7 @@ const AddCategory = () => {
                               >
                                 Edit
                               </Button>
+
                               <Popconfirm
                                 title="Sure to delete?"
                                 onConfirm={() =>
@@ -757,14 +791,29 @@ const AddCategory = () => {
         okText="Save"
         cancelText="Cancel"
       >
-        <Input
-          className="mb-2"
-          value={newSubCategoryTitle}
-          onChange={(e) => setNewSubCategoryTitle(e.target.value)}
-        />
+        {/* Edit Subcategory Title */}
+        <div>
+          <p>Subcategory Title:</p>
+          <Input
+            className="mb-2"
+            value={newSubCategoryTitle}
+            onChange={(e) => setNewSubCategoryTitle(e.target.value)}
+            placeholder="Enter subcategory title"
+          />
+        </div>
 
+        {/* Active Status Switch */}
+        <div>
+          <p>Active (enable করুন):</p>
+          <Switch
+            checked={isSubCategoryActive} // Bind the Switch to the isSubCategoryActive state
+            onChange={(checked) => setIsSubCategoryActive(checked)} // Update isSubCategoryActive state on toggle
+          />
+        </div>
+
+        {/* Image Upload and Preview */}
         <>
-          <p>Upload New Sub Category Image:</p>
+          <p>Upload New Subcategory Image:</p>
           <Dragger
             {...subCategoryImageUploadProps}
             onChange={previewSubCategoryImage}
@@ -773,29 +822,17 @@ const AddCategory = () => {
               <InboxOutlined />
             </p>
             <p className="ant-upload-text">
-              Click or drag sub category Image to this area to upload
+              Click or drag subcategory image to this area to upload
             </p>
             <p className="ant-upload-hint">
               Support for a single or bulk upload.
             </p>
           </Dragger>
 
-          {/* <div className="flex gap-x-5 justify-center">
+          {/* Image Preview */}
+          <div className="flex gap-x-5 justify-center mt-4">
             {updateSubCategoryImagePreviewUrls.map((url, index) => (
               <img
-                key={index}
-                src={url}
-                alt="Preview"
-                className="w-[150px] h-[150px] object-cover rounded-md shadow-lg"
-              />
-            ))}
-          </div> */}
-
-          <div className="flex gap-x-5 justify-center">
-            {/* Image preview here */}
-            {updateSubCategoryImagePreviewUrls.map((url, index) => (
-              <img
-                // onChange={setNewCategoryImage(e.target.value)}
                 key={index}
                 src={url}
                 alt="Preview"
@@ -837,10 +874,13 @@ const AddCategory = () => {
           />
         </div>
 
-        <div>
-        <Form.Item name="isActive" label="Active (enable করুন)" valuePropName="checked">
-            <Switch />
-          </Form.Item>
+        {/* Active Status Switch */}
+        <div className="my-3">
+          <p>Active (enable করুন):</p>
+          <Switch
+            checked={isActive}
+            onChange={(checked) => setIsActive(checked)}
+          />
         </div>
 
         {/* Image Upload and Preview */}

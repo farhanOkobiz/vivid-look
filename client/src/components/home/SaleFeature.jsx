@@ -39,6 +39,8 @@ const SaleFeature = () => {
     }
   };
 
+  console.log(currentList, "****")
+
   return (
     <section className="py-6 font-inter px-3 2xl:px-0">
       <div>
@@ -75,7 +77,7 @@ const SaleFeature = () => {
             }}
             className="mySwiper w-full group-edit"
           >
-            {currentList?.map((item, index) => (
+            {currentList?.filter(((item) => item?.product?.isActive && item?.category?.isActive && item?.subCategory?.isActive)).map((item, index) => (
               <SwiperSlide key={index}>
                 <NewProductItem
                   key={item?._id}

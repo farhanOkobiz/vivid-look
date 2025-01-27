@@ -227,7 +227,7 @@ const ShopLayouts = () => {
                 >
                   {categoryActive && (
                     <ul className="pb-4 px-6">
-                      {allcategory.map((item) => (
+                      {allcategory.filter((item) => item.isActive).map((item) => (
                         <li
                           onClick={() => toggleDrawer()}
                           className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
@@ -269,7 +269,7 @@ const ShopLayouts = () => {
                 >
                   {subCategoryActive && (
                     <ul className="pb-4 px-6">
-                      {allSubCategory.map((item, index) => (
+                      {allSubCategory.filter((item) => item.isActive).map((item, index) => (
                         <li
                           onClick={() => toggleDrawer()}
                           className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
@@ -324,188 +324,6 @@ const ShopLayouts = () => {
                   )}
                 </div>
               </div>
-            </div>
-
-            {/* Color Filter Part Start */}
-            <div className="px-6 pb-4 border-b border-b-border">
-              <h3 className="text-lg font-medium flex justify-between items-center ">
-                <span>Filter</span>
-                <span>
-                  <MdOutlineClose
-                    onClick={() => toggleDrawer()}
-                    className="text-xl cursor-pointer"
-                  />
-                </span>
-              </h3>
-            </div>
-            <div className="max-h-screen z-50 overflow-scroll">
-              {/* Price Filter Part Start */}
-              <PriceFilter toggleDrawer={toggleDrawer} />
-              {/* Category Filter Part Start */}
-              <div className="category">
-                <div className="border-x border-t border-x-border border-b border-b-border border-t-border">
-                  <div
-                    onClick={() => setCategoryActive(!categoryActive)}
-                    className="flex justify-between cursor-pointer items-center px-6 py-5"
-                  >
-                    <h3 className="text-lg font-medium">Categories</h3>
-                    <h3 className="text-2xl">
-                      {categoryActive ? <FiMinus /> : <FiPlus />}
-                    </h3>
-                  </div>
-                  <div
-                    className={`transition-all duration-500 ease-linear overflow-hidden ${
-                      categoryActive
-                        ? "max-h-[400px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    {categoryActive && (
-                      <ul className="pb-4 px-6">
-                        {allcategory.map((item) => (
-                          <li
-                            onClick={() => toggleDrawer()}
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={item._id}
-                          >
-                            <Link
-                              to={`category/${item._id}/${encodeURIComponent(
-                                item?.title?.replace(/\s+/g, "")
-                              )}`}
-                            >
-                              {item?.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* subCategoryActive Filter Part Start */}
-              <div className="sub-category">
-                <div className="border-x b border-x-border border-b border-b-border">
-                  <div
-                    onClick={() => setSubCategoryActive(!subCategoryActive)}
-                    className="flex justify-between cursor-pointer items-center px-6 py-5"
-                  >
-                    <h3 className="text-lg font-medium">Sub Category</h3>
-                    <h3 className="text-2xl">
-                      {subCategoryActive ? <FiMinus /> : <FiPlus />}
-                    </h3>
-                  </div>
-                  <div
-                    className={`transition-all duration-500 ease-linear overflow-hidden ${
-                      subCategoryActive
-                        ? "max-h-[400px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    {subCategoryActive && (
-                      <ul className="pb-4 px-6">
-                        {allSubCategory.map((item, index) => (
-                          <li
-                            onClick={() => toggleDrawer()}
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={index}
-                          >
-                            <Link
-                              to={`subcategory/${
-                                item?._id
-                              }/${encodeURIComponent(
-                                item?.title?.replace(/\s+/g, "")
-                              )}`}
-                            >
-                              {item?.title}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Brand Filter Part Start */}
-              <div className="brand">
-                <div className="border-x b border-x-border border-b border-b-border">
-                  <div
-                    onClick={() => setBrandActive(!brandActive)}
-                    className="flex justify-between cursor-pointer items-center px-6 py-5"
-                  >
-                    <h3 className="text-lg font-medium">Brand</h3>
-                    <h3 className="text-2xl">
-                      {brandActive ? <FiMinus /> : <FiPlus />}
-                    </h3>
-                  </div>
-                  <div
-                    className={`transition-all duration-500 ease-linear overflow-hidden ${
-                      brandActive
-                        ? "max-h-[400px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    {brandActive && (
-                      <ul className="pb-4 px-6">
-                        {allbrand.map((item, index) => (
-                          <li
-                            onClick={() => toggleDrawer()}
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={index}
-                          >
-                            <Link to={`brand/${item?._id}`}>{item?.title}</Link>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              {/* Color Filter Part Start */}
-              {/* {location.pathname == "/shop" && ( */}
-              <div className="Color">
-                <div className="border-x b border-x-border border-b border-b-border">
-                  <div
-                    onClick={() => setColorActive(!colorActive)}
-                    className="flex justify-between cursor-pointer items-center px-6 py-5"
-                  >
-                    <h3 className="text-lg font-medium">Color</h3>
-                    <h3 className="text-2xl">
-                      {colorActive ? <FiMinus /> : <FiPlus />}
-                    </h3>
-                  </div>
-                  <div
-                    className={`transition-all duration-500 ease-linear overflow-hidden ${
-                      colorActive
-                        ? "max-h-[600px] opacity-100"
-                        : "max-h-0 opacity-0"
-                    }`}
-                  >
-                    {colorActive && (
-                      <ul className="pb-4 px-6">
-                        {colorList.map((item, index) => (
-                          <li
-                            onClick={() => dispatch(setColor(item?.name))}
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={index}
-                          >
-                            {item?.name}
-                          </li>
-                        ))}
-                        <button
-                          onClick={() => dispatch(resetColor())}
-                          className="w-full py-2.5 rounded-md  text-sm bg-gray-100 text-center text-texthead mt-5 hover:text-white transition-all ease-linear duration-200 hover:bg-texthead"
-                        >
-                          Reset Color
-                        </button>
-                      </ul>
-                    )}
-                  </div>
-                </div>
-              </div>
-              {/* )} */}
             </div>
           </div>
         </div>
@@ -571,20 +389,22 @@ const ShopLayouts = () => {
                   >
                     {categoryActive && (
                       <ul className="pb-4 px-6">
-                        {allcategory.map((item) => (
-                          <li
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={item._id}
-                          >
-                            <Link
-                              to={`category/${item?._id}/${encodeURIComponent(
-                                item?.title?.replace(/\s+/g, "")
-                              )}`}
+                        {allcategory
+                          .filter((item) => item.isActive)
+                          .map((item) => (
+                            <li
+                              className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
+                              key={item._id}
                             >
-                              {item?.title}
-                            </Link>
-                          </li>
-                        ))}
+                              <Link
+                                to={`category/${item?._id}/${encodeURIComponent(
+                                  item?.title?.replace(/\s+/g, "")
+                                )}`}
+                              >
+                                {item?.title}
+                              </Link>
+                            </li>
+                          ))}
                       </ul>
                     )}
                   </div>
@@ -612,7 +432,7 @@ const ShopLayouts = () => {
                   >
                     {subCategoryActive && (
                       <ul className="pb-4 px-6">
-                        {allSubCategory.map((item, index) => (
+                        {allSubCategory.filter((item) => item.isActive).map((item, index) => (
                           <li
                             className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                             key={index}
