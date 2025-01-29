@@ -43,7 +43,7 @@ const BradcumbShop = () => {
   return (
     <section className="border-b border-b-border">
       <Containar>
-        <div className="lg:pt-10 px-4">
+        <div className="px-4">
           <h4 className="flex items-center gap-x-2 text-sm leading-3 py-7">
             <span className="cursor-pointer hover:text-danger text-texthead transition-all ease-linear duration-200">
               <Link to="/">Home</Link>
@@ -51,7 +51,11 @@ const BradcumbShop = () => {
             <span>
               <FaChevronRight className="w-[5px] mt-1" />
             </span>{" "}
-            <span>Shop</span>{" "}
+            <Link to="/shop">
+              <span className="font-bold cursor-pointer hover:text-danger text-texthead transition-all ease-linear duration-200">
+                Shop
+              </span>
+            </Link>{" "}
             {!isShopOnly && title && (
               <>
                 <span>

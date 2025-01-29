@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import ApiContext from "../baseapi/BaseApi";
 import { useParams } from "react-router-dom";
-import ProductItem from "../productitem/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import { resetColor } from "../../redux/slices/colorSlice"; // Import the resetColor action
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
@@ -107,10 +106,8 @@ const Subcategory = () => {
           selectedColor.toLowerCase()
       );
       setFilteredProducts(filtered);
-      setTotalPages(Math.ceil(filtered.length / productsPerPage));
     } else {
       setFilteredProducts(allSubcategoryProducts);
-      setTotalPages(Math.ceil(allSubcategoryProducts.length / productsPerPage));
     }
   }, [selectedColor, allSubcategoryProducts]);
 
@@ -120,18 +117,14 @@ const Subcategory = () => {
     }
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-    return pageNumbers;
-  };
-
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(filteredProducts.length / productsPerPage));
+  }, [filteredProducts]);
 
   if (error) return <div>{error}</div>; // Show error message
 
@@ -143,60 +136,45 @@ const Subcategory = () => {
         ) : paginatedProducts.length === 0 ? (
           <div>No products found.</div>
         ) : (
-          (() => {
-            const filteredProducts = paginatedProducts.filter(
-              (item) => item?.product?.isActive === true
-            );
-            return filteredProducts.length === 0 ? (
-              <div>No products available.</div>
-            ) : (
-              <>
-                {filteredProducts.map((item) => (
-                  <NewProductItem
-                    key={item?._id}
-                    product={item}
-                    image={item?.product?.photos}
-                    id={item?.product?._id}
-                    subtitle={item?.brand?.title}
-                    title={item?.product?.name}
-                    categoryId={item?.category?._id}
-                    brandId={item?.brand?._id}
-                    categoryName={item?.category?.title}
-                    discount={item?.discountValue}
-                    discountType={item?.discountType}
-                    discountPercent={item?.discountPercent}
-                    priceAfterDiscount={item?.salePrice}
-                    offerprice={item?.price - item?.discount}
-                    freeShipping={item?.freeShipping}
-                    regularprice={item?.price}
-                    stock={item?.stock}
-                  />
-                ))}
-                {filteredProducts.length > 0 && (
-                  <PaginationControls
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    getPageNumbers={getPageNumbers}
-                  />
-                )}
-              </>
-            );
-          })()
+          <>
+            {paginatedProducts
+              .filter((item) => item?.product?.isActive === true)
+              .map((item) => (
+                <NewProductItem
+                  key={item?._id}
+                  product={item}
+                  image={item?.product?.photos}
+                  id={item?.product?._id}
+                  subtitle={item?.brand?.title}
+                  title={item?.product?.name}
+                  categoryId={item?.category?._id}
+                  brandId={item?.brand?._id}
+                  categoryName={item?.category?.title}
+                  discount={item?.discountValue}
+                  discountType={item?.discountType}
+                  discountPercent={item?.discountPercent}
+                  priceAfterDiscount={item?.salePrice}
+                  offerprice={item?.price - item?.discount}
+                  freeShipping={item?.freeShipping}
+                  regularprice={item?.price}
+                  stock={item?.stock}
+                />
+              ))}
+          </>
         )}
       </div>
+      {/* {filteredProducts.length > 0 && (
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )} */}
     </div>
   );
 };
 
-const PaginationControls = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-  getPageNumbers,
-}) => {
-  const pageNumbers = getPageNumbers();
-
+const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
   return (
     <div className="flex items-center justify-center mt-28 space-x-2">
       <button
@@ -210,7 +188,7 @@ const PaginationControls = ({
       >
         <FaChevronLeft />
       </button>
-      {pageNumbers.map((number) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
         <button
           key={number}
           onClick={() => onPageChange(number)}

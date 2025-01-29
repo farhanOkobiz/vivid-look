@@ -162,14 +162,14 @@ const MegaSale = () => {
           ))
         )}
       </div>
-      {paginatedProducts.length > 0 && (
+      {/* {paginatedProducts.length > 0 && (
         <PaginationControls
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
           getPageNumbers={getPageNumbers}
         />
-      )}
+      )} */}
     </div>
   );
 };

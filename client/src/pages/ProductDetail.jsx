@@ -519,8 +519,8 @@ const ProductDetail = () => {
                                     }}
                                     className={`w-8 h-8 text-sm ${
                                       userChoice === item.colorCode
-                                        ? "shadow-2xl rounded-full "
-                                        : "bg-gray-200 border-[4px] border-white text-texthead"
+                                        ? "shadow-2xl border-[1px] border-gray-700 rounded-full "
+                                        : "bg-gray-200 border-[1px] border-gray-200 rounded-full text-texthead"
                                     }`}
                                   ></button>
                                 </li>

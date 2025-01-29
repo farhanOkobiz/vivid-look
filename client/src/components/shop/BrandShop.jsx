@@ -18,7 +18,7 @@ const BrandShop = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const productsPerPage = 20; // Number of products per page
+  const productsPerPage = 20;
   const { minPrice, maxPrice } = useSelector((state) => state.priceRange);
   const selectedColor = useSelector((state) => state.colors.selectedColor);
   const selectedSortOption = useSelector(
@@ -43,12 +43,10 @@ const BrandShop = () => {
     }
   };
 
-  // Fetch products from API
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Reset color if price range, brandId or sort option changes
         if (
           selectedColor &&
           (minPrice !== undefined || maxPrice !== undefined || brandId)
@@ -68,10 +66,8 @@ const BrandShop = () => {
           { params }
         );
 
-        // Adjust totalPages based on total number of products
-        const totalProducts = response.data.totalCount; // Make sure this is the correct field for total count
-
-        let fetchedProducts = response.data.data.options;
+        const totalProducts = response.data.totalCount;
+        const fetchedProducts = response.data.data.options;
 
         const uniqueProducts = [];
         const seenProductIds = new Set();
@@ -81,16 +77,8 @@ const BrandShop = () => {
             uniqueProducts.push(item);
           }
         });
-        // Collect all sizes for each product
-        const productsWithSizes = uniqueProducts.map((product) => {
-          const sizes = product.variant?.sizes || [];
-          return {
-            ...product,
-            sizes, // Add sizes to the product object if needed
-          };
-        });
-        setAllBrandShop(productsWithSizes);
-        // setFilteredProducts(response.data.data.options);
+
+        setAllBrandShop(uniqueProducts);
         setTotalPages(Math.ceil(totalProducts / productsPerPage));
       } catch (err) {
         setError(err);
@@ -103,7 +91,6 @@ const BrandShop = () => {
     fetchData();
   }, [baseApi, brandId, minPrice, maxPrice, selectedSortOption, dispatch]);
 
-  // Filter products by selected color
   useEffect(() => {
     if (selectedColor) {
       const filtered = allBrandShop.filter(
@@ -125,14 +112,6 @@ const BrandShop = () => {
     }
   };
 
-  const getPageNumbers = () => {
-    const pageNumbers = [];
-    for (let i = 1; i <= totalPages; i++) {
-      pageNumbers.push(i);
-    }
-    return pageNumbers;
-  };
-
   const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
@@ -142,68 +121,54 @@ const BrandShop = () => {
 
   return (
     <div>
+      {/* Product Grid */}
       <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
         {loading ? (
           <SkeletonLoader />
         ) : paginatedProducts.length === 0 ? (
           <div>No products found.</div>
         ) : (
-          (() => {
-            const filteredProducts = paginatedProducts.filter(
-              (item) => item?.product?.isActive === true
-            );
-            return filteredProducts.length === 0 ? (
-              <div>No products available.</div>
-            ) : (
-              <>
-                {filteredProducts.map((item) => (
-                  <NewProductItem
-                    key={item?._id}
-                    product={item}
-                    image={item?.product?.photos}
-                    id={item?.product?._id}
-                    subtitle={item?.brand?.title}
-                    title={item?.product?.name}
-                    categoryId={item?.category?._id}
-                    brandId={item?.brand?._id}
-                    categoryName={item?.category?.title}
-                    discount={item?.discountValue}
-                    discountType={item?.discountType}
-                    discountPercent={item?.discountPercent}
-                    priceAfterDiscount={item?.salePrice}
-                    offerprice={item?.price - item?.discount}
-                    freeShipping={item?.freeShipping}
-                    regularprice={item?.price}
-                    stock={item?.stock}
-                  />
-                ))}
-                {filteredProducts.length > 0 && (
-                  <PaginationControls
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    getPageNumbers={getPageNumbers}
-                  />
-                )}
-              </>
-            );
-          })()
+          paginatedProducts
+            .filter((item) => item?.product?.isActive === true)
+            .map((item) => (
+              <NewProductItem
+                key={item?._id}
+                product={item}
+                image={item?.product?.photos}
+                id={item?.product?._id}
+                subtitle={item?.brand?.title}
+                title={item?.product?.name}
+                categoryId={item?.category?._id}
+                brandId={item?.brand?._id}
+                categoryName={item?.category?.title}
+                discount={item?.discountValue}
+                discountType={item?.discountType}
+                discountPercent={item?.discountPercent}
+                priceAfterDiscount={item?.salePrice}
+                offerprice={item?.price - item?.discount}
+                freeShipping={item?.freeShipping}
+                regularprice={item?.price}
+                stock={item?.stock}
+              />
+            ))
         )}
       </div>
+
+      {/* Pagination Controls */}
+      {/* {!loading && filteredProducts.length > 0 && (
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      )} */}
     </div>
   );
 };
 
-const PaginationControls = ({
-  currentPage,
-  totalPages,
-  onPageChange,
-  getPageNumbers,
-}) => {
-  const pageNumbers = getPageNumbers();
-
+const PaginationControls = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <div className="flex items-center justify-center mt-28 space-x-2">
+    <div className="flex items-center justify-center mt-10 space-x-2">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
@@ -215,7 +180,7 @@ const PaginationControls = ({
       >
         <FaChevronLeft />
       </button>
-      {pageNumbers.map((number) => (
+      {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
         <button
           key={number}
           onClick={() => onPageChange(number)}

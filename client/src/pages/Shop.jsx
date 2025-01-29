@@ -160,14 +160,14 @@ const Shop = () => {
         )}
       </div>
 
-      {totalPages > 1 && (
+      {/* {totalPages > 1 && (
         <PaginationControls
           currentPage={currentPage}
           totalPages={totalPages}
           onPageChange={handlePageChange}
           getPageNumbers={getPageNumbers}
         />
-      )}
+      )} */}
     </div>
   );
 };

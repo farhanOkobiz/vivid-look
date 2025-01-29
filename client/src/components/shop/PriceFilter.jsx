@@ -29,7 +29,7 @@ const PriceFilter = ({toggleDrawer}) => {
           onClick={() => setPriceActive(!priceActive)}
           className="flex justify-between cursor-pointer items-center px-6 py-5"
         >
-          <h3 className="text-lg font-medium">Filter by price</h3>
+          <h3 className="text-lg font-medium">Filter by Price</h3>
           <h3 className="text-2xl">{priceActive ? <FiMinus /> : <FiPlus />}</h3>
         </div>
         <div

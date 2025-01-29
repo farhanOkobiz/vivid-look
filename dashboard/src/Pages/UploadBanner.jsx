@@ -138,7 +138,7 @@ const UploadBanner = () => {
   const getBannerSizeInstructions = (type) => {
     switch (type) {
       case "Main Banner":
-        return "Main Banner = 690 x 360px";
+        return "Main Banner = 1400px x 500px";
       // case "Deals of the Week":
       //   return "Deals of the Week = 402 x 706px";
       case "Shop Banner":

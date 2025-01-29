@@ -164,14 +164,14 @@ const OfferSale = () => {
                     stock={item?.stock}
                   />
                 ))}
-                {filteredProducts.length > 0 && (
+                {/* {filteredProducts.length > 0 && (
                   <PaginationControls
                     currentPage={currentPage}
                     totalPages={totalPages}
                     onPageChange={handlePageChange}
                     getPageNumbers={getPageNumbers}
                   />
-                )}
+                )} */}
               </>
             );
           })()

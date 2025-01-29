@@ -227,21 +227,23 @@ const ShopLayouts = () => {
                 >
                   {categoryActive && (
                     <ul className="pb-4 px-6">
-                      {allcategory.filter((item) => item.isActive).map((item) => (
-                        <li
-                          onClick={() => toggleDrawer()}
-                          className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                          key={item._id}
-                        >
-                          <Link
-                            to={`category/${item._id}/${encodeURIComponent(
-                              item?.title?.replace(/\s+/g, "")
-                            )}`}
+                      {allcategory
+                        .filter((item) => item.isActive)
+                        .map((item) => (
+                          <li
+                            onClick={() => toggleDrawer()}
+                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
+                            key={item._id}
                           >
-                            {item?.title}
-                          </Link>
-                        </li>
-                      ))}
+                            <Link
+                              to={`category/${item._id}/${encodeURIComponent(
+                                item?.title?.replace(/\s+/g, "")
+                              )}`}
+                            >
+                              {item?.title}
+                            </Link>
+                          </li>
+                        ))}
                     </ul>
                   )}
                 </div>
@@ -269,21 +271,25 @@ const ShopLayouts = () => {
                 >
                   {subCategoryActive && (
                     <ul className="pb-4 px-6">
-                      {allSubCategory.filter((item) => item.isActive).map((item, index) => (
-                        <li
-                          onClick={() => toggleDrawer()}
-                          className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                          key={index}
-                        >
-                          <Link
-                            to={`subcategory/${item?._id}/${encodeURIComponent(
-                              item?.title?.replace(/\s+/g, "")
-                            )}`}
+                      {allSubCategory
+                        .filter((item) => item.isActive)
+                        .map((item, index) => (
+                          <li
+                            onClick={() => toggleDrawer()}
+                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
+                            key={index}
                           >
-                            {item?.title}
-                          </Link>
-                        </li>
-                      ))}
+                            <Link
+                              to={`subcategory/${
+                                item?._id
+                              }/${encodeURIComponent(
+                                item?.title?.replace(/\s+/g, "")
+                              )}`}
+                            >
+                              {item?.title}
+                            </Link>
+                          </li>
+                        ))}
                     </ul>
                   )}
                 </div>
@@ -432,22 +438,24 @@ const ShopLayouts = () => {
                   >
                     {subCategoryActive && (
                       <ul className="pb-4 px-6">
-                        {allSubCategory.filter((item) => item.isActive).map((item, index) => (
-                          <li
-                            className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
-                            key={index}
-                          >
-                            <Link
-                              to={`subcategory/${
-                                item?._id
-                              }/${encodeURIComponent(
-                                item?.title?.replace(/\s+/g, "")
-                              )}`}
+                        {allSubCategory
+                          .filter((item) => item.isActive)
+                          .map((item, index) => (
+                            <li
+                              className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
+                              key={index}
                             >
-                              {item?.title}
-                            </Link>
-                          </li>
-                        ))}
+                              <Link
+                                to={`subcategory/${
+                                  item?._id
+                                }/${encodeURIComponent(
+                                  item?.title?.replace(/\s+/g, "")
+                                )}`}
+                              >
+                                {item?.title}
+                              </Link>
+                            </li>
+                          ))}
                       </ul>
                     )}
                   </div>
@@ -491,7 +499,7 @@ const ShopLayouts = () => {
 
               {/* Color Filter Part Start */}
               {/* {location.pathname == "/shop" && ( */}
-              <div className="Color">
+              {/* <div className="Color">
                 <div className="border-x b border-x-border border-b border-b-border">
                   <div
                     onClick={() => setColorActive(!colorActive)}
@@ -515,7 +523,7 @@ const ShopLayouts = () => {
                           <li
                             onClick={() => dispatch(setColor(item?.name))}
                             style={{ backgroundColor: `${item?.code}` }} // Use the color code for background
-                            className="py-2 text-sm w-7 h-7 rounded-full text-texthead hover:text-red-500 cursor-pointer"
+                            className="py-2 text-sm w-7 h-7 text-texthead hover:text-red-500 cursor-pointer border-[1px] border-gray-500 rounded-full"
                             key={index}
                           ></li>
                         ))}
@@ -529,7 +537,7 @@ const ShopLayouts = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div> */}
               {/* )} */}
 
               {/* Price Filter Part Start */}

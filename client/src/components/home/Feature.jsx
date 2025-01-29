@@ -40,56 +40,13 @@ const Feature = () => {
   if (error) return <p>{error}</p>;
 
   return (
-    <section className="font-inter grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3">
-      {/* <Containar> */}
-      {/* <TitleHead titile="Shop Categories" subtitle="All Categories" /> */}
-      {/* <div className="px-2">
-          <h3 className="lg:text-2xl text-[24px] xl:text-[24px] uppercase font-bold  text-texthead mt-1">
-            All Categories
-          </h3>
-        </div> */}
-      {/* <motion.div className="my-10 relative"> */}
-      {/* <Swiper
-          modules={[Navigation, Autoplay]}
-          slidesPerView={1}
-          loop={true}
-          speed={1000}
-          autoplay={{ delay: 1000, pauseOnMouseEnter: true }}
-          pagination={{ clickable: true }}
-          navigation={{
-            nextEl: ".swiper-button-next7",
-            prevEl: ".swiper-button-prev7",
-          }}
-          breakpoints={{
-            370: {
-              slidesPerView: 2,
-            },
-            640: {
-              slidesPerView: 3,
-            },
-            768: {
-              slidesPerView: 4,
-            },
-            1024: {
-              slidesPerView: 5,
-            },
-            1280: {
-              slidesPerView: 6,
-            },
-          }}
-          className="mySwiper"
-        > */}
+    <section className="font-inter grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3 gap-2 lg:gap-4">
       {categories.map((item, index) => (
-        // <SwiperSlide key={index}>
         <div
           key={index}
-          className="shadow bg-[#f6f6f6] mx-1 group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
+          className="shadow bg-[#f6f6f6] group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
         >
           <Link
-            // to={`/shop/category/${item?._id}/${encodeURIComponent(
-            //   item?.title.replace(/\s+/g, "")
-            // )}`}
-            // to={`/subcategory`}
             to={`category/${item?._id}`}
             key={index}
             className="w-full h-full"
@@ -98,7 +55,7 @@ const Feature = () => {
               <img
                 src={item.photos}
                 alt={item.name}
-                className="h-full w-full"
+                className="h-full w-full object-cover"
               />
             </div>
             <h2 className="absolute w-full bottom-5 left-1/2 transform -translate-x-1/2 text-center lg:text-base xl:text-[30px] font-medium pb-2 z-10 text-white drop-shadow-lg">

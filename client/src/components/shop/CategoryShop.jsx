@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import ApiContext from "../baseapi/BaseApi";
 import { useParams } from "react-router-dom";
-import ProductItem from "../productitem/ProductItem";
 import { useSelector, useDispatch } from "react-redux";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { resetColor } from "../../redux/slices/colorSlice";
@@ -129,7 +128,12 @@ const CategoryShop = () => {
     return pageNumbers;
   };
 
-  const paginatedProducts = allCategoryShop.slice(
+  // Filter and paginate products outside the JSX
+  const filteredProducts = allCategoryShop.filter(
+    (item) => item?.product?.isActive === true
+  );
+
+  const paginatedProducts = filteredProducts.slice(
     (currentPage - 1) * productsPerPage,
     currentPage * productsPerPage
   );
@@ -137,56 +141,46 @@ const CategoryShop = () => {
   if (error) return <div>{error}</div>; // Show error message
 
   return (
-    <div>
+    <>
       <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
         {loading ? (
           <SkeletonLoader />
         ) : paginatedProducts.length === 0 ? (
           <div>No products found.</div>
         ) : (
-          (() => {
-            const filteredProducts = paginatedProducts.filter(
-              (item) => item?.product?.isActive === true
-            );
-            return filteredProducts.length === 0 ? (
-              <div>No products available.</div>
-            ) : (
-              <>
-                {filteredProducts.map((item) => (
-                  <NewProductItem
-                    key={item?._id}
-                    product={item}
-                    image={item?.product?.photos}
-                    id={item?.product?._id}
-                    subtitle={item?.brand?.title}
-                    title={item?.product?.name}
-                    categoryId={item?.category?._id}
-                    brandId={item?.brand?._id}
-                    categoryName={item?.category?.title}
-                    discount={item?.discountValue}
-                    discountType={item?.discountType}
-                    discountPercent={item?.discountPercent}
-                    priceAfterDiscount={item?.salePrice}
-                    offerprice={item?.price - item?.discount}
-                    freeShipping={item?.freeShipping}
-                    regularprice={item?.price}
-                    stock={item?.stock}
-                  />
-                ))}
-                {filteredProducts.length > 0 && (
-                  <PaginationControls
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                    getPageNumbers={getPageNumbers}
-                  />
-                )}
-              </>
-            );
-          })()
+          paginatedProducts.map((item) => (
+            <NewProductItem
+              key={item?._id}
+              product={item}
+              image={item?.product?.photos}
+              id={item?.product?._id}
+              subtitle={item?.brand?.title}
+              title={item?.product?.name}
+              categoryId={item?.category?._id}
+              brandId={item?.brand?._id}
+              categoryName={item?.category?.title}
+              discount={item?.discountValue}
+              discountType={item?.discountType}
+              discountPercent={item?.discountPercent}
+              priceAfterDiscount={item?.salePrice}
+              offerprice={item?.price - item?.discount}
+              freeShipping={item?.freeShipping}
+              regularprice={item?.price}
+              stock={item?.stock}
+            />
+          ))
         )}
       </div>
-    </div>
+
+      {/* {!loading && filteredProducts.length > 0 && (
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          getPageNumbers={getPageNumbers}
+        />
+      )} */}
+    </>
   );
 };
 
@@ -195,7 +189,6 @@ const PaginationControls = ({
   totalPages,
   onPageChange,
   getPageNumbers,
-  result,
 }) => {
   const pageNumbers = getPageNumbers();
 

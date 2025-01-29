@@ -21,6 +21,7 @@ const productSchema = new Schema(
 
     isActive: {
       type: Boolean,
+      default: true,
     },
 
     description: {

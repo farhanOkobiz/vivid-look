@@ -103,6 +103,7 @@ const Navbar = () => {
     setCategoryActive(!categoryActive);
     fetchCategoryById(id);
   };
+  
 
   return (
     <>
@@ -154,10 +155,10 @@ const Navbar = () => {
             <h2 className="text-lg font-medium text-texthead  items-center justify-between hidden  pb-5 ">
               Categories
             </h2>
-            <ul className=" flex  flex-col min-h-[500px] relative overflow-hidden">
-              {categories.map((category) => (
+            <ul className=" flex  flex-col max-h-[800px] relative overflow-y-scroll overflow-x-hidden">
+              {categories.filter((item) => item.isActive).map((category) => (
                 <li
-                  className="py-3.5 px-7 cursor-pointer hover:bg-bestdealbg transition-all ease-linear duration-300 flex items-center justify-between "
+                  className="py-3.5 px-7 cursor-pointer hover:bg-bestdealbg transition-all ease-linear duration-300 flex items-center justify-between"
                   key={category._id}
                   onClick={() => setHandleClick(category._id)}
                 >
@@ -468,18 +469,21 @@ const Navbar = () => {
         <div className="relative flex flex-wrap justify-between items-center">
           {/* Navigation Links */}
           <ul className="hidden lg:flex items-center gap-x-7 xl:gap-x-10 z-10">
-            {categories.slice(0, 4).map((item, index) => (
-              <li key={index} className="relative">
-                <Link
-                  to={`/shop/subcategory/${item?._id}/${encodeURIComponent(
-                    item?.title?.replace(/\s+/g, "")
-                  )}`}
-                  className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
-                >
-                  {item.title}
-                </Link>
-              </li>
-            ))}
+            {categories
+              .filter((item) => item.isActive) 
+              .slice(0, 4) 
+              .map((item, index) => (
+                <li key={index} className="relative">
+                  <Link
+                    to={`/shop/subcategory/${item?._id}/${encodeURIComponent(
+                      item?.title?.replace(/\s+/g, "")
+                    )}`}
+                    className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"
+                  >
+                    {item.title}
+                  </Link>
+                </li>
+              ))}
           </ul>
 
           {/* Logo */}

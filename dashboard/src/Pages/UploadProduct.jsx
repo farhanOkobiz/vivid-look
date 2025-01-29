@@ -183,7 +183,7 @@ const UploadProduct = () => {
           category: values.category,
           subCategory: values.subCategory,
           brand: values.brand,
-          isActive: values.isActive
+          isActive: values.isActive,
         });
 
         // Create options linked to the correct variant ID
@@ -196,7 +196,7 @@ const UploadProduct = () => {
             subCategory: values.subCategory,
             brand: values.brand || null,
             freeShipping: values.freeShipping,
-            isActive: values.isActive
+            isActive: values.isActive,
           });
         }
       }
@@ -317,6 +317,9 @@ const UploadProduct = () => {
           form={productForm}
           onFinish={handleVariantSubmit}
           layout="vertical"
+          initialValues={{
+            isActive: true,
+          }}
         >
           {/* Product form fields here */}
           <Row gutter={16}>
@@ -412,7 +415,7 @@ const UploadProduct = () => {
             label="Active (enable করুন)"
             valuePropName="checked"
           >
-            <Switch defaultChecked />
+            <Switch />
           </Form.Item>
 
           {/* Add Variant */}
