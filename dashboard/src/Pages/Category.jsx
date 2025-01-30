@@ -25,6 +25,7 @@ const AddCategory = () => {
     useState(false);
   const [currentSubCategory, setCurrentSubCategory] = useState(null);
   const [newSubCategoryTitle, setNewSubCategoryTitle] = useState("");
+  const [newSubCategoryIndex, setNewSubCategoryIndex] = useState("");
   const [categorySuggestions, setCategorySuggestions] = useState([]);
   const [categoryExists, setCategoryExists] = useState(false); // new state
   // category
@@ -60,7 +61,7 @@ const AddCategory = () => {
 
   useEffect(() => {
     fetchData();
-  }, [dataSource]);
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -74,10 +75,11 @@ const AddCategory = () => {
 
         return {
           key: category._id,
-          index: index + 1,
+          index: category.index,
           isActive: category.isActive,
           category: category.title,
           subCategories: subCategories.map((sub) => ({
+            index: sub?.index,
             key: sub._id,
             title: sub.title,
             isActive: sub.isActive,
@@ -173,28 +175,12 @@ const AddCategory = () => {
     console.log(record);
     setCurrentSubCategory(record);
     setNewSubCategoryTitle(record.title || ""); // Set title
+    setNewSubCategoryIndex(record.index || ""); // Set index
     setIsSubCategoryActive(record.isActive || false); // Set isActive
     setSubCategoryUpdateImagePreviewUrls(record.photos || []); // Set images
     setIsSubCategoryModalVisible(true);
   };
 
-  // const handleSubCategorySave = async () => {
-  //   if (currentSubCategory) {
-  //     try {
-  //       await axios.patch(`/subCategory/${currentSubCategory.key}`, {
-  //         title: newSubCategoryTitle,
-  //       });
-  //       setIsSubCategoryModalVisible(false);
-
-  //       setCurrentSubCategory(null);
-  //       fetchData();
-  //       message.success("Subcategory updated successfully");
-  //     } catch (error) {
-  //       console.error("Failed to save subcategory changes:", error);
-  //       message.error("Failed to update subcategory");
-  //     }
-  //   }
-  // };
 
   const handleSubCategorySave = async () => {
     try {
@@ -203,9 +189,10 @@ const AddCategory = () => {
       // Append the subcategory title
       if (currentSubCategory) {
         formData.append("title", newSubCategoryTitle);
+        formData.append("index", newSubCategoryIndex);
         console.log("Title updated");
       }
-
+      
       // Append the subcategory image
       if (currentSubCategoryImage?.file) {
         formData.append("photos", currentSubCategoryImage.file);
@@ -601,26 +588,6 @@ const AddCategory = () => {
                   dataIndex: "category",
                   width: "20%",
                 },
-                // {
-                //   title: "SubCategory Names",
-                //   dataIndex: "subCategories",
-                //   width: "30%",
-                //   render: (subCategories) =>
-                //     subCategories.length > 0
-                //       ? subCategories.map((sub) => (
-                //           <div key={sub.key}>
-                //             {sub.title}
-                //             <Button
-                //               type="link"
-                //               onClick={() => handleSubCategoryEdit(sub)}
-                //               style={{ marginRight: 8 }}
-                //             >
-                //               Edit
-                //             </Button>
-                //           </div>
-                //         ))
-                //       : "No SubCategory",
-                // },
                 {
                   title: "SubCategory Names",
                   dataIndex: "subCategories",
@@ -669,6 +636,7 @@ const AddCategory = () => {
                             {/* Subcategory Details */}
                             <div>
                               <div style={{ fontWeight: "bold" }}>
+                                <span className="pr-2">{sub?.index}.</span>
                                 {sub.title}
                               </div>
 
@@ -769,19 +737,6 @@ const AddCategory = () => {
         </Col>
       </Row>
 
-      {/* <Modal
-        title="Edit SubCategory"
-        visible={isSubCategoryModalVisible}
-        onOk={handleSubCategorySave}
-        onCancel={() => setIsSubCategoryModalVisible(false)}
-        okText="Save"
-        cancelText="Cancel"
-      >
-        <Input
-          value={newSubCategoryTitle}
-          onChange={(e) => setNewSubCategoryTitle(e.target.value)}
-        />
-      </Modal> */}
 
       <Modal
         title="Edit Sub Category"
@@ -801,7 +756,16 @@ const AddCategory = () => {
             placeholder="Enter subcategory title"
           />
         </div>
-
+        <div>
+          <p>Subcategory Title:</p>
+          <Input
+            type="number"
+            className="mb-2"
+            value={newSubCategoryIndex}
+            onChange={(e) => setNewSubCategoryIndex(e.target.value)}
+            placeholder="Enter subcategory Index"
+          />
+        </div>
         {/* Active Status Switch */}
         <div>
           <p>Active (enable করুন):</p>

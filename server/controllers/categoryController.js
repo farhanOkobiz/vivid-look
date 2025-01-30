@@ -19,12 +19,11 @@ const {
 
 // exports.createCategoryController = createOne(Category);
 exports.createCategoryController = catchAsync(async (req, res, next) => {
-  console.log(req.body,"Request Body.......")
+  console.log(req.body, "Request Body.......");
   const body = { ...req.body };
 
   if (req.files && req.files.length > 0) {
     body.photos = req.files.map((file) => {
-
       return `${req.protocol}://${req.get("host")}/uploads/products/${
         file.filename
       }`;
@@ -32,13 +31,20 @@ exports.createCategoryController = catchAsync(async (req, res, next) => {
   } else {
     delete body.photos;
   }
-
+  // findout last category index . than add  1 in index
+  console.log("------------------------");
+  const lastCategory = await Category.find().sort({ index: -1 }).limit(1);
+  console.log("------------------------2", lastCategory);
+  const index = lastCategory.length > 0 ? lastCategory[0].index + 1 : 1;
+  // const index =  1;
+  body.index = index;
+  console.log("body ====", body);
 
   try {
-    console.log("==============================", body)
+    console.log("==============================", body);
 
     const product = await Category.create(body);
-    console.log("==============================")
+    console.log("==============================");
 
     res.status(201).json({
       status: "success",
@@ -48,7 +54,7 @@ exports.createCategoryController = catchAsync(async (req, res, next) => {
       },
     });
   } catch (error) {
-    console.log(`Error...........`,error)
+    console.log(`Error...........`, error);
     if (error.errors) {
       const messages = Object?.values(error.errors)
         .map((item) => item.properties.message)
@@ -81,30 +87,55 @@ exports.createCategoryController = catchAsync(async (req, res, next) => {
   }
 });
 
-exports.getAllCategoryController = getAll(Category, {
-  path: "subCategories",
-  select: "title slug isActive photos",
-});
+// exports.getAllCategoryController = getAll(
+//   Category,
+//   {
+//     path: "subCategories",
+//     select: "title slug isActive photos",
+//   },
+// );
 
 exports.getCategoryController = getOne(Category, {
   path: "subCategories",
   select: "title slug isActive photos",
 });
 
+exports.getAllCategoryController = catchAsync(async (req, res, next) => {
+//   // Base query
+  let doc = await Category.find({})
+        .populate({
+          path: "subCategories",
+          select: "title slug isActive photos",
+        }).sort({index: 1});
+
+  res.status(200).json({
+    status: "success",
+    results: doc.length,
+    data: {doc},
+  });
+});
+
+
 exports.updateCategoryController = catchAsync(async (req, res, next) => {
   const body = { ...req.body };
   const category = await Category.findById(req.params.id);
   // console.log(".......... Category Controller",category)
 
-  console.log(req.files,"Hello...............")
-
-
-
+  console.log(req.files, "Hello...............");
   if (!category) {
     return next(new AppError("No category was found with that ID!", 404));
   }
 
-
+  const IndexChanging = await Category.findOneAndUpdate(
+    { index: body?.index },
+    { $set: { index: category.index } },
+    { new: true }
+  );
+  const categoryIndexUpdate = await Category.findByIdAndUpdate(
+    req.params.id,
+    { $set: { index: body?.index } },
+    { new: true }
+  );
 
   // Update other fields
   Object.keys(req.body).forEach((key) => {
@@ -112,7 +143,6 @@ exports.updateCategoryController = catchAsync(async (req, res, next) => {
   });
   if (req.files && req.files.length > 0) {
     body.photos = req.files.map((file) => {
-
       return `${req.protocol}://${req.get("host")}/uploads/products/${
         file.filename
       }`;
@@ -120,13 +150,13 @@ exports.updateCategoryController = catchAsync(async (req, res, next) => {
   } else {
     delete body.photos;
   }
-  console.log("Update Body",body)
+  // console.log("Update Body",body)
   // res.json({data:{body}})
-  try{
-   const result= await Category.findByIdAndUpdate(req.params.id,body);
-   console.log("Relutksfadjlkfasd",result)
-  }catch(error){
-    console.log(`Error...........`,error)
+  try {
+    const result = await Category.findByIdAndUpdate(req.params.id, body);
+    //  console.log("Relutksfadjlkfasd",result)
+  } catch (error) {
+    console.log(`Error...........`, error);
     // if (error.errors) {
     //   const messages = Object?.values(error.errors)
     //     .map((item) => item.properties.message)
@@ -157,7 +187,6 @@ exports.updateCategoryController = catchAsync(async (req, res, next) => {
       new AppError(`Something went wrong while update Category`, 400)
     );
   }
-
 
   res.status(200).json({
     status: "success",

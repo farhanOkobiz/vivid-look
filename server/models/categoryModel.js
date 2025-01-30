@@ -16,6 +16,10 @@ const categorySchema = new Schema(
       default: true,
     },
 
+    index: {
+      type: Number
+    },
+
     slug: {
       type: String,
     },

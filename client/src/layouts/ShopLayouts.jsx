@@ -44,6 +44,8 @@ const ShopLayouts = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+  console.log("---", allSubCategory);
+
   const [isOpen, setIsOpen] = React.useState(false);
   const toggleDrawer = () => {
     setIsOpen((prevState) => !prevState);
@@ -273,6 +275,7 @@ const ShopLayouts = () => {
                     <ul className="pb-4 px-6">
                       {allSubCategory
                         .filter((item) => item.isActive)
+                        .sort((a, b) => a.index - b.index) // Sort by index in ascending order
                         .map((item, index) => (
                           <li
                             onClick={() => toggleDrawer()}
@@ -440,8 +443,10 @@ const ShopLayouts = () => {
                       <ul className="pb-4 px-6">
                         {allSubCategory
                           .filter((item) => item.isActive)
+                          .sort((a, b) => a.index - b.index)
                           .map((item, index) => (
                             <li
+                              onClick={() => toggleDrawer()}
                               className="py-2 text-sm text-texthead hover:text-red-500 cursor-pointer"
                               key={index}
                             >

@@ -19,6 +19,10 @@ const columns = [
     render: () => <DragHandle />,
   },
   {
+    title: "Key",
+    dataIndex: "key",
+  },
+  {
     title: "Name",
     dataIndex: "name",
   },

@@ -155,8 +155,8 @@ const Navbar = () => {
             <h2 className="text-lg font-medium text-texthead  items-center justify-between hidden  pb-5 ">
               Categories
             </h2>
-            <ul className=" flex  flex-col max-h-[800px] relative overflow-y-scroll overflow-x-hidden">
-              {categories.filter((item) => item.isActive).map((category) => (
+            <ul className="flex flex-col min-h-[500px] relative overflow-hidden">
+              {categories.sort((a,b) => a.index - b.index).filter((item) => item.isActive).map((category) => (
                 <li
                   className="py-3.5 px-7 cursor-pointer hover:bg-bestdealbg transition-all ease-linear duration-300 flex items-center justify-between"
                   key={category._id}

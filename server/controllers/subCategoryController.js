@@ -12,40 +12,14 @@ const deleteFile = require("../utils/deleteFile");
 const { getAll, getOne, updateOne } = require("../utils/handleFactory");
 
 exports.createSubCategoryController = catchAsync(async (req, res, next) => {
-  // let subCategory;
-  // try{
-
-  //    subCategory = await SubCategory.create(req.body);
-
-  // }catch(error){
-  //   console.log("Error..........",error)
-
-  // }
-  // // console.log(subCategory,"SubCategory....... Controller")
-
-
-  // const category = await Category.findOneAndUpdate(
-  //   { _id: subCategory.category },
-  //   { $push: { subCategories: subCategory._id } },
-  //   { new: true }
-  // );
-
-
-  // if (!category)
-  //   return next(new AppError("No category found with that ID!", 404));
-
-  // res.status(201).json({
-  //   status: "success",
-  //   data: {
-  //     subCategory,
-  //   },
-  // });
-  console.log(req.body,"Request Body......          3                  33333333333.")
+  console.log(
+    req.body,
+    "Request Body......          3                  33333333333."
+  );
   const body = { ...req.body };
 
   if (req.files && req.files.length > 0) {
     body.photos = req.files.map((file) => {
-
       return `${req.protocol}://${req.get("host")}/uploads/subCategory/${
         file.filename
       }`;
@@ -53,17 +27,22 @@ exports.createSubCategoryController = catchAsync(async (req, res, next) => {
   } else {
     delete body.photos;
   }
-
-
+  // findout last subcategory index . than add  1 in index
+  const lastSubCategoryIndex = await SubCategory.find()
+    .sort({ index: -1 })
+    .limit(1);
+  const index =
+    lastSubCategoryIndex.length > 0 ? lastSubCategoryIndex[0].index + 1 : 1;
+  body.index = index;
   try {
-    console.log("==============================", body)
+    console.log("==============================", body);
 
     const subCategory = await SubCategory.create(body);
-     const category = await Category.findOneAndUpdate(
-    { _id: subCategory.category },
-    { $push: { subCategories: subCategory._id } },
-    { new: true }
-  );
+    const category = await Category.findOneAndUpdate(
+      { _id: subCategory.category },
+      { $push: { subCategories: subCategory._id } },
+      { new: true }
+    );
     res.status(201).json({
       status: "success",
       message: "Sub-Category has been created successfully",
@@ -125,12 +104,21 @@ exports.getSubCategoryController = getOne(SubCategory, [
 
 exports.updateSubCategoryController = catchAsync(async (req, res, next) => {
   const subCategory = await SubCategory.findById(req.params.id);
-  console.log("THis is subCategory" , subCategory)
+  console.log("THis is subCategory", subCategory);
   if (!subCategory) {
     return next(new AppError("No subCategory was found with that ID!", 404));
   }
 
   const body = req.body;
+  const IndexChanging = await SubCategory.findOneAndUpdate(
+    { index: body?.index },
+    { $set: { index: subCategory.index } }
+  );
+  const subCategoryIndexUpdate = await SubCategory.findByIdAndUpdate(
+    req.params.id,
+    { $set: { index: body?.index } }
+  );
+
 
   // Handle photo uploads if present
   if (req.files && req.files.length > 0) {
@@ -150,7 +138,9 @@ exports.updateSubCategoryController = catchAsync(async (req, res, next) => {
     // Update photos
     body.photos = req.files.map(
       (file) =>
-        `${req.protocol}://${req.get("host")}/uploads/subCategory/${file.filename}`
+        `${req.protocol}://${req.get("host")}/uploads/subCategory/${
+          file.filename
+        }`
     );
   }
 

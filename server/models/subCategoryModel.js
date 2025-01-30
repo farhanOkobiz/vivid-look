@@ -13,6 +13,9 @@ const subCategorySchema = new Schema(
       type: Boolean,
       default: true,
     },
+    index: {
+      type: Number,
+    },
 
     slug: {
       type: String,
