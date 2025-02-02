@@ -56,7 +56,7 @@ const Navbar = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const response = await axios.get(`${baseApi}/subcategory`);
+        const response = await axios.get(`${baseApi}/category`);
         setCategories(response.data.data.doc);
         setLoading(false);
       } catch (err) {
@@ -164,7 +164,7 @@ const Navbar = () => {
                 >
                   <Link
                     className="text-base font-medium  text-texthead "
-                    to={`/shop/subcategory/${
+                    to={`/shop/category/${
                       category?._id
                     }/${encodeURIComponent(
                       category?.title?.replace(/\s+/g, "")
@@ -207,7 +207,7 @@ const Navbar = () => {
                                 setCategoryActive(false);
                               }}
                               className="py-3.5 px-9 inline-block "
-                              to={`/shop/subcategory/${
+                              to={`/shop/category/${
                                 item?._id
                               }/${encodeURIComponent(
                                 item?.title?.replace(/\s+/g, "")
@@ -334,7 +334,7 @@ const Navbar = () => {
                             {item?.name}
                           </Link>
                           {item?.selectedColor ? (
-                            <div className="text-sm  font-normal capitalize flex items-center gap-x-3">
+                            <div className="text-sm  font-normal capitalize flex items-center gap-x-3 bg-blue-400">
                               <div className="flex items-center gap-x-0.5">
                                 <div className="mr-1 text-xs">Color:</div>
                                 <div
@@ -475,7 +475,7 @@ const Navbar = () => {
               .map((item, index) => (
                 <li key={index} className="relative">
                   <Link
-                    to={`/shop/subcategory/${item?._id}/${encodeURIComponent(
+                    to={`/shop/category/${item?._id}/${encodeURIComponent(
                       item?.title?.replace(/\s+/g, "")
                     )}`}
                     className="font-medium text-sm leading-[85px] hover:text-gray-600 duration-200"

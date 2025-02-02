@@ -277,6 +277,27 @@ const ProductDetail = () => {
     return words.slice(0, wordLimit).join(" ") + "...";
   };
 
+  const getYouTubeVideoId = (url) => {
+    if (!url) return null;
+
+    // Handle YouTube Shorts links
+    if (url.includes("youtube.com/shorts/")) {
+      return url.split("shorts/")[1];
+    }
+
+    // Handle regular YouTube watch links
+    if (url.includes("youtube.com/watch?v=")) {
+      return url.split("v=")[1]?.split("&")[0];
+    }
+
+    // Handle youtu.be links (shortened YouTube links)
+    if (url.includes("youtu.be/")) {
+      return url.split("youtu.be/")[1];
+    }
+
+    return null; // Return null if the URL is not a valid YouTube link
+  };
+
   const descriptionText = data?.description;
   const isLongDescription =
     descriptionText && descriptionText.split(" ").length > 30;
@@ -358,61 +379,33 @@ const ProductDetail = () => {
                             (window.swiperInstance = swiper)
                           }
                         >
-                          {photos.map((item, index) => (
-                            <SwiperSlide
-                              key={index}
-                              onTouchStart={() => {
-                                if (window.swiperInstance?.autoplay) {
-                                  window.swiperInstance.autoplay.stop();
-                                }
-                              }}
-                              onTouchEnd={() => {
-                                if (window.swiperInstance?.autoplay) {
-                                  window.swiperInstance.autoplay.start();
-                                }
-                              }}
-                              onMouseEnter={() => {
-                                if (window.swiperInstance?.autoplay) {
-                                  window.swiperInstance.autoplay.stop();
-                                }
-                              }}
-                              onMouseLeave={() => {
-                                if (window.swiperInstance?.autoplay) {
-                                  window.swiperInstance.autoplay.start();
-                                }
-                              }}
-                            >
-                              {isYouTubeLink(item) ? (
-                                (() => {
-                                  let videoId = null;
-
-                                  if (item.includes("youtube.com/shorts")) {
-                                    videoId = item.split("shorts/")[1];
-                                  } else if (item.includes("youtube.com")) {
-                                    videoId = item
-                                      .split("v=")[1]
-                                      ?.split("&")[0];
+                          {photos
+                            .filter((item) => !isYouTubeLink(item)) // Filter out YouTube links
+                            .slice(0, 5) // Show only the first 5 images
+                            .map((item, index) => (
+                              <SwiperSlide
+                                key={index}
+                                onTouchStart={() => {
+                                  if (window.swiperInstance?.autoplay) {
+                                    window.swiperInstance.autoplay.stop();
                                   }
-
-                                  if (videoId) {
-                                    const embedUrl = `https://www.youtube.com/embed/${videoId}?enablejsapi=1`;
-                                    return (
-                                      <iframe
-                                        id={`youtube-player-${index}`}
-                                        width="100%"
-                                        height="315"
-                                        src={embedUrl}
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        title={`YouTube Video ${index}`}
-                                      ></iframe>
-                                    );
-                                  } else {
-                                    return <div>Invalid YouTube Link</div>;
+                                }}
+                                onTouchEnd={() => {
+                                  if (window.swiperInstance?.autoplay) {
+                                    window.swiperInstance.autoplay.start();
                                   }
-                                })()
-                              ) : (
+                                }}
+                                onMouseEnter={() => {
+                                  if (window.swiperInstance?.autoplay) {
+                                    window.swiperInstance.autoplay.stop();
+                                  }
+                                }}
+                                onMouseLeave={() => {
+                                  if (window.swiperInstance?.autoplay) {
+                                    window.swiperInstance.autoplay.start();
+                                  }
+                                }}
+                              >
                                 <PhotoView src={item}>
                                   <img
                                     className="w-full object-contain"
@@ -420,9 +413,8 @@ const ProductDetail = () => {
                                     alt={`Image ${index}`}
                                   />
                                 </PhotoView>
-                              )}
-                            </SwiperSlide>
-                          ))}
+                              </SwiperSlide>
+                            ))}
                         </Swiper>
 
                         <Swiper
@@ -434,22 +426,18 @@ const ProductDetail = () => {
                           modules={[FreeMode, Navigation, Thumbs]}
                           className="mySwiper max-h-[180px]"
                         >
-                          {photos.map((item, index) => (
-                            <SwiperSlide key={index}>
-                              {isYouTubeLink(item) ? (
-                                <img
-                                  className="w-full object-contain"
-                                  src={youtube}
-                                  alt="YouTube Thumbnail"
-                                />
-                              ) : (
+                          {photos
+                            .filter((item) => !isYouTubeLink(item)) // Filter out YouTube links
+                            .slice(0, 5) // Show only the first 5 images
+                            .map((item, index) => (
+                              <SwiperSlide key={index}>
                                 <img
                                   className="w-full object-contain"
                                   src={item}
+                                  alt={`Thumbnail ${index}`}
                                 />
-                              )}
-                            </SwiperSlide>
-                          ))}
+                              </SwiperSlide>
+                            ))}
                         </Swiper>
                       </>
                     )}
@@ -757,15 +745,42 @@ const ProductDetail = () => {
                   </div>
                 )}
               </div>
-              <div className="flex flex-col gap-4 items-center">
-                {photos.map((photo, index) => (
-                  <img
-                    key={index}
-                    src={photo}
-                    alt={`Photo ${index + 1}`}
-                    className="w-full lg:w-1/2 object-cover rounded-md shadow-md"
-                  />
-                ))}
+              <div className="flex flex-col gap-4 items-center mt-8">
+                {/* Render all video links first */}
+                {photos
+                  .filter((item) => isYouTubeLink(item)) // Filter only YouTube links
+                  .map((item, index) => (
+                    <div key={index} className="w-full lg:w-1/2">
+                      <div className="relative aspect-video rounded-md shadow-md overflow-hidden">
+                        <iframe
+                          width="100%"
+                          height="100%"
+                          src={`https://www.youtube.com/embed/${getYouTubeVideoId(
+                            item
+                          )}`}
+                          frameBorder="0"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                          title={`YouTube Video ${index + 1}`}
+                          className="absolute top-0 left-0 w-full h-full"
+                        ></iframe>
+                      </div>
+                    </div>
+                  ))}
+
+                {/* Render images after the 5th index */}
+                {photos
+                  .slice(5) // Start from the 5th index
+                  .filter((item) => !isYouTubeLink(item)) // Filter out YouTube links
+                  .map((item, index) => (
+                    <div key={index} className="w-full lg:w-1/2">
+                      <img
+                        src={item}
+                        alt={`Photo ${index + 6}`} // Adjust index to start from 6
+                        className="w-full object-cover rounded-md shadow-md"
+                      />
+                    </div>
+                  ))}
               </div>
 
               <RelatedProduct id={data?.category?._id} />

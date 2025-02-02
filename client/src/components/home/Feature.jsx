@@ -41,13 +41,15 @@ const Feature = () => {
 
   return (
     <section className="font-inter grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3 gap-2 lg:gap-4">
-      {categories.map((item, index) => (
+      {categories.filter((item) => item.isActive).map((item, index) => (
         <div
           key={index}
           className="shadow bg-[#f6f6f6] group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
         >
           <Link
-            to={`category/${item?._id}`}
+            to={`shop/category/${item?._id}/${encodeURIComponent(
+              item?.title.replace(/\s+/g, "")
+            )}`}
             key={index}
             className="w-full h-full"
           >

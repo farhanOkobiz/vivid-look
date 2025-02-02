@@ -7,6 +7,7 @@ import { Theme } from "@radix-ui/themes";
 import FixedCart from "../components/floatcart/FixedCart";
 import ScrollToTop from "react-scroll-to-top";
 import whatsAppIcon from "../assets/logos/whatsAppIcon.png";
+import messengerIcon from "../assets/logos/messengerIcon.png";
 
 const RootLayout = () => {
   const location = useLocation();
@@ -17,15 +18,23 @@ const RootLayout = () => {
     <div className="font-inter">
       <Theme>
         <a
-          href="https://wa.me/01871702222"
+          href="https://m.me/vividlookbd"
           target="_blank"
           className="fixed right-[30px] bottom-[100px] z-[10000]"
         >
           <img
-            src={whatsAppIcon}
-            alt=""
-            className="w-10 shadow-[0_8px_20px_rgba(0,0,0,0.5)] transition-shadow duration-300 hover:shadow-[0_12px_25px_rgba(0,0,0,0.7)]"
+            src={messengerIcon}
+            alt="Messenger Icon"
+            className="w-10"
           />
+        </a>
+
+        <a
+          href="https://wa.me/01871702222"
+          target="_blank"
+          className="fixed right-[30px] bottom-[150px] z-[10000]"
+        >
+          <img src={whatsAppIcon} alt="" className="w-10" />
         </a>
 
         <ScrollToTop

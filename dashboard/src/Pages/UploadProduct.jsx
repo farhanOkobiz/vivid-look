@@ -218,7 +218,7 @@ const UploadProduct = () => {
         message.error("Name already exist, Please use another name");
       }
       if (error.response.data.message === "Too many files were uploaded") {
-        message.error("You can use max 4 Images");
+        message.error("You can use max 10 Images");
       }
       if (
         error.response.data.message ===
@@ -620,8 +620,8 @@ const UploadProduct = () => {
               Click or drag file to this area to upload
             </p>
             <p className="ant-upload-hint">
-              মিনিমাম ১টি ছবি, ম্যাক্সিমাম ৪টি ছবি দিতে পারবেন
-            </p>
+              মিনিমাম ১টি ছবি, ম্যাক্সিমাম ১০টি ছবি দিতে পারবেন
+            </p>  
           </Dragger>
 
           <div className="flex gap-x-5 justify-center">

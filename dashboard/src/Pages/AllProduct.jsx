@@ -101,6 +101,7 @@ const AllProduct = () => {
       await axios.delete(`/varient/${key}`);
       message.success("Variant deleted successfully");
       setData((prevData) => prevData.filter((item) => item.key !== key));
+      fetchData();
     } catch (error) {
       message.error("Failed to delete variant");
     }

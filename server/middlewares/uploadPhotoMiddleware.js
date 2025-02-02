@@ -16,7 +16,7 @@ const multerFilter = (req, file, cb) => {
 
 const upload = multer({ storage: multerStorage, fileFilter: multerFilter });
 
-const uploadPhotoMiddleware = (multiple = false, maxFiles = 6) => {
+const uploadPhotoMiddleware = (multiple = false, maxFiles = 10) => {
   return multiple ? upload.array("photos", maxFiles) : upload.single("photo");
 };
 

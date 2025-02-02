@@ -26,7 +26,7 @@ const NewProductItem = ({
   };
 
   return (
-    <motion.div className="flex flex-col justify-between overflow-hidden mx-2 2xl:mx-1 2xl:min-w-96">
+    <motion.div className="flex flex-col justify-between overflow-hidden mx-2 2xl:mx-1 2xl:min-w-80">
       {stock > 0 ? (
         <Link to={`/productdetail/${product?.product?.slug}/${id}`} className="">
           <div

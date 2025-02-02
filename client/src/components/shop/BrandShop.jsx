@@ -122,7 +122,7 @@ const BrandShop = () => {
   return (
     <div>
       {/* Product Grid */}
-      <div className="grid grid-cols-1 gap-y-4 xl:gap-4 mt-4 md:grid-cols-3 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-y-4 xl:gap-6 mt-4 md:grid-cols-3 lg:grid-cols-4">
         {loading ? (
           <SkeletonLoader />
         ) : paginatedProducts.length === 0 ? (

@@ -141,7 +141,6 @@ module.exports = class Email {
       <p><strong>Sub-Total: ৳ ${order.totalCost}</strong></p>
       <p><strong>Order Status: ${order.orderStatus.toUpperCase()}</strong></p>
       <p>Thanks for shopping with Vivid Look!</p>
-      <p>Website developed by <a href='https://www.okobiz.com'>okobiz</a></p>
     `;
 
     await this.send(html, "Your Order Invoice");

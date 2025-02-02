@@ -253,7 +253,7 @@ const ShopLayouts = () => {
             </div>
 
             {/* Brand Filter Part Start */}
-            <div className="sub-category">
+            {/* <div className="sub-category">
               <div className="border-x b border-x-border border-b border-b-border">
                 <div
                   onClick={() => setSubCategoryActive(!subCategoryActive)}
@@ -297,7 +297,7 @@ const ShopLayouts = () => {
                   )}
                 </div>
               </div>
-            </div>
+            </div> */}
 
             {/* Brand Filter Part Start */}
             <div className="brand">
@@ -339,9 +339,9 @@ const ShopLayouts = () => {
       </Drawer>
       <BradcumbShop />
       <div>
-        <Containar>
+        <div className="lg:px-10">
           <div className="flex flex-wrap justify-between mt-14 mb-14">
-            <div className="w-[22%] hidden xl:inline-block">
+            <div className="w-[15%] hidden xl:inline-block">
               {/* Mega Sale Filter Part Start */}
               {/* <div className="Mega_Deals">
                 <div className="border-x border-t border-x-border border-b border-b-border border-t-border">
@@ -421,7 +421,7 @@ const ShopLayouts = () => {
               </div>
 
               {/* Sub Category Filter Part Start */}
-              <div className="sub-category">
+              {/* <div className="sub-category">
                 <div className="border-x b border-x-border border-b border-b-border">
                   <div
                     onClick={() => setSubCategoryActive(!subCategoryActive)}
@@ -465,7 +465,7 @@ const ShopLayouts = () => {
                     )}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* Brand Filter Part Start */}
               <div className="brand">
@@ -548,7 +548,7 @@ const ShopLayouts = () => {
               {/* Price Filter Part Start */}
               <PriceFilter />
             </div>
-            <div className="w-full xl:w-[75.6%]">
+            <div className="w-full xl:w-[84%]">
               <div>
                 <div className="flex select_option justify-between ">
                   <div className="flex items-center flex-wrap gap-x-10">
@@ -566,7 +566,7 @@ const ShopLayouts = () => {
               <Outlet />
             </div>
           </div>
-        </Containar>
+        </div>
       </div>
     </div>
   );
