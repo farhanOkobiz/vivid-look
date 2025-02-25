@@ -103,7 +103,6 @@ const Navbar = () => {
     setCategoryActive(!categoryActive);
     fetchCategoryById(id);
   };
-  
 
   return (
     <>
@@ -156,28 +155,32 @@ const Navbar = () => {
               Categories
             </h2>
             <ul className="flex flex-col min-h-[500px] relative overflow-hidden">
-              {categories.sort((a,b) => a.index - b.index).filter((item) => item.isActive).map((category) => (
-                <li
-                  className="py-3.5 px-7 cursor-pointer hover:bg-bestdealbg transition-all ease-linear duration-300 flex items-center justify-between"
-                  key={category._id}
-                  onClick={() => setHandleClick(category._id)}
-                >
-                  <Link
-                    className="text-base font-medium  text-texthead "
-                    to={`/shop/category/${
-                      category?._id
-                    }/${encodeURIComponent(
-                      category?.title?.replace(/\s+/g, "")
-                    )}`}
+              {categories
+                .sort((a, b) => a.index - b.index)
+                .filter((item) => item.isActive)
+                .map((category) => (
+                  <li
+                    className="py-3.5 px-7 cursor-pointer hover:bg-bestdealbg transition-all ease-linear duration-300 flex items-center justify-between"
+                    key={category._id}
+                    onClick={() => {
+                      setHandleClick(category._id);
+                      toggleDrawer();
+                    }}
                   >
-                    {category?.title}
-                  </Link>
-                  <h4>
-                    <MdKeyboardArrowRight className="text-xl" />
-                  </h4>
-                </li>
-              ))}
-              <li
+                    <Link
+                      className="text-base font-medium  text-texthead "
+                      to={`/shop/category/${category?._id}/${encodeURIComponent(
+                        category?.title?.replace(/\s+/g, "")
+                      )}`}
+                    >
+                      {category?.title}
+                    </Link>
+                    <h4>
+                      <MdKeyboardArrowRight className="text-xl" />
+                    </h4>
+                  </li>
+                ))}
+              {/* <li
                 className={`absolute ${
                   categoryActive ? "left-0" : "left-full "
                 }   transition-all duration-300 ease-in-out top-0 w-full min-h-[500px] bg-white z-20`}
@@ -194,7 +197,8 @@ const Navbar = () => {
                       {data?.title}
                     </h4>
                     <ul className="mt-3">
-                      {data?.subCategories?.map((item, index) => {
+                      {console.log("hsfuwoeh", data)}
+                      {data?.categories?.map((item, index) => {
                         return (
                           <li
                             className="hover:bg-bestdealbg hover:bg-opacity-60 transition-all ease-linear duration-200"
@@ -221,7 +225,7 @@ const Navbar = () => {
                     </ul>
                   </div>
                 </div>
-              </li>
+              </li> */}
             </ul>
           </div>
           <div className=" border-t flex justify-center border-t-border">
@@ -470,8 +474,8 @@ const Navbar = () => {
           {/* Navigation Links */}
           <ul className="hidden lg:flex items-center gap-x-7 xl:gap-x-10 z-10">
             {categories
-              .filter((item) => item.isActive) 
-              .slice(0, 4) 
+              .filter((item) => item.isActive)
+              .slice(0, 4)
               .map((item, index) => (
                 <li key={index} className="relative">
                   <Link

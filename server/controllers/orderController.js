@@ -87,7 +87,9 @@ exports.createOrderController = catchAsync(async (req, res, next) => {
     })
   );
   if (order?.email) {
-    const orderUrl = `${req.protocol}://localhost:5173/orders/${order._id}`;
+    // const orderUrl = `${req.protocol}:${process.env.API_BASE_URL}/orders/${order._id}`;
+    const orderUrl = `${process.env.API_BASE_URL}/orders/${order._id}`;
+    console.log(orderUrl, "order url from order create controller..........");
     const email = new Email(
       { email: order?.email, name: order?.name },
       orderUrl
@@ -197,7 +199,7 @@ exports.createOrderWithCouponController = catchAsync(async (req, res, next) => {
     })
   );
 
-  const orderUrl = `${req.protocol}://localhost:5173/orders/${order._id}`;
+  const orderUrl = `${req.protocol}:${process.env.API_BASE_URL}/orders/${order._id}`;
   const email = new Email({ email: order.email, name: order.name }, orderUrl);
   await email.sendInvoiceWithCoupon(order, couponData.discountPercent);
 
@@ -216,7 +218,6 @@ exports.getAllOrdersController = getAll(Order, {
   populate: {
     path: "category subCategory brand product variant",
     select: "title name colorName colorCode",
-   
   },
 });
 
@@ -249,7 +250,7 @@ exports.updateOrderController = catchAsync(async (req, res, next) => {
 
   if (!order) return next(new AppError("No order found with that ID!", 404));
 
-  const orderUrl = `${req.protocol}://localhost:5173/orders/${order._id}`;
+  const orderUrl = `${req.protocol}:${process.env.API_BASE_URL}/orders/${order._id}`;
   const email = new Email({ email: order.email, name: order.name }, orderUrl);
 
   const { orderStatus } = req.body;

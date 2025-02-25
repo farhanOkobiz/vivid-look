@@ -449,15 +449,9 @@ const UploadProduct = () => {
                     }}
                   />
                 </Form.Item>
-                <Form.Item
+                {/* <Form.Item
                   label="Color Code (Give Hex Code of the color)"
                   name={`variant[${variantIndex}].colorCode`}
-                  // rules={[
-                  //   {
-                  //     required: true,
-                  //     message: "Please provide a color code!",
-                  //   },
-                  // ]}
                 >
                   <Input
                     value={variant.colorCode}
@@ -467,7 +461,7 @@ const UploadProduct = () => {
                       setVariants(newVariants);
                     }}
                   />
-                </Form.Item>
+                </Form.Item> */}
                 <Form.Item
                   label="Details"
                   name={`variant[${variantIndex}].details`}

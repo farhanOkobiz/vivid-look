@@ -7,28 +7,6 @@ const variantSchema = new Schema({
     // required: [true, "Color name is required"],
   },
 
-  colorCode: {
-    type: String,
-    validate: [
-      {
-        validator: function (value) {
-          // Only validate the length if the value exists
-          return !value || (value.length >= 4 && value.length <= 7);
-        },
-        message: "Color code length must be between 4 and 7 characters if provided",
-      },
-      {
-        validator: function (value) {
-          // Validate the hexadecimal format if the value exists
-          return !value || /^#([0-9A-Fa-f]{3}){1,2}$/.test(value);
-        },
-        message: (props) =>
-          `${props.value} is not a valid hexadecimal color code!`,
-      },
-    ],
-  },
-  
-
   details: {
     type: String,
   },

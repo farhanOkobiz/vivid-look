@@ -77,20 +77,21 @@ const Banner = () => {
             >
               {bannerList.map((item, i) => (
                 <SwiperSlide key={item?._id}>
-                  <div className="overflow-hidden relative">
+                  <div className="overflow-hidden relative bg-purple-600">
                     {currentSlide === i && (
                       <div className="w-full h-[50vh] lg:h-[90vh]">
                         <motion.img
                           key={i}
-                          className="w-full h-full  cursor-pointer"
+                          className="w-full h-full object-cover lg:object-fill"
                           src={item?.photo}
                           alt="banner"
                           onClick={() => navigate(item?.link)}
                         />
+
                         <div>
                           <div
                             onClick={() => navigate(item?.link)}
-                            className="mt-12 px-5 md:px-10 py-1 md:py-2 cursor-pointer font-medium text-sm md:text-base rounded-md bg-black hover:bg-white text-white hover:text-black border-black border-2 transition-all ease-linear duration-200 absolute bottom-5 left-1/2 transform -translate-x-1/2 lg:bottom-32 lg:left-auto lg:right-32 lg:transform-none"
+                            className="mt-12 px-5 md:px-10 py-1 md:py-2 cursor-pointer font-medium text-sm md:text-base rounded-md bg-black hover:bg-white text-white hover:text-black border-black border-2 transition-all ease-linear duration-200 absolute bottom-5 left-1/2 transform -translate-x-1/2 lg:bottom-20 lg:left-auto lg:right-32 lg:transform-none"
                           >
                             Shop Now
                           </div>

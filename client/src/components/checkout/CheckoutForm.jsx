@@ -118,6 +118,8 @@ const CheckoutForm = () => {
 
   const cartItems = useSelector((state) => state?.cart?.items);
 
+  console.log("__--__", cartItems);
+
   const hasFreeShipping = cartItems?.some((item) =>
     item?.variants?.some((variant) =>
       variant?.options?.some((option) => option.freeShipping === true)
@@ -140,10 +142,12 @@ const CheckoutForm = () => {
 
   const getShippingCost = () => {
     if (hasFreeShipping) return 0;
+
     switch (formData?.shipping) {
-      case "insideDhaka":
+      case "insideDhk":
+      case "insideCtg":
         return 80;
-      case "outsideDhaka":
+      case "outsideDhkNdCtg":
         return 120;
       default:
         return 0;
@@ -177,12 +181,17 @@ const CheckoutForm = () => {
       if (selectedCity?.city_name === "Dhaka") {
         setFormData((prevState) => ({
           ...prevState,
-          shipping: "insideDhaka",
+          shipping: "insideDhk",
+        }));
+      } else if (selectedCity?.city_name === "Chittagong") {
+        setFormData((prevState) => ({
+          ...prevState,
+          shipping: "insideCtg",
         }));
       } else {
         setFormData((prevState) => ({
           ...prevState,
-          shipping: "outsideDhaka",
+          shipping: "outsideDhkNdCtg",
         }));
       }
     }
@@ -280,7 +289,7 @@ const CheckoutForm = () => {
         <Containar>
           <div>
             <div className="grid grid-cols-12  md:gap-x-8">
-              <div className="col-span-12 order-2 lg:order-1 lg:col-span-8  ">
+              <div className="col-span-12 lg:col-span-8  ">
                 <div className="bg-white pt-8 pb-12 px-6 shadow-md rounded">
                   <h2 className="text-texthead text-lg font-medium uppercase">
                     Contact Info
@@ -289,8 +298,15 @@ const CheckoutForm = () => {
                     <form onSubmit={handleSubmit}>
                       <div className="w-full flex items-start flex-wrap justify-between">
                         <div className="w-full">
+                          <label
+                            htmlFor="fullName"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Full Name <span className="text-red-500">*</span>
+                          </label>
                           <input
                             type="text"
+                            id="fullName"
                             name="fullName"
                             value={formData.fullName}
                             onChange={handleChange}
@@ -299,7 +315,7 @@ const CheckoutForm = () => {
                                 ? "border-red-500"
                                 : "border-border"
                             }`}
-                            placeholder="Full Name *"
+                            placeholder="Enter your full name"
                           />
                           {errors.fullName && (
                             <p className="text-red-500 text-sm mt-0.5">
@@ -310,6 +326,12 @@ const CheckoutForm = () => {
                       </div>
                       <div className="w-full flex items-start flex-wrap justify-between mt-5">
                         <div className="w-full lg:w-[49%]">
+                          <label
+                            htmlFor="phoneNumber"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Phone Number <span className="text-red-500">*</span>
+                          </label>
                           <input
                             type="tel"
                             name="phoneNumber"
@@ -329,6 +351,12 @@ const CheckoutForm = () => {
                           )}
                         </div>
                         <div className="w-full lg:w-[49%] mt-5 lg:mt-0">
+                          <label
+                            htmlFor="email"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Email
+                          </label>
                           <input
                             type="email"
                             name="email"
@@ -340,8 +368,123 @@ const CheckoutForm = () => {
                         </div>
                       </div>
 
-                      <h2 className="text-texthead text-lg font-medium mt-10 uppercase">
-                        Billing & Shipping
+                      <div className="w-full flex items-start flex-wrap justify-between mt-10">
+                        {/* {console.log("hasFreeShipping:", hasFreeShipping)}{" "} */}
+                        {hasFreeShipping ? (
+                          <div className="flex gap-2 items-center">
+                            <img
+                              src={freeshippingImg}
+                              alt=""
+                              className="w-32"
+                            />{" "}
+                            <span className="blinking-text">
+                              product. Yeah!!!
+                            </span>
+                          </div>
+                        ) : (
+                          <div className="w-full lg:w-[49%]">
+                            <h4 className="text-[15px] font-medium mb-5">
+                              Shipping <span className="text-red-500">*</span>
+                            </h4>
+                            <div className="space-y-3 lg:w-[90%]">
+                              {[
+                                {
+                                  id: "shippingInsideDhk",
+                                  label: "Inside of Dhaka",
+                                  value: "insideDhk",
+                                  price: 80,
+                                },
+                                {
+                                  id: "shippingInsideCtg",
+                                  label: "Inside of Chittagong",
+                                  value: "insideCtg",
+                                  price: 80,
+                                },
+                                {
+                                  id: "outsideDhkNdCtg",
+                                  label: "Outside of Dhaka and Chittagong",
+                                  value: "outsideDhkNdCtg",
+                                  price: 120,
+                                },
+                              ].map((option) => (
+                                <label key={option.id} className="block">
+                                  <input
+                                    type="radio"
+                                    name="shipping"
+                                    id={option.id}
+                                    value={option.value}
+                                    checked={formData.shipping === option.value}
+                                    onChange={handleChange}
+                                    required={!hasFreeShipping}
+                                    disabled={hasFreeShipping}
+                                    className="hidden"
+                                  />
+                                  <div
+                                    className={`w-full flex justify-between items-center text-sm px-1 py-3 lg:p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                                      formData.shipping === option.value
+                                        ? "border-blue-500 bg-blue-100 text-blue-600"
+                                        : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
+                                    } ${
+                                      hasFreeShipping
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : ""
+                                    }`}
+                                  >
+                                    <h3>{option.label}</h3>
+                                    <h4>৳ {option.price} TK</h4>
+                                  </div>
+                                </label>
+                              ))}
+                            </div>
+                            {errors.shipping && (
+                              <p className="text-red-500 text-sm mt-2">
+                                {errors.shipping}
+                              </p>
+                            )}
+                          </div>
+                        )}
+                        <div className="w-full mt-7 sm:mt-0 lg:w-[49%]">
+                          <h4 className="text-[15px] font-medium mb-2 sm:mb-5 uppercase">
+                            Coupons Codes
+                          </h4>
+                          <div className="flex">
+                            <input
+                              type="text"
+                              name="couponCode"
+                              value={formData.couponCode}
+                              onChange={handleChange}
+                              className={`w-full px-3 border mt-2 ${
+                                errors.couponCode
+                                  ? "border-red-500"
+                                  : "border-border"
+                              }`}
+                              placeholder="Enter your coupon code"
+                            />
+                            <button
+                              type="button"
+                              onClick={handleCouponCode}
+                              className="mt-2 bg-red-500 hover:opacity-60 transition-all ease-linear duration-200 text-white px-4 py-2 rounded text-sm"
+                            >
+                              Apply Coupon
+                            </button>
+                          </div>
+                          {couponError && (
+                            <p className="text-red-500 text-sm mt-2">
+                              {couponError}
+                            </p>
+                          )}
+
+                          {couponDiscount > 0 && !couponError && (
+                            <p className="text-green-600 text-sm mt-2">
+                              Coupon applied! Discount: {couponDiscount}%
+                            </p>
+                          )}
+                        </div>
+                      </div>
+
+                      <h2 className="text-texthead text-lg font-medium mt-8">
+                        Billing & Shipping{" "}
+                        <span className="text-red-500">*</span>
                       </h2>
 
                       {/* <div className="w-full flex items-start flex-wrap justify-between">
@@ -467,116 +610,15 @@ const CheckoutForm = () => {
                         </div>
                       </div>
 
-                      <div className="w-full flex items-start flex-wrap justify-between mt-10">
-                        {/* {console.log("hasFreeShipping:", hasFreeShipping)}{" "} */}
-                        {hasFreeShipping ? (
-                          <div className="flex gap-2 items-center">
-                            <img
-                              src={freeshippingImg}
-                              alt=""
-                              className="w-32"
-                            />{" "}
-                            <span className="blinking-text">
-                              product. Yeah!!!
-                            </span>
-                          </div>
-                        ) : (
-                          <div className="w-full lg:w-[49%]">
-                            <h4 className="text-[15px] font-medium mb-5 uppercase">
-                              Shipping *
-                            </h4>
-                            <div className="flex flex-wrap gap-x-10  items-start">
-                              <label className="flex items-start text-sm font-medium gap-x-1 cursor-pointer">
-                                <input
-                                  className="mt-1"
-                                  name="shipping"
-                                  id="shippingInsideDhaka"
-                                  type="radio"
-                                  value="insideDhaka"
-                                  checked={formData.shipping === "insideDhaka"}
-                                  onChange={handleChange}
-                                  required={!hasFreeShipping}
-                                  disabled={hasFreeShipping}
-                                />
-                                <div>
-                                  <h3>Inside of Dhaka</h3>
-                                  <h4 className="mt-2 sm:mt-5 flex items-center gap-x-0.5">
-                                    ৳ 80tk
-                                  </h4>
-                                </div>
-                              </label>
-                              <label className="flex items-start text-sm font-medium gap-x-1 cursor-pointer ">
-                                <input
-                                  className="mt-1"
-                                  name="shipping"
-                                  id="shippingOutsideDhaka"
-                                  type="radio"
-                                  value="outsideDhaka"
-                                  checked={formData.shipping === "outsideDhaka"}
-                                  onChange={handleChange}
-                                  required={!hasFreeShipping}
-                                  disabled={hasFreeShipping}
-                                />
-                                <div>
-                                  <h3>Outside of Dhaka</h3>
-                                  <h4 className="mt-2 sm:mt-5 flex items-center gap-x-0.5">
-                                    ৳ 120tk
-                                  </h4>
-                                </div>
-                              </label>
-                            </div>
-                            {errors.shipping && (
-                              <p className="text-red-500 text-sm mt-2">
-                                {errors.shipping}
-                              </p>
-                            )}
-                          </div>
-                        )}
-                        <div className="w-full mt-7 sm:mt-0 lg:w-[49%]">
-                          <h4 className="text-[15px] font-medium mb-2 sm:mb-5 uppercase">
-                            Coupons Codes
-                          </h4>
-                          <input
-                            type="text"
-                            name="couponCode"
-                            value={formData.couponCode}
-                            onChange={handleChange}
-                            className={`w-full h-12 px-3 border mt-2 ${
-                              errors.couponCode
-                                ? "border-red-500"
-                                : "border-border"
-                            }`}
-                            placeholder="Enter your coupon code"
-                          />
-                          <button
-                            type="button"
-                            onClick={handleCouponCode}
-                            className="mt-2 bg-red-500 hover:opacity-60 transition-all ease-linear duration-200 text-white px-4 py-2 rounded"
-                          >
-                            Apply Coupon
-                          </button>
-                          {couponError && (
-                            <p className="text-red-500 text-sm mt-2">
-                              {couponError}
-                            </p>
-                          )}
-
-                          {couponDiscount > 0 && !couponError && (
-                            <p className="text-green-600 text-sm mt-2">
-                              Coupon applied! Discount: {couponDiscount}%
-                            </p>
-                          )}
-                        </div>
-                      </div>
                       <div className="mt-16 flex gap-4">
-                        <button
+                        {/* <button
                           type="button"
                           onClick={handleReset}
                           disabled={isLoading}
                           className="px-10 rounded bg-gray-500 text-white hover:bg-gray-600 transition-colors duration-200"
                         >
                           Reset
-                        </button>
+                        </button> */}
                         <button
                           type="submit"
                           disabled={isLoading}
@@ -615,7 +657,7 @@ const CheckoutForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-span-12 order-1 lg:order-2 mt-5 lg:mt-0 lg:col-span-4">
+              <div className="col-span-12 mt-5 lg:mt-0 lg:col-span-4">
                 <div className="pt-3 bg-white shadow-md border border-texthead rounded">
                   <div className="py-5 border-b border-b-border">
                     <h2 className="px-6  text-texthead text-lg font-medium uppercase">
@@ -625,20 +667,49 @@ const CheckoutForm = () => {
                       {cartItems.map((item) => (
                         <li
                           key={item?._id}
-                          className="px-6 flex items-center justify-between text-sm py-3"
+                          className="px-3 lg:px-6 flex items-center justify-between text-sm py-3"
                         >
-                          <span className="w-[70%]">
-                            <Link
-                              to={`/productdetail/${item?._id}`}
-                              className="text-texthead cursor-pointer hover:text-red-500 transition-all ease-linear duration-200"
-                            >
-                              {item?.name}
-                            </Link>{" "}
-                            <span className="text-red-500">
-                              {" "}
-                              × {item?.quantity}
-                            </span>
-                            {item?.userChoiceColor &&
+                          <div className="w-[80%] lg:w-[70%] flex items-center">
+                            <div className="h-16 w-20">
+                              <img
+                                src={item?.photos[0]}
+                                className="h-full w-full"
+                                alt=""
+                              />
+                            </div>
+                            <div className="w-full pl-5">
+                              <Link
+                                to={`/productdetail/${item?.slug}/${item?._id}`}
+                                className="text-texthead cursor-pointer hover:text-red-500 transition-all ease-linear duration-200"
+                              >
+                                {item?.name}
+                              </Link>{" "}
+                              <div className="mt-1">
+                                Quantity:{" "}
+                                <span className="font-bold">
+                                  {item?.quantity}
+                                </span>
+                              </div>
+                              <div className="flex flex-col lg:flex-row lg:items-center justify-between mt-1">
+                                {item?.selectedColor?.colorName && (
+                                  <div>
+                                    Color:{" "}
+                                    <span className="font-bold">
+                                      {item.selectedColor.colorName}
+                                    </span>
+                                  </div>
+                                )}
+                                {item?.selectedOption?.size && (
+                                  <div className="mt-1">
+                                    Size:{" "}
+                                    <span className="font-bold">
+                                      {item.selectedOption.size}
+                                    </span>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            {/* {item?.userChoiceColor &&
                               item?.userChoiceColor.length > 0 && (
                                 <h4 className="text-xs mt-1">
                                   Color:{" "}
@@ -646,8 +717,11 @@ const CheckoutForm = () => {
                                     {item?.userChoiceColor}
                                   </span>
                                 </h4>
-                              )}
-                          </span>{" "}
+                              )} */}
+                            {/* {item?.selectedColor && */}
+                            {/* item?.selectedColor.length > 0 && ( */}
+                            {/* )} */}
+                          </div>{" "}
                           <span className="flex items-center gap-x-1 ">
                             {couponDiscount > 0 ? (
                               <span className="flex items-center text-sm font-medium text-red-500 gap-x-0.5">

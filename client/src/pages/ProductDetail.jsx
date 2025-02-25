@@ -301,6 +301,8 @@ const ProductDetail = () => {
   const descriptionText = data?.description;
   const isLongDescription =
     descriptionText && descriptionText.split(" ").length > 30;
+
+  console.log("--__--", data);
   return (
     <>
       <section className="border-b border-b-border px-5 xl:px-0">
@@ -490,30 +492,35 @@ const ProductDetail = () => {
                             {data?.variants.length > 0 ? "Colors:" : ""}
                           </h3>
 
-                          <ul className="mt-4 flex flex-wrap gap-2">
+                          <select
+                            className="mt-4 p-2 border border-gray-300 rounded-md"
+                            onChange={(e) => {
+                              const selectedVariant = data.variants.find(
+                                (variant) =>
+                                  variant.colorName === e.target.value
+                              );
+                              if (selectedVariant) {
+                                handleColorChange(selectedVariant);
+                                handleSelectColorChange(
+                                  selectedVariant.colorCode
+                                );
+                              }
+                            }}
+                            // Set the default value to the first color in the filtered list
+                            defaultValue={
+                              data.variants.filter(
+                                (variant) => variant.options?.length > 0
+                              )[0]?.colorName
+                            }
+                          >
                             {data.variants
                               .filter((variant) => variant.options?.length > 0)
                               .map((item, index) => (
-                                <li
-                                  onClick={() => {
-                                    handleColorChange(item);
-                                    handleSelectColorChange(item.colorCode);
-                                  }}
-                                  key={index}
-                                >
-                                  <button
-                                    style={{
-                                      backgroundColor: item.colorCode,
-                                    }}
-                                    className={`w-8 h-8 text-sm ${
-                                      userChoice === item.colorCode
-                                        ? "shadow-2xl border-[1px] border-gray-700 rounded-full "
-                                        : "bg-gray-200 border-[1px] border-gray-200 rounded-full text-texthead"
-                                    }`}
-                                  ></button>
-                                </li>
+                                <option key={index} value={item.colorName}>
+                                  {item.colorName}
+                                </option>
                               ))}
-                          </ul>
+                          </select>
                         </div>
                       )}
                   </div>
@@ -582,10 +589,9 @@ const ProductDetail = () => {
                     {error && (
                       <p className="text-red-500 text-sm mt-2">{error}</p>
                     )}
-                    <span className="ml-2 text-gray-500">
+                    {/* <span className="ml-2 text-gray-500">
                       <p>({totalStock} available)</p>
-                      {/* (200 available) */}
-                    </span>
+                    </span> */}
                   </div>
 
                   <div className="hidden mt-6 lg:flex gap-4 z-10">

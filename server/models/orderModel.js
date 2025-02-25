@@ -15,7 +15,7 @@ const orderSchema = new Schema(
 
     email: {
       type: String,
-      required: [true, "Email is required"],
+      // required: [true, "Email is required"],
     },
 
     streetAddress: {

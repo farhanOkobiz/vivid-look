@@ -36,7 +36,7 @@ const CartBox = () => {
   ); // Example static value for tax
   const total = subtotal;
 
-  // console.log(cartItems, "CartItems............");
+  console.log(cartItems, "CartItems............");
 
   return (
     <section className=" bg-primary">
@@ -51,10 +51,24 @@ const CartBox = () => {
                 <div className="col-span-12 lg:col-span-9">
                   <ul className="md:flex items-center px-8 h-20 bg-white border-b-2 border-b-border shadow-sm hidden ">
                     <li className="uppercase w-[4%] text-base font-medium"></li>
-                    <li className="uppercase w-[39%] text-base font-medium">Product</li>
-                    <li className="uppercase w-[21%] text-base font-medium">Price</li>
-                    <li className="uppercase w-[25%] text-base font-medium">Quantity</li>
-                    <li className="uppercase w-[10%] text-base font-medium">Subtotal</li>
+                    <li className="uppercase w-[40%] text-base font-medium">
+                      Product
+                    </li>
+                    <li className="uppercase w-[10%] text-base font-medium">
+                      Price
+                    </li>
+                    <li className="uppercase w-[10%] text-base font-medium">
+                      Size
+                    </li>
+                    <li className="uppercase w-[10%] text-base font-medium">
+                      Color
+                    </li>
+                    <li className="uppercase w-[25%] text-base font-medium">
+                      Quantity
+                    </li>
+                    <li className="uppercase w-[10%] text-base font-medium">
+                      Subtotal
+                    </li>
                   </ul>
                   {cartItems.map((item) => (
                     <>
@@ -76,7 +90,7 @@ const CartBox = () => {
                         >
                           <RxCross2 className="text-red-500" />
                         </li>
-                        <li className="w-[39%] font-medium">
+                        <li className="w-[40%] font-medium">
                           <div className="flex gap-x-4 items-center">
                             <div className="w-[90px] relative">
                               <img
@@ -140,7 +154,7 @@ const CartBox = () => {
                             </div>
                           </div>
                         </li>
-                        <li className="w-[21%] text-base font-medium">
+                        <li className="w-[10%] text-base font-medium">
                           <p className="flex items-center gap-x-1 ">
                             <span>৳</span>
                             {item?.selectedOption?.discountValue > 0 ? (
@@ -151,6 +165,20 @@ const CartBox = () => {
                             ) : (
                               <span>{item?.selectedOption?.price}</span>
                             )}
+                          </p>
+                        </li>
+                        <li className="w-[10%] text-base font-medium">
+                          <p className="flex items-center gap-x-1 ">
+                            <span>
+                              {item?.selectedOption?.size?.trim() || "N/A"}
+                            </span>
+                          </p>
+                        </li>
+                        <li className="w-[10%] text-base font-medium">
+                          <p className="flex items-center gap-x-1 ">
+                            <span>
+                              {item?.selectedColor?.colorName?.trim() || "N/A"}
+                            </span>
                           </p>
                         </li>
                         <li className="w-[25%] text-base font-medium">
