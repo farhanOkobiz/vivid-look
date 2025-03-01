@@ -76,9 +76,10 @@ exports.createOrderController = catchAsync(async (req, res, next) => {
     },
   });
   // Update the sellNumber for each variant in the order
+
   await Promise.all(
     order.products.map(async (product) => {
-      console.log("this route run ---");
+      console.log(product, "product this route run ---");
       const data = await Option.findByIdAndUpdate(
         product.option._id, // Accessing the correct ID
         { $inc: { saleNumber: product.quantity } },

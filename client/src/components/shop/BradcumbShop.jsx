@@ -24,6 +24,8 @@ const BradcumbShop = () => {
     apiUrl = `${baseApi}/brand/${lastSegment}`;
   }
 
+  console.log("shdkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",apiUrl)
+  console.log("shdkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk",lastSegment)
   useEffect(() => {
     if (apiUrl) {
       axios
