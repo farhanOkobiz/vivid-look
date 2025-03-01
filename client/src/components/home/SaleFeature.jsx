@@ -18,28 +18,67 @@ const SaleFeature = () => {
     fetchData();
   }, []);
 
+  // console.log("mamon find the New Arrival product", currentList);
+
+  // const fetchData = async () => {
+  //   try {
+  //     const response = await axios.get(apiUrl);
+  //     const fetchedProducts = response.data.data.doc; // Adjust according to API response structure
+
+  //     console.log("mamon find the New Arrival product", fetchedProducts);
+
+  //     // Remove duplicates based on product ID
+  //     const uniqueProducts = [];
+  //     const seenProductIds = new Set();
+  //     fetchedProducts.forEach((item) => {
+  //       if (!seenProductIds.has(item.product._id)) {
+  //         seenProductIds.add(item.product._id);
+  //         uniqueProducts.push(item);
+  //       }
+  //     });
+
+  //     setCurrentList(uniqueProducts);
+  //   } catch (error) {
+  //     console.error("Error fetching data:", error);
+  //   }
+  // };
+
+  // console.log(currentList, "****");
+
   const fetchData = async () => {
     try {
+      console.log("Fetching data from:", apiUrl);
       const response = await axios.get(apiUrl);
-      const fetchedProducts = response.data.data.doc; // Adjust according to API response structure
+      console.log("API Response:", response.data);
 
-      // Remove duplicates based on product ID
+      const fetchedProducts = response.data.data.doc || []; // Ensure it's an array
+      console.log("Fetched Products:", fetchedProducts);
+
+      if (!Array.isArray(fetchedProducts)) {
+        throw new Error("Fetched data is not an array");
+      }
+
+      // Remove duplicates
       const uniqueProducts = [];
       const seenProductIds = new Set();
       fetchedProducts.forEach((item) => {
-        if (!seenProductIds.has(item.product._id)) {
+        if (item?.product?._id && !seenProductIds.has(item.product._id)) {
           seenProductIds.add(item.product._id);
           uniqueProducts.push(item);
         }
       });
 
+      console.log("Unique Products:", uniqueProducts);
       setCurrentList(uniqueProducts);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
   };
+  useEffect(() => {
+    console.log("Updated currentList:", currentList);
+  }, [currentList]);
 
-  console.log(currentList, "****")
+  // console.log("mamon find the currentList", currentList);
 
   return (
     <section className="py-6 font-inter px-3 2xl:px-0">
@@ -77,29 +116,36 @@ const SaleFeature = () => {
             }}
             className="mySwiper w-full group-edit"
           >
-            {currentList?.filter(((item) => item?.product?.isActive && item?.category?.isActive && item?.subCategory?.isActive)).map((item, index) => (
-              <SwiperSlide key={index}>
-                <NewProductItem
-                  key={item?._id}
-                  product={item}
-                  image={item?.product?.photos}
-                  id={item?.product?._id}
-                  subtitle={item?.brand?.title}
-                  title={item?.product?.name}
-                  categoryId={item?.category?._id}
-                  brandId={item?.brand?._id}
-                  categoryName={item?.category?.title}
-                  discount={item?.discountValue}
-                  discountType={item?.discountType}
-                  discountPercent={item?.discountPercent}
-                  priceAfterDiscount={item?.salePrice}
-                  offerprice={item?.price - item?.discount}
-                  freeShipping={item?.freeShipping}
-                  regularprice={item?.price}
-                  stock={item?.stock}
-                />
-              </SwiperSlide>
-            ))}
+            {currentList
+              ?.filter(
+                (item) =>
+                  item?.product?.isActive &&
+                  item?.category?.isActive &&
+                  item?.subCategory?.isActive
+              )
+              .map((item, index) => (
+                <SwiperSlide key={index}>
+                  <NewProductItem
+                    key={item?._id}
+                    product={item}
+                    image={item?.product?.photos}
+                    id={item?.product?._id}
+                    subtitle={item?.brand?.title}
+                    title={item?.product?.name}
+                    categoryId={item?.category?._id}
+                    brandId={item?.brand?._id}
+                    categoryName={item?.category?.title}
+                    discount={item?.discountValue}
+                    discountType={item?.discountType}
+                    discountPercent={item?.discountPercent}
+                    priceAfterDiscount={item?.salePrice}
+                    offerprice={item?.price - item?.discount}
+                    freeShipping={item?.freeShipping}
+                    regularprice={item?.price}
+                    stock={item?.stock}
+                  />
+                </SwiperSlide>
+              ))}
           </Swiper>
           <motion.div className="swiper-button-next2 z-20 absolute rounded-full right-1 -top-10 -translate-y-1/2 w-10 h-10 border bg-white hover:bg-texthead transition-all ease-linear hover:text-white cursor-pointer hover:border-texthead border-[#b6b5b2] flex justify-center items-center text-[#858380]">
             <FaChevronRight className="text-xs" />

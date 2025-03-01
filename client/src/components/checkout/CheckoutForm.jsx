@@ -289,7 +289,7 @@ const CheckoutForm = () => {
         <Containar>
           <div>
             <div className="grid grid-cols-12  md:gap-x-8">
-              <div className="col-span-12 lg:col-span-8  ">
+              <div className="col-span-12 lg:col-span-8 md:order-1 order-2">
                 <div className="bg-white pt-8 pb-12 px-6 shadow-md rounded">
                   <h2 className="text-texthead text-lg font-medium uppercase">
                     Contact Info
@@ -657,7 +657,7 @@ const CheckoutForm = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-span-12 mt-5 lg:mt-0 lg:col-span-4">
+              <div className="col-span-12 mt-5 lg:mt-0 lg:col-span-4 md:order-2 order-1">
                 <div className="pt-3 bg-white shadow-md border border-texthead rounded">
                   <div className="py-5 border-b border-b-border">
                     <h2 className="px-6  text-texthead text-lg font-medium uppercase">

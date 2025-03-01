@@ -78,7 +78,7 @@ const ProductDetail = () => {
         const productData = response.data.data.doc;
         setData(productData);
 
-        // console.log(productData, "........................");
+        console.log("mamon try to find productData", productData);
 
         if (productData.variants && productData.variants.length > 0) {
           const firstValidVariant = productData.variants.find(
@@ -480,11 +480,11 @@ const ProductDetail = () => {
                       </p>
                       {renderPrice()}
                     </div> */}
-                  <div>
-                    {data.variants?.length > 0 &&
-                      data.variants[0].colorCode &&
-                      data?.variants[0].colorName &&
-                      data.variants.some(
+                  {/* <div>
+                    {data?.variants?.length > 0 &&
+                      data?.variants[0]?.colorCode &&
+                      data?.variants[0]?.colorName &&
+                      data?.variants?.some(
                         (variant) => variant.options?.length > 0
                       ) && (
                         <div className="flex items-center">
@@ -495,7 +495,7 @@ const ProductDetail = () => {
                           <select
                             className="mt-4 p-2 border border-gray-300 rounded-md"
                             onChange={(e) => {
-                              const selectedVariant = data.variants.find(
+                              const selectedVariant = data?.variants?.find(
                                 (variant) =>
                                   variant.colorName === e.target.value
                               );
@@ -515,6 +515,45 @@ const ProductDetail = () => {
                           >
                             {data.variants
                               .filter((variant) => variant.options?.length > 0)
+                              .map((item, index) => (
+                                <option key={index} value={item.colorName}>
+                                  {item.colorName}
+                                </option>
+                              ))}
+                          </select>
+                        </div>
+                      )}
+                  </div> */}
+
+                  <div>
+                    {data?.variants?.length > 0 &&
+                      data?.variants.some((variant) => variant.colorName) && (
+                        <div className="flex items-center">
+                          <h3 className="text-gray-400 mr-2 text-sm w-[20%] mt-4 pb-5">
+                            Colors:
+                          </h3>
+
+                          <select
+                            className="mt-4 p-2 border border-gray-300 rounded-md"
+                            onChange={(e) => {
+                              const selectedVariant = data?.variants?.find(
+                                (variant) =>
+                                  variant.colorName === e.target.value
+                              );
+                              if (selectedVariant) {
+                                handleColorChange(selectedVariant);
+                                handleSelectColorChange(
+                                  selectedVariant.colorCode
+                                );
+                              }
+                            }}
+                            defaultValue={
+                              data.variants.find((variant) => variant.colorName)
+                                ?.colorName
+                            }
+                          >
+                            {data.variants
+                              .filter((variant) => variant.colorName)
                               .map((item, index) => (
                                 <option key={index} value={item.colorName}>
                                   {item.colorName}

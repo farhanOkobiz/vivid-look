@@ -37,46 +37,50 @@ const Feature = () => {
     fetchCategories();
   }, []);
 
+  // console.log("find categories", categories[0].title);
+
   if (error) return <p>{error}</p>;
 
   return (
     <section className="font-inter grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-3 gap-2 lg:gap-4">
-      {categories.filter((item) => item.isActive).map((item, index) => (
-        <div
-          key={index}
-          className="shadow bg-[#f6f6f6] group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
-        >
-          <Link
-            to={`shop/category/${item?._id}/${encodeURIComponent(
-              item?.title.replace(/\s+/g, "")
-            )}`}
+      {categories
+        .filter((item) => item.isActive)
+        .map((item, index) => (
+          <div
             key={index}
-            className="w-full h-full"
+            className="shadow bg-[#f6f6f6] group duration-200 relative h-[270px] md:h-[400px] lg:h-[600px]"
           >
-            <div className="flex items-center justify-center h-full w-full">
-              <img
-                src={item.photos}
-                alt={item.name}
-                className="h-full w-full object-cover"
-              />
-            </div>
-            <h2 className="absolute w-full bottom-5 left-1/2 transform -translate-x-1/2 text-center lg:text-base xl:text-[30px] font-medium pb-2 z-10 text-white drop-shadow-lg">
-              <span
-                onClick={() =>
-                  navigate(
-                    `/shop/category/${item?._id}/${encodeURIComponent(
-                      item?.title.replace(/\s+/g, "")
-                    )}`
-                  )
-                }
-              >
-                {item?.title}
-              </span>
-            </h2>
-          </Link>
-        </div>
-        // </SwiperSlide>
-      ))}
+            <Link
+              to={`shop/category/${item?._id}/${encodeURIComponent(
+                item?.title?.replace(/\s+/g, "")
+              )}`}
+              key={index}
+              className="w-full h-full"
+            >
+              <div className="flex items-center justify-center h-full w-full">
+                <img
+                  src={item.photos}
+                  alt={item.name}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <h2 className="absolute w-full bottom-5 left-1/2 transform -translate-x-1/2 text-center lg:text-base xl:text-[30px] font-medium pb-2 z-10 text-white drop-shadow-lg">
+                <span
+                  onClick={() =>
+                    navigate(
+                      `/shop/category/${item?._id}/${encodeURIComponent(
+                        item?.title.replace(/\s+/g, "")
+                      )}`
+                    )
+                  }
+                >
+                  {item?.title}
+                </span>
+              </h2>
+            </Link>
+          </div>
+          // </SwiperSlide>
+        ))}
       {/* </Swiper> */}
 
       {/* <div
