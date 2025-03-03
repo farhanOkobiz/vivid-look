@@ -39,8 +39,8 @@ const MegaSale = lazy(() => import("./components/shop/MegaSale"));
 const LatestSale = lazy(() => import("./components/shop/LatestSale"));
 const OfferSale = lazy(() => import("./components/shop/OfferSale"));
 
-const baseApi = "http://localhost:8000/api/v1";
-// const baseApi = "https://myserver.vividlookbd.com/api/v1";
+// const baseApi = "http://localhost:8000/api/v1";
+const baseApi = "https://myserver.vividlookbd.com/api/v1";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
