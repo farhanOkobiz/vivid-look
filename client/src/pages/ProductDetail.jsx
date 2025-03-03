@@ -28,6 +28,8 @@ import ApiContext from "../components/baseapi/BaseApi";
 import youtube from "../../src/assets/productdetails/youtube.png";
 import { IoCartOutline } from "react-icons/io5";
 import { RiShoppingBag2Fill } from "react-icons/ri";
+import { toast } from "react-toastify";
+
 const serviceList = [
   {
     icon: TbTruckDelivery,
@@ -66,6 +68,8 @@ const ProductDetail = () => {
   const cart = useSelector((state) => state.cart.items);
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
+  const [borderColor, setBorderColor] = useState("");
+  const [initialPriceOption, setInitialPriceOption] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -84,11 +88,12 @@ const ProductDetail = () => {
           const firstValidVariant = productData.variants.find(
             (variant) => variant.options && variant.options.length > 0
           );
-
+          console.log("firstValidVariant---", firstValidVariant);
           if (firstValidVariant) {
-            setSelectedColor(firstValidVariant);
-            setUserChoiceColor(firstValidVariant.colorCode);
+            // setSelectedColor(firstValidVariant);
+            // setUserChoiceColor(firstValidVariant.colorName);
             setSelectedSize(firstValidVariant.options[0].size);
+            setInitialPriceOption(firstValidVariant.options[0])
           }
         }
 
@@ -107,6 +112,9 @@ const ProductDetail = () => {
     fetchData();
   }, [id]);
 
+  console.log("userChoice.....................", userChoice);
+  console.log("selectedColor.....................", selectedColor);
+
   const totalStock = data?.variants?.reduce((total, variant) => {
     const optionsStock = variant.options?.reduce(
       (optionTotal, option) => optionTotal + (option.stock || 0),
@@ -116,6 +124,11 @@ const ProductDetail = () => {
   }, 0);
 
   const handleAddToCart = () => {
+    console.log("----------------------------fgf", selectedColor)
+    console.log("----------------------------fgf", selectedColor?.options)
+    if (selectedColor.length<=0) {
+      toast.error("Please select a color to add to cart");
+    }
     const selectedOption = selectedColor?.options.find(
       (option) => option.size === selectedSize
     );
@@ -139,7 +152,7 @@ const ProductDetail = () => {
 
   const handleColorChange = (variant) => {
     setSelectedColor(variant);
-    setUserChoiceColor(variant.colorCode);
+    setUserChoiceColor(variant.colorName);
 
     if (variant.options && variant.options.length > 0) {
       setSelectedSize(variant.options[0].size);
@@ -175,15 +188,16 @@ const ProductDetail = () => {
 
     // If a size is selected, find the option with that size
     if (selectedSize) {
+      console.log("selectedSize");
       selectedOption = selectedColor?.options?.find(
         (option) => option?.size === selectedSize
       );
     } else {
-      // If no size is selected, use the first available option
+      console.log("ggggg", selectedColor);
       selectedOption = selectedColor?.options?.[0];
     }
+    console.log("selectedOption", selectedOption);
 
-    // If a selectedOption exists, display the price
     if (selectedOption) {
       return (
         <div>
@@ -201,9 +215,24 @@ const ProductDetail = () => {
           )}
         </div>
       );
+    }else{
+      return (
+        <div>
+          {initialPriceOption?.salePrice ? (
+            <div className="flex text-2xl items-center gap-x-1 text-green-600">
+              ৳ {parseInt(initialPriceOption?.salePrice)}
+              <div className="flex text-xl items-center gap-x-0.5 text-red-500 line-through">
+                {parseInt(initialPriceOption?.price)} tk
+              </div>
+            </div>
+          ) : (
+            <div className="flex text-2xl items-center gap-x-1 text-green-600">
+              ৳ {parseInt(initialPriceOption?.price)}
+            </div>
+          )}
+        </div>
+      )
     }
-
-    // If no selectedOption is found, fallback to a default price (you can return an error message or fallback logic here)
     return <p>Price not available</p>;
   };
 
@@ -474,57 +503,6 @@ const ProductDetail = () => {
                     {renderPrice()}
                   </div>
 
-                  {/* <div className="mt-4 text-2xl border-b pb-5 flex">
-                      <p className="text-gray-400 mr-2 text-sm w-[20%]">
-                        Price:
-                      </p>
-                      {renderPrice()}
-                    </div> */}
-                  {/* <div>
-                    {data?.variants?.length > 0 &&
-                      data?.variants[0]?.colorCode &&
-                      data?.variants[0]?.colorName &&
-                      data?.variants?.some(
-                        (variant) => variant.options?.length > 0
-                      ) && (
-                        <div className="flex items-center">
-                          <h3 className="text-gray-400 mr-2 text-sm w-[20%] mt-4  pb-5">
-                            {data?.variants.length > 0 ? "Colors:" : ""}
-                          </h3>
-
-                          <select
-                            className="mt-4 p-2 border border-gray-300 rounded-md"
-                            onChange={(e) => {
-                              const selectedVariant = data?.variants?.find(
-                                (variant) =>
-                                  variant.colorName === e.target.value
-                              );
-                              if (selectedVariant) {
-                                handleColorChange(selectedVariant);
-                                handleSelectColorChange(
-                                  selectedVariant.colorCode
-                                );
-                              }
-                            }}
-                            // Set the default value to the first color in the filtered list
-                            defaultValue={
-                              data.variants.filter(
-                                (variant) => variant.options?.length > 0
-                              )[0]?.colorName
-                            }
-                          >
-                            {data.variants
-                              .filter((variant) => variant.options?.length > 0)
-                              .map((item, index) => (
-                                <option key={index} value={item.colorName}>
-                                  {item.colorName}
-                                </option>
-                              ))}
-                          </select>
-                        </div>
-                      )}
-                  </div> */}
-
                   <div>
                     {data?.variants?.length > 0 &&
                       data?.variants.some((variant) => variant.colorName) && (
@@ -534,7 +512,9 @@ const ProductDetail = () => {
                           </h3>
 
                           <select
-                            className="mt-4 p-2 border border-gray-300 rounded-md"
+                            className={`mt-4 p-2 border rounded-md outline-none ${
+                              borderColor ? "border-gray-300" : "border-[red]"
+                            }`}
                             onChange={(e) => {
                               const selectedVariant = data?.variants?.find(
                                 (variant) =>
@@ -543,17 +523,18 @@ const ProductDetail = () => {
                               if (selectedVariant) {
                                 handleColorChange(selectedVariant);
                                 handleSelectColorChange(
-                                  selectedVariant.colorCode
+                                  selectedVariant.colorName
                                 );
+                                setBorderColor(selectedVariant.colorName);
                               }
                             }}
-                            defaultValue={
-                              data.variants.find((variant) => variant.colorName)
-                                ?.colorName
-                            }
+                            defaultValue=""
                           >
-                            {data.variants
-                              .filter((variant) => variant.colorName)
+                            <option value="" disabled>
+                              Select Color
+                            </option>
+                            {data?.variants
+                              ?.filter((variant) => variant.colorName)
                               .map((item, index) => (
                                 <option key={index} value={item.colorName}>
                                   {item.colorName}
@@ -565,15 +546,6 @@ const ProductDetail = () => {
                   </div>
 
                   {data?.variants[0]?.options[0]?.size && (
-                    // <div className="mt-4 text-2xl border-b pb-5 flex">
-                    //   <p className="text-gray-400 mr-2 text-sm w-[20%]">
-                    //     {parseInt(data?.variants[0]?.options[0]?.size)
-                    //       ? "Quantity:"
-                    //       : "Sizes:"}
-                    //   </p>
-                    //   {renderSizes()}
-                    // </div>
-
                     <div className="mt-4 text-2xl border-b pb-5 flex">
                       <p className="text-gray-400 mr-2 text-sm w-[20%]">
                         {" "}
@@ -628,9 +600,6 @@ const ProductDetail = () => {
                     {error && (
                       <p className="text-red-500 text-sm mt-2">{error}</p>
                     )}
-                    {/* <span className="ml-2 text-gray-500">
-                      <p>({totalStock} available)</p>
-                    </span> */}
                   </div>
 
                   <div className="hidden mt-6 lg:flex gap-4 z-10">
@@ -644,7 +613,6 @@ const ProductDetail = () => {
                       onClick={() => {
                         handleAddToCart(data);
                         navigate("/checkout");
-                        // console.log(data);
                       }}
                       className="hover:bg-black bg-white hover:text-white text-black px-3 py-2 rounded flex items-center gap-2 duration-200 border-2 border-black"
                     >

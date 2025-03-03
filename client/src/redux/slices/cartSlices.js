@@ -34,7 +34,7 @@ const cartSlice = createSlice({
       const itemIndex = state.items.findIndex(item =>
         item.id === id &&
         item.colorOptionId === colorOptionId &&
-        item.selectedSize === selectedSize
+        item.selectedSize === selectedSize  
       );
 
       if (itemIndex >= 0) {

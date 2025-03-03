@@ -22,16 +22,14 @@ const RootLayout = () => {
           target="_blank"
           className="fixed right-[30px] bottom-[100px] z-[10000]"
         >
-          <img
-            src={messengerIcon}
-            alt="Messenger Icon"
-            className="w-10"
-          />
+          <img src={messengerIcon} alt="Messenger Icon" className="w-10" />
         </a>
 
         <a
-          href="https://wa.me/01871702222"
+          href="https://wa.me/8801871702222"
           target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Whatsapp"
           className="fixed right-[30px] bottom-[150px] z-[10000]"
         >
           <img src={whatsAppIcon} alt="" className="w-10" />
