@@ -34,8 +34,10 @@ export const socialList = [
   {
     name: "whatsapp",
     logo: FaWhatsapp,
-    link: "https://wa.me/01871702222",
+    link: "https://wa.me/8801871702222",
   },
+
+          
   {
     name: "youtube",
     logo: FaYoutube,
