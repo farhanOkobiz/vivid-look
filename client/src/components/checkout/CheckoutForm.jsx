@@ -368,7 +368,7 @@ const CheckoutForm = () => {
                         </div>
                       </div>
 
-                      <div className="w-full flex items-start flex-wrap justify-between mt-10">
+                      <div className="w-full md:flex items-start flex-wrap justify-between mt-10 hidden">
                         {/* {console.log("hasFreeShipping:", hasFreeShipping)}{" "} */}
                         {hasFreeShipping ? (
                           <div className="flex gap-2 items-center">
@@ -590,7 +590,7 @@ const CheckoutForm = () => {
                             </p>
                           )}
                         </div> */}
-                        <div className="w-full mt-5 lg:mt-0">
+                        <div className="w-full lg:mt-0">
                           <textarea
                             name="streetAddress"
                             value={formData.streetAddress}
@@ -608,6 +608,44 @@ const CheckoutForm = () => {
                             </p>
                           )}
                         </div>
+                      </div>
+
+                      <div className="w-full mt-7 sm:mt-0 lg:w-[49%] md:hidden">
+                        <h4 className="text-[15px] font-medium mb-2 sm:mb-5 uppercase">
+                          Coupons Codes
+                        </h4>
+                        <div className="flex">
+                          <input
+                            type="text"
+                            name="couponCode"
+                            value={formData.couponCode}
+                            onChange={handleChange}
+                            className={`w-full px-3 border mt-2 ${
+                              errors.couponCode
+                                ? "border-red-500"
+                                : "border-border"
+                            }`}
+                            placeholder="Enter your coupon code"
+                          />
+                          <button
+                            type="button"
+                            onClick={handleCouponCode}
+                            className="mt-2 bg-red-500 hover:opacity-60 transition-all ease-linear duration-200 text-white px-4 py-2 rounded text-sm"
+                          >
+                            Apply Coupon
+                          </button>
+                        </div>
+                        {couponError && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {couponError}
+                          </p>
+                        )}
+
+                        {couponDiscount > 0 && !couponError && (
+                          <p className="text-green-600 text-sm mt-2">
+                            Coupon applied! Discount: {couponDiscount}%
+                          </p>
+                        )}
                       </div>
 
                       <div className="mt-16 flex gap-4">
@@ -798,7 +836,7 @@ const CheckoutForm = () => {
                     <h2 className="px-6 uppercase text-texthead text-lg font-medium">
                       Delivery Charge
                     </h2>
-                    <div className="mt-7 px-6 text-sm flex justify-between items-center">
+                    <div className="mt-7 px-6 text-sm md:flex justify-between items-center hidden">
                       <div className="flex items-start text-base font-normal gap-x-1">
                         <input
                           className="mt-1"
@@ -819,6 +857,79 @@ const CheckoutForm = () => {
                           <span className="mr-1">৳</span> {getShippingCost()}
                         </h3>
                       </div>
+                    </div>
+
+                    <div className="w-full flex items-start flex-wrap justify-between mt-4 md:hidden">
+                      {/* {console.log("hasFreeShipping:", hasFreeShipping)}{" "} */}
+                      {hasFreeShipping ? (
+                        <div className="flex gap-2 items-center">
+                          <img src={freeshippingImg} alt="" className="w-32" />{" "}
+                          <span className="blinking-text">
+                            product. Yeah!!!
+                          </span>
+                        </div>
+                      ) : (
+                        <div className="w-full lg:w-[49%] px-6">
+                          {/* <h4 className="text-[15px] font-medium mb-5">
+                            Shipping <span className="text-red-500">*</span>
+                          </h4> */}
+                          <div className="space-y-3 lg:w-[90%]">
+                            {[
+                              {
+                                id: "shippingInsideDhk",
+                                label: "Inside of Dhaka",
+                                value: "insideDhk",
+                                price: 80,
+                              },
+                              {
+                                id: "shippingInsideCtg",
+                                label: "Inside of Chittagong",
+                                value: "insideCtg",
+                                price: 80,
+                              },
+                              {
+                                id: "outsideDhkNdCtg",
+                                label: "Outside of Dhaka and Chittagong",
+                                value: "outsideDhkNdCtg",
+                                price: 120,
+                              },
+                            ].map((option) => (
+                              <label key={option.id} className="block">
+                                <input
+                                  type="radio"
+                                  name="shipping"
+                                  id={option.id}
+                                  value={option.value}
+                                  checked={formData.shipping === option.value}
+                                  onChange={handleChange}
+                                  required={!hasFreeShipping}
+                                  disabled={hasFreeShipping}
+                                  className="hidden"
+                                />
+                                <div
+                                  className={`w-full flex justify-between items-center text-sm px-1 py-3 lg:p-3 rounded-lg border-2 cursor-pointer transition-all ${
+                                    formData.shipping === option.value
+                                      ? "border-blue-500 bg-blue-100 text-blue-600"
+                                      : "border-gray-300 bg-white text-gray-700 hover:bg-gray-100"
+                                  } ${
+                                    hasFreeShipping
+                                      ? "opacity-50 cursor-not-allowed"
+                                      : ""
+                                  }`}
+                                >
+                                  <h3>{option.label}</h3>
+                                  <h4>৳ {option.price} TK</h4>
+                                </div>
+                              </label>
+                            ))}
+                          </div>
+                          {errors.shipping && (
+                            <p className="text-red-500 text-sm mt-2">
+                              {errors.shipping}
+                            </p>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
 
