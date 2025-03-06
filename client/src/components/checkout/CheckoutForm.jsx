@@ -831,7 +831,7 @@ const CheckoutForm = () => {
                     </h2>
                   </div>
 
-                  <div className="py-10 border-b border-b-border">
+                  {/* <div className="py-10 border-b border-b-border">
                     <p className="px-6 text-sm font-normal">
                       Your personal data will be used to process your order,
                       support your experience throughout this website, and for
@@ -841,7 +841,7 @@ const CheckoutForm = () => {
                       </Link>
                       .
                     </p>
-                  </div>
+                  </div> */}
                 </div>
                 <div className="mt-5">
                   <button

@@ -29,7 +29,7 @@ import youtube from "../../src/assets/productdetails/youtube.png";
 import { IoCartOutline } from "react-icons/io5";
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { toast } from "react-toastify";
-
+import Swal from "sweetalert2";
 const serviceList = [
   {
     icon: TbTruckDelivery,
@@ -93,7 +93,7 @@ const ProductDetail = () => {
             // setSelectedColor(firstValidVariant);
             // setUserChoiceColor(firstValidVariant.colorName);
             setSelectedSize(firstValidVariant.options[0].size);
-            setInitialPriceOption(firstValidVariant.options[0])
+            setInitialPriceOption(firstValidVariant.options[0]);
           }
         }
 
@@ -124,10 +124,14 @@ const ProductDetail = () => {
   }, 0);
 
   const handleAddToCart = () => {
-    console.log("----------------------------fgf", selectedColor)
-    console.log("----------------------------fgf", selectedColor?.options)
-    if (selectedColor.length<=0) {
-      toast.error("Please select a color to add to cart");
+    console.log("----------------------------fgf", selectedColor);
+    console.log("----------------------------fgf", selectedColor?.options);
+    if (selectedColor.length <= 0) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Please Select color!",
+      });
     }
     const selectedOption = selectedColor?.options.find(
       (option) => option.size === selectedSize
@@ -188,7 +192,7 @@ const ProductDetail = () => {
 
     // If a size is selected, find the option with that size
     if (selectedSize) {
-      console.log("selectedSize");
+      console.log("selectedSize", selectedSize);
       selectedOption = selectedColor?.options?.find(
         (option) => option?.size === selectedSize
       );
@@ -215,7 +219,7 @@ const ProductDetail = () => {
           )}
         </div>
       );
-    }else{
+    } else {
       return (
         <div>
           {initialPriceOption?.salePrice ? (
@@ -231,7 +235,7 @@ const ProductDetail = () => {
             </div>
           )}
         </div>
-      )
+      );
     }
     return <p>Price not available</p>;
   };
@@ -545,7 +549,7 @@ const ProductDetail = () => {
                       )}
                   </div>
 
-                  {data?.variants[0]?.options[0]?.size && (
+                  {data?.variants[0]?.options[0]?.size > 0 && (
                     <div className="mt-4 text-2xl border-b pb-5 flex">
                       <p className="text-gray-400 mr-2 text-sm w-[20%]">
                         {" "}
@@ -559,7 +563,7 @@ const ProductDetail = () => {
                   )}
 
                   <div className="flex items-center mt-4 border-b pb-5">
-                    <p className="text-gray-400 mr-2 text-sm w-[20%]">
+                    <p className="text-gray-400 mr-2 text-sm w-[20%] hidden lg:block xl:block">
                       Quantity:
                     </p>
                     <div className="h-full border hidden lg:flex border-border">
@@ -804,7 +808,5 @@ const ProductDetail = () => {
     </>
   );
 };
-
-
 
 export default ProductDetail;
