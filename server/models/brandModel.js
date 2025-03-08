@@ -32,11 +32,11 @@ const brandSchema = new Schema(
       required: [true, "Category is required"],
     },
 
-    subCategory: {
-      type: Schema.Types.ObjectId,
-      ref: "SubCategory",
-      required: [true, "Sub-Category is required"],
-    },
+    // subCategory: {
+    //   type: Schema.Types.ObjectId,
+    //   ref: "SubCategory",
+    //   required: [true, "Sub-Category is required"],
+    // },
 
     products: [
       {

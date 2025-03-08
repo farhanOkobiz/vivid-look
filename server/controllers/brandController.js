@@ -1,6 +1,5 @@
 const fs = require("fs").promises;
 const path = require("path");
-const SubCategory = require("../models/subCategoryModel");
 const Brand = require("../models/brandModel");
 const Product = require("../models/productModel");
 const Variant = require("../models/variantModel");
@@ -24,16 +23,6 @@ exports.createBrandController = catchAsync(async (req, res, next) => {
 
   try {
     const brand = await Brand.create(body);
-
-    const subCategory = await SubCategory.findOneAndUpdate(
-      { _id: brand.subCategory },
-      { $push: { brands: brand._id } },
-      { new: true }
-    );
-
-    if (!subCategory) {
-      return next(new AppError("No sub-category was found with that ID!", 404));
-    }
 
     res.status(201).json({
       status: "success",
@@ -249,12 +238,12 @@ exports.getOptionsByBrand = catchAsync(async (req, res, next) => {
   const query = Option.find({ brand: brandId })
     .populate([
       {
-        path: "category subCategory brand",
+        path: "category brand",
         select: "title",
       },
       {
         path: "product",
-        select: "-category -subCategory -brand -variants -__v",
+        select: "-category -brand -variants -__v",
       },
       {
         path: "variant",

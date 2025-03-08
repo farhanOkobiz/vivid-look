@@ -15,7 +15,7 @@ exports.createVarientController = catchAsync(async (req, res, next) => {
   );
 
   if (!product) {
-    return next(new AppError("No prouduct was found with that ID!", 404));
+    return next(new AppError("No product was found with that ID!", 404));
   }
 
   res.status(201).json({
@@ -29,31 +29,31 @@ exports.createVarientController = catchAsync(async (req, res, next) => {
 
 exports.getAllVarientsController = getAll(Variant, [
   {
-    path: "category subCategory brand",
+    path: "category brand",
     select: "title",
   },
   {
     path: "product",
-    select: "-category -subCategory -brand -variants -__v",
+    select: "-category -brand -variants -__v",
   },
   {
     path: "options",
-    select: "-category -subCategory -brand -product -variant -__v",
+    select: "-category -brand -product -variant -__v",
   },
 ]);
 
 exports.getVarientController = getOne(Variant, [
   {
-    path: "category subCategory brand",
+    path: "category brand",
     select: "title",
   },
   {
     path: "product",
-    select: "-category -subCategory -brand -variants -__v",
+    select: "-category -brand -variants -__v",
   },
   {
     path: "options",
-    select: "-category -subCategory -brand -product -variant -__v",
+    select: "-category -brand -product -variant -__v",
   },
 ]);
 
@@ -69,7 +69,7 @@ exports.deleteVarientController = catchAsync(async (req, res, next) => {
   );
 
   if (!product) {
-    return next(new AppError("No prouduct was found with that ID!", 404));
+    return next(new AppError("No product was found with that ID!", 404));
   }
 
   await Option.deleteMany({ _id: { $in: variant.options } });
@@ -94,12 +94,12 @@ exports.getOptionsByVariant = catchAsync(async (req, res, next) => {
   const options = await Option.find({ variant: variantId })
     .populate([
       {
-        path: "category subCategory brand",
+        path: "category brand",
         select: "title",
       },
       {
         path: "product",
-        select: "-category -subCategory -brand -variants -__v",
+        select: "-category -brand -variants -__v",
       },
       {
         path: "variant",

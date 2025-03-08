@@ -103,26 +103,26 @@ exports.createProductController = catchAsync(async (req, res, next) => {
 
 exports.getAllProductsController = getAll(Product, [
   {
-    path: "category subCategory brand",
+    path: "category brand",
     select: "title",
   },
   {
     path: "variants",
-    select: "-category -subCategory -brand -product -__v",
+    select: "-category -brand -product -__v",
   },
 ]);
 
 exports.getProductController = getOne(Product, [
   {
-    path: "category subCategory brand",
+    path: "category brand",
     select: "title",
   },
   {
     path: "variants",
-    select: "-category -subCategory -brand -product -__v",
+    select: "-category -brand -product -__v",
     populate: {
       path: "options",
-      select: "-category -subCategory -brand -product -variant -__v",
+      select: "-category -brand -product -variant -__v",
     },
   },
 ]);
@@ -278,12 +278,12 @@ exports.getOptionsByProduct = catchAsync(async (req, res, next) => {
   const query = Option.find({ product: productId })
     .populate([
       {
-        path: "category subCategory brand",
+        path: "category brand",
         select: "title",
       },
       {
         path: "product",
-        select: "-category -subCategory -brand -variants -__v",
+        select: "-category -brand -variants -__v",
       },
       {
         path: "variant",

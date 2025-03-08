@@ -30,7 +30,7 @@ const UploadProduct = () => {
   const [description, setDescription] = useState("");
   const [variants, setVariants] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
+  // const [subCategories, setSubCategories] = useState([]);
   const [brands, setBrands] = useState([]);
   const [imagePreviews, setImagePreviews] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ const UploadProduct = () => {
 
   useEffect(() => {
     fetchCategories();
-    fetchSubCategories();
+    // fetchSubCategories();
     fetchBrands();
   }, []);
 
@@ -52,14 +52,14 @@ const UploadProduct = () => {
     }
   };
 
-  const fetchSubCategories = async () => {
-    try {
-      const response = await axios.get("/subCategory");
-      setSubCategories(response.data.data.doc);
-    } catch (error) {
-      console.error("Error fetching subcategories:", error);
-    }
-  };
+  // const fetchSubCategories = async () => {
+  //   try {
+  //     const response = await axios.get("/subCategory");
+  //     setSubCategories(response.data.data.doc);
+  //   } catch (error) {
+  //     console.error("Error fetching subcategories:", error);
+  //   }
+  // };
 
   const fetchBrands = async () => {
     try {
@@ -155,7 +155,7 @@ const UploadProduct = () => {
     }
 
     formData.append("category", values.category);
-    formData.append("subCategory", values.subCategory);
+    // formData.append("subCategory", values.subCategory);
     formData.append("brand", values.brand);
     formData.append("description", values.description);
     formData.append("isActive", values.isActive);
@@ -181,7 +181,7 @@ const UploadProduct = () => {
           details: variant.details,
           product: productId,
           category: values.category,
-          subCategory: values.subCategory,
+          // subCategory: values.subCategory,
           brand: values.brand,
           isActive: values.isActive,
         });
@@ -193,7 +193,7 @@ const UploadProduct = () => {
             product: productId,
             variant: variantResponse.data.data.variant._id,
             category: values.category,
-            subCategory: values.subCategory,
+            // subCategory: values.subCategory,
             brand: values.brand || null,
             freeShipping: values.freeShipping,
             isActive: values.isActive,
@@ -285,7 +285,7 @@ const UploadProduct = () => {
     const formData = new FormData();
     formData.append("title", values.title);
     formData.append("category", values.category);
-    formData.append("subCategory", values.subCategory);
+    // formData.append("subCategory", values.subCategory);
     formData.append("photo", brandFileList[0]);
 
     try {
@@ -374,7 +374,7 @@ const UploadProduct = () => {
                 />
               </Form.Item>
             </Col>
-            <Col span={8}>
+            {/* <Col span={8}>
               <Form.Item
                 label="Sub Category"
                 name="subCategory"
@@ -389,7 +389,7 @@ const UploadProduct = () => {
                   }))}
                 />
               </Form.Item>
-            </Col>
+            </Col> */}
             <Col span={8}>
               <Form.Item
                 label="Select Brand"
