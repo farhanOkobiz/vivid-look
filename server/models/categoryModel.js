@@ -36,7 +36,7 @@ const categorySchema = new Schema(
       {
         type: Schema.Types.ObjectId,
         ref: "SubCategory",
-        require:[true,"Subcategory is required"]
+        // require:[true,"Subcategory is required"]
       },
     ],
   },
