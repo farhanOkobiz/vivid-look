@@ -22,7 +22,6 @@ const AllProduct = () => {
   const [editingRecord, setEditingRecord] = useState(null);
   const [editForm] = Form.useForm();
   const [categories, setCategories] = useState([]);
-  const [subCategories, setSubCategories] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [productProduct, setProductProduct] = useState({});
   const [productVariant, setProductVariant] = useState({});
@@ -34,25 +33,6 @@ const AllProduct = () => {
   const [initialVideoUrl, setInitialVideoUrl] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get("/varient");
-  //     const formattedData = response.data.data.doc.map((variant, index) => ({
-  //       ...variant,
-  //       key: variant._id,
-  //       index: index + 1,
-  //       title: variant.title,
-  //       category: variant?.category?.title || "N/A",
-  //       subCategory: variant?.subCategory?.title || "N/A",
-  //       photo: variant.photo,
-  //     }));
-  //     setData(formattedData.reverse());
-  //     setFilteredData(formattedData.reverse());
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
   const fetchData = async () => {
     try {
       const response = await axios.get("/varient");
@@ -62,7 +42,6 @@ const AllProduct = () => {
         index: index + 1,
         title: variant.title,
         category: variant?.category?.title || "N/A",
-        subCategory: variant?.subCategory?.title || "N/A",
         photo: variant.photo,
       }));
       setData(formattedData.reverse());
@@ -81,19 +60,9 @@ const AllProduct = () => {
     }
   };
 
-  const fetchSubCategories = async () => {
-    try {
-      const response = await axios.get("/subCategory");
-      setSubCategories(response.data.data.doc);
-    } catch (error) {
-      console.error("Error fetching subcategories:", error);
-    }
-  };
-
   useEffect(() => {
     fetchData();
     fetchCategories();
-    fetchSubCategories();
   }, []);
 
   const handleDelete = async (key) => {
@@ -119,7 +88,6 @@ const AllProduct = () => {
       editForm.setFieldsValue({
         title: product.name,
         category: product.category._id,
-        subCategory: product.subCategory?._id || null,
         description: product.description,
         isActive: product?.isActive,
         videoUrl:
@@ -157,20 +125,13 @@ const AllProduct = () => {
     }
 
     const filtered = data.filter((item) => {
-      // console.log(item, "Item.......");
       const titleMatch = item?.product?.name
         ?.toLowerCase()
         .includes(trimmedSearchTerm);
       const categoryMatch = item.category
         ?.toLowerCase()
         .includes(trimmedSearchTerm);
-      const subCategoryMatch = item.subCategory
-        ?.toLowerCase()
-        .includes(trimmedSearchTerm);
-      // const skuMatch = item?.colorName
-      //   ?.toLowerCase()
-      //   .includes(trimmedSearchTerm);
-      return titleMatch || categoryMatch || subCategoryMatch || skuMatch;
+      return titleMatch || categoryMatch;
     });
 
     setFilteredData(filtered);
@@ -189,7 +150,6 @@ const AllProduct = () => {
 
       formData.append("name", values.title);
       formData.append("category", values.category);
-      formData.append("subCategory", values.subCategory);
       formData.append("description", values.description);
       formData.append("isActive", values.isActive);
 
@@ -244,10 +204,6 @@ const AllProduct = () => {
                 category:
                   categories.find((cat) => cat._id === values.category)
                     ?.title || "N/A",
-                subCategory:
-                  subCategories.find(
-                    (subCat) => subCat._id === values.subCategory
-                  )?.title || "N/A",
                 photo: updatedProduct?.photos,
                 videoUrl:
                   updatedProduct?.photos.find((photo) =>
@@ -326,12 +282,6 @@ const AllProduct = () => {
       title: "Category",
       dataIndex: "category",
       key: "category",
-    },
-    {
-      width: "8%",
-      title: "Sub Category",
-      dataIndex: "subCategory",
-      key: "subCategory",
     },
     {
       width: "10%",
@@ -475,7 +425,7 @@ const AllProduct = () => {
     <div>
       <Space style={{ marginBottom: 16, marginTop: 10 }}>
         <Input
-          placeholder="Search by Product Title, Category or SubCategory Name"
+          placeholder="Search by Product Title or Category Name"
           value={searchTerm}
           onChange={(e) => {
             const value = e.target.value;
@@ -492,7 +442,6 @@ const AllProduct = () => {
           Search
         </Button>
       </Space>
-      {/* <Table columns={columns} dataSource={data} scroll={{ x: 1300 }} /> */}
       <Table columns={columns} dataSource={filteredData} scroll={{ x: 1300 }} />
 
       <Modal
@@ -521,15 +470,6 @@ const AllProduct = () => {
               {categories.map((cat) => (
                 <Select.Option key={cat._id} value={cat._id}>
                   {cat.title}
-                </Select.Option>
-              ))}
-            </Select>
-          </Form.Item>
-          <Form.Item label="Sub Category" name="subCategory">
-            <Select>
-              {subCategories.map((sub) => (
-                <Select.Option key={sub._id} value={sub._id}>
-                  {sub.title}
                 </Select.Option>
               ))}
             </Select>
