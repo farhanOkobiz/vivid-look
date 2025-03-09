@@ -146,26 +146,22 @@ const AddCategory = () => {
 
     const formData = new FormData();
     formData.append("title", categoryTitle);
+    console.log("variantFileList:", variantFileList);
 
-    // Append files if they exist
-    if (variantFileList.length > 0) {
-      variantFileList.forEach((file) => {
-        if (file.originFileObj) {
-          formData.append("photos", file.originFileObj); // Append the actual file
-          console.log("File appended to FormData:", file.originFileObj); // Debugging
-        } else {
-          console.error("Invalid file:", file);
-        }
-      });
-    } else {
-      message.error("Image upload is required!"); // Show error message for missing image
-      return;
-    }
+
+    // if (!categoryExists && variantFileList?.length <= 0) {
+    //   setImageError(true);
+    //   return;
+    // }
+
+    variantFileList.forEach((file) => {
+      formData.append("photos", file);
+    });
 
     try {
       const response = await axios.post("/category", formData, {
         headers: {
-          "Content-Type": "multipart/form-data", // Set the correct content type
+          "Content-Type": "multipart/form-data", 
         },
       });
 
