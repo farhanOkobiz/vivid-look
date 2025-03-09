@@ -373,10 +373,8 @@ const Shop = () => {
         ) : (
           paginatedProducts
             .filter(
-              (item) =>
-                item?.product?.isActive &&
-                item?.category?.isActive &&
-                item?.subCategory?.isActive
+              (item) => item?.product?.isActive && item?.category?.isActive
+              // item?.subCategory?.isActive
             )
             .map((item) => (
               <NewProductItem

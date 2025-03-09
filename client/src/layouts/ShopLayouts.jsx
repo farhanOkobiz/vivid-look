@@ -71,6 +71,8 @@ const ShopLayouts = () => {
     fetchData();
   }, [baseApi]);
 
+  console.log("------try to fine allcategory-----", allcategory);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

@@ -78,7 +78,7 @@ const SaleFeature = () => {
     console.log("Updated currentList:", currentList);
   }, [currentList]);
 
-  // console.log("mamon find the currentList", currentList);
+  console.log("mamon find the currentList", currentList);
 
   return (
     <section className="py-6 font-inter px-3 2xl:px-0">
@@ -118,10 +118,8 @@ const SaleFeature = () => {
           >
             {currentList
               ?.filter(
-                (item) =>
-                  item?.product?.isActive &&
-                  item?.category?.isActive &&
-                  item?.subCategory?.isActive
+                (item) => item?.product?.isActive && item?.category?.isActive
+                // item?.subCategory?.isActive
               )
               .map((item, index) => (
                 <SwiperSlide key={index}>
