@@ -60,7 +60,7 @@ const Feature = () => {
               <div className="flex items-center justify-center h-full w-full">
                 <img
                   src={item.photos}
-                  alt={item.name}
+                  alt="Discover Vivid Look's finest creations in this vibrant banner, showcasing the quality and style of Vivid Look bags."
                   className="h-full w-full object-cover"
                 />
               </div>

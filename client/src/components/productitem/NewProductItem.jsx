@@ -28,7 +28,10 @@ const NewProductItem = ({
   return (
     <motion.div className="flex flex-col justify-between overflow-hidden mx-2 2xl:mx-1 2xl:min-w-80">
       {stock > 0 ? (
-        <Link to={`/productdetail/${product?.product?.slug}/${id}`} className="">
+        <Link
+          to={`/productdetail/${product?.product?.slug}/${id}`}
+          className=""
+        >
           <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
@@ -41,7 +44,7 @@ const NewProductItem = ({
                   hovered && image.length > 1 ? "opacity-0" : "opacity-100"
                 }`}
                 src={image[0]}
-                alt="product"
+                alt="Explore the latest Vivid Look collection with high-quality bags and accessories, bringing a vivid look to your everyday style."
               />
 
               {/* Second Image (only if there are multiple images) */}
@@ -51,7 +54,7 @@ const NewProductItem = ({
                     hovered ? "opacity-100" : "opacity-0"
                   }`}
                   src={image[1]}
-                  alt="product"
+                  alt="Vivid Look fashion statement – a stunning display of Vivid Look's signature bags, crafted for a vivid and bold appearance."
                 />
               )}
             </div>
@@ -63,7 +66,7 @@ const NewProductItem = ({
             <img
               className="w-full object-cover mx-auto opacity-50"
               src={image[0]}
-              alt="product"
+              alt="Vivid Look premium fashion banner showcasing stylish and trendy bags from Vivid Look, designed for elegance and durability"
             />
           </div>
         </div>

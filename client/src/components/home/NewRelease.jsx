@@ -139,7 +139,7 @@ const NewRelease = () => {
                       <img
                         className="w-full h-full object-cover"
                         src={banners.photo}
-                        alt="New Release"
+                        alt="Experience the charm of Vivid Look with this exclusive banner highlighting the finest bags and accessories from Vivid Look."
                       />
                     </Link>
                   </div>
@@ -151,7 +151,7 @@ const NewRelease = () => {
                 <div className="flex flex-col items-center">
                   <img
                     src={mainLogo}
-                    alt=""
+                    alt="Vivid Look banner featuring modern and fashionable bags from Vivid Look, perfect for those who love a vivid and stylish look"
                     className="w-16 lg:w-32 h-16 lg:h-32 object-cover rounded-full"
                   />
                   <div className="text-bold mt-2 font-semibold text-xl">

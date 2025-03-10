@@ -18,32 +18,7 @@ const SaleFeature = () => {
     fetchData();
   }, []);
 
-  // console.log("mamon find the New Arrival product", currentList);
 
-  // const fetchData = async () => {
-  //   try {
-  //     const response = await axios.get(apiUrl);
-  //     const fetchedProducts = response.data.data.doc; // Adjust according to API response structure
-
-  //     console.log("mamon find the New Arrival product", fetchedProducts);
-
-  //     // Remove duplicates based on product ID
-  //     const uniqueProducts = [];
-  //     const seenProductIds = new Set();
-  //     fetchedProducts.forEach((item) => {
-  //       if (!seenProductIds.has(item.product._id)) {
-  //         seenProductIds.add(item.product._id);
-  //         uniqueProducts.push(item);
-  //       }
-  //     });
-
-  //     setCurrentList(uniqueProducts);
-  //   } catch (error) {
-  //     console.error("Error fetching data:", error);
-  //   }
-  // };
-
-  // console.log(currentList, "****");
 
   const fetchData = async () => {
     try {
