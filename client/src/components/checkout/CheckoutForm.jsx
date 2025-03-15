@@ -126,6 +126,28 @@ const CheckoutForm = () => {
     )
   );
 
+  useEffect(() => {
+    if (cartItems?.length > 0) {
+      const totalCost = calculateTotalCost();
+
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "InitiateCheckout",
+        cartItems: cartItems?.map((item) => ({
+          id: item?._id,
+          name: item?.name,
+          quantity: item?.quantity,
+          price: item?.selectedOption?.price,
+          size: item?.selectedOption?.size || null,
+          color: item?.selectedColor?.colorName || null,
+        })),
+        totalCost: totalCost,
+        currency: "BDT",
+        itemCount: cartItems?.length,
+      });
+    }
+  }, []);
+
   const calculateSubtotal = () => {
     return cartItems?.reduce(
       (total, item) =>
@@ -255,7 +277,14 @@ const CheckoutForm = () => {
         const response = await axios.post(apiEndpoint, orderData);
 
         dispatch(resetCart());
-        navigate("/thankyou");
+
+        // navigate("/thankyou");
+        const data = {
+          cartItems: cartItems?.map((item) => item?._id),
+          calculateTotalCost: calculateTotalCost(),
+          orderId: response?.data?.data?.order?._id,
+        };
+        navigate("/thankyou", { state: { data } });
       } catch (error) {
         setIsLoading(false);
         console.error("Error submitting order", error);
