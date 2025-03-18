@@ -9,6 +9,7 @@ import {
 import ApiContext from "./components/baseapi/BaseApi";
 import RootLayout from "./layouts/RootLayout";
 import CategoryShop from "./components/shop/CategoryShop";
+import ProductDetail from "./pages/ProductDetail";
 // import SubCategoryPage from "./pages/SubCategoryPage";
 
 // Lazy load components
@@ -21,7 +22,6 @@ const Contact = lazy(() => import("./pages/Contact"));
 const About = lazy(() => import("./pages/About"));
 const TermsCondition = lazy(() => import("./pages/TermsCondition"));
 const Faq = lazy(() => import("./pages/Faq"));
-const ProductDetail = lazy(() => import("./pages/ProductDetail"));
 const Cart = lazy(() => import("./pages/Cart"));
 const ShopLayouts = lazy(() => import("./layouts/ShopLayouts"));
 const Checkout = lazy(() => import("./pages/Checkout"));

@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState } from "react";
+// Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+// Import Swiper styles
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { Autoplay, FreeMode, Navigation, Thumbs } from "swiper/modules";
 import Containar from "../layouts/Containar";
+import { FaMinus, FaPlus } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaChevronRight } from "react-icons/fa6";
@@ -22,8 +25,10 @@ import axios from "axios";
 import { addToCart } from "../redux/slices/cartSlices";
 import RightPartProduct from "../components/productdetails/RightPartProduct";
 import ApiContext from "../components/baseapi/BaseApi";
+import youtube from "../../src/assets/productdetails/youtube.png";
 import { IoCartOutline } from "react-icons/io5";
 import { RiShoppingBag2Fill } from "react-icons/ri";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2";
 const serviceList = [
   {
@@ -48,7 +53,7 @@ const serviceList = [
   },
 ];
 
-const ProductDetail = () => {
+const ProductDetail6 = () => {
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [userChoice, setUserChoiceColor] = useState("");
@@ -77,47 +82,26 @@ const ProductDetail = () => {
         const productData = response.data.data.doc;
         setData(productData);
 
-        let firstValidOption = [];
+        console.log("mamon try to find productData", productData);
+
         if (productData.variants && productData.variants.length > 0) {
           const firstValidVariant = productData.variants.find(
             (variant) => variant.options && variant.options.length > 0
           );
+          console.log("firstValidVariant---", firstValidVariant);
           if (firstValidVariant) {
             // setSelectedColor(firstValidVariant);
             // setUserChoiceColor(firstValidVariant.colorName);
             setSelectedSize(firstValidVariant.options[0].size);
             setInitialPriceOption(firstValidVariant.options[0]);
-            firstValidOption.push(firstValidVariant?.options?.[0]);
           }
         }
 
-        const price =
-          firstValidOption[0]?.salePrice || firstValidOption[0]?.price || 0;
-        const size = firstValidOption?.size || null;
-        const firstValidVariant =
-          productData?.variants && productData.variants[0];
-        const category = productData?.category?.title || "Uncategorized";
-
-        // Push data to dataLayer
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({
-          event: "view_item",
-          ecommerce: {
-            currency: "BDT",
-            detail: {
-              products: [
-                {
-                  id: productData?._id,
-                  name: productData?.name,
-                  category: category,
-                  size: size,
-                  variant: firstValidVariant?.colorName || null,
-                  value: price,
-                },
-              ],
-            },
-          },
-        });
+        // const hasReloaded = sessionStorage.getItem("hasReloaded");
+        // if (!hasReloaded) {
+        //   sessionStorage.setItem("hasReloaded", "true");
+        //   window.location.reload();
+        // }
       } catch (err) {
         setError(err);
       } finally {
@@ -128,6 +112,9 @@ const ProductDetail = () => {
     fetchData();
   }, [id]);
 
+  console.log("userChoice.....................", userChoice);
+  console.log("selectedColor.....................", selectedColor);
+
   const totalStock = data?.variants?.reduce((total, variant) => {
     const optionsStock = variant.options?.reduce(
       (optionTotal, option) => optionTotal + (option.stock || 0),
@@ -137,6 +124,8 @@ const ProductDetail = () => {
   }, 0);
 
   const handleAddToCart = () => {
+    console.log("----------------------------fgf", selectedColor);
+    console.log("----------------------------fgf", selectedColor?.options);
     if (selectedColor.length <= 0) {
       Swal.fire({
         icon: "error",
@@ -159,30 +148,6 @@ const ProductDetail = () => {
 
     dispatch(addToCart(item));
     setQuantity(1);
-
-    const price = selectedOption?.salePrice || selectedOption?.price || 0;
-
-    // Google Tag Manager Tracking
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({
-      event: "add_to_cart",
-      ecommerce: {
-        currency: "BDT",
-        add: {
-          products: [
-            {
-              id: item?.id,
-              name: item?.name,
-              category: item?.category || "Uncategorized",
-              variant: item?.selectedColor?.colorName || "Default Variant",
-              value: price,
-              quantity: item?.quantity,
-              size: selectedSize,
-            },
-          ],
-        },
-      },
-    });
   };
 
   const handleSelectColorChange = (color) => {
@@ -227,12 +192,15 @@ const ProductDetail = () => {
 
     // If a size is selected, find the option with that size
     if (selectedSize) {
+      console.log("selectedSize", selectedSize);
       selectedOption = selectedColor?.options?.find(
         (option) => option?.size === selectedSize
       );
     } else {
+      console.log("ggggg", selectedColor);
       selectedOption = selectedColor?.options?.[0];
     }
+    console.log("selectedOption", selectedOption);
 
     if (selectedOption) {
       return (
@@ -367,6 +335,7 @@ const ProductDetail = () => {
   const isLongDescription =
     descriptionText && descriptionText.split(" ").length > 30;
 
+  console.log("--__--", data);
   return (
     <>
       <section className="border-b border-b-border px-5 xl:px-0">
@@ -840,4 +809,4 @@ const ProductDetail = () => {
   );
 };
 
-export default ProductDetail;
+export default ProductDetail6;
