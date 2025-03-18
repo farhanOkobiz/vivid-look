@@ -21,6 +21,7 @@ const Home = () => {
     setLoadingStates((prev) => ({ ...prev, [section]: true }));
   };
 
+  
   return (
     <>
       {!allLoaded && (
