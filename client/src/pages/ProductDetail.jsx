@@ -75,6 +75,33 @@ const ProductDetail = () => {
     window.scrollTo(0, 0);
   }, []);
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get(`${baseApi}/product/${id}`);
+  //       const productData = response.data.data.doc;
+  //       setData(productData);
+
+  //       if (productData.variants && productData.variants.length > 0) {
+  //         const firstValidVariant = productData.variants.find(
+  //           (variant) => variant.options && variant.options.length > 0
+  //         );
+  //         console.log("firstValidVariant---", firstValidVariant);
+  //         if (firstValidVariant) {
+  //           setSelectedSize(firstValidVariant.options[0].size);
+  //           setInitialPriceOption(firstValidVariant.options[0]);
+  //         }
+  //       }
+  //     } catch (err) {
+  //       setError(err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [id]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -82,26 +109,44 @@ const ProductDetail = () => {
         const productData = response.data.data.doc;
         setData(productData);
 
-        console.log("mamon try to find productData", productData);
+        // Finding first valid variant and option
+        const firstValidVariant =
+          productData?.variants && productData.variants[0];
+        const firstValidOption = firstValidVariant?.options?.[0];
 
-        if (productData.variants && productData.variants.length > 0) {
-          const firstValidVariant = productData.variants.find(
-            (variant) => variant.options && variant.options.length > 0
-          );
-          console.log("firstValidVariant---", firstValidVariant);
-          if (firstValidVariant) {
-            // setSelectedColor(firstValidVariant);
-            // setUserChoiceColor(firstValidVariant.colorName);
-            setSelectedSize(firstValidVariant.options[0].size);
-            setInitialPriceOption(firstValidVariant.options[0]);
-          }
+        if (firstValidOption) {
+          setSelectedColor(firstValidVariant);
+          setUserChoiceColor(firstValidVariant.colorCode);
+          setSelectedSize(firstValidOption.size);
+          setInitialPriceOption(firstValidOption);
         }
 
-        // const hasReloaded = sessionStorage.getItem("hasReloaded");
-        // if (!hasReloaded) {
-        //   sessionStorage.setItem("hasReloaded", "true");
-        //   window.location.reload();
-        // }
+        const price =
+          firstValidOption?.salePrice || firstValidOption?.price || 0;
+        const size = firstValidOption?.size || null;
+
+        const category = productData?.category?.title || "Uncategorized";
+
+        // Push data to dataLayer
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: "view_item",
+          ecommerce: {
+            currency: "BDT",
+            detail: {
+              products: [
+                {
+                  id: productData?._id,
+                  name: productData?.name,
+                  category: category,
+                  size: size,
+                  variant: firstValidVariant?.colorName || null,
+                  value: price,
+                },
+              ],
+            },
+          },
+        });
       } catch (err) {
         setError(err);
       } finally {
@@ -111,9 +156,6 @@ const ProductDetail = () => {
 
     fetchData();
   }, [id]);
-
-  console.log("userChoice.....................", userChoice);
-  console.log("selectedColor.....................", selectedColor);
 
   const totalStock = data?.variants?.reduce((total, variant) => {
     const optionsStock = variant.options?.reduce(
@@ -148,6 +190,30 @@ const ProductDetail = () => {
 
     dispatch(addToCart(item));
     setQuantity(1);
+
+    const price = selectedOption?.salePrice || selectedOption?.price || 0;
+
+    // Google Tag Manager Tracking
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "add_to_cart",
+      ecommerce: {
+        currency: "BDT",
+        add: {
+          products: [
+            {
+              id: item?.id,
+              name: item?.name,
+              category: item?.category || "Uncategorized",
+              variant: item?.selectedColor?.colorName || "Default Variant",
+              value: price,
+              quantity: item?.quantity,
+              size: selectedSize,
+            },
+          ],
+        },
+      },
+    });
   };
 
   const handleSelectColorChange = (color) => {
